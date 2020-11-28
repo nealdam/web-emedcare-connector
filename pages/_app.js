@@ -7,8 +7,10 @@ import theme from "../src/theme";
 import { AuthProvider } from "../src/contexts/authContext";
 import { SnackbarProvider } from "notistack";
 import { GlobalProvider } from "../src/contexts/globalContext";
+import { appWithTranslation } from '../src/i18n';
+import App from 'next/app';
 
-export default function MyApp(props) {
+function MyApp(props) {
   const { Component, pageProps } = props;
 
   React.useEffect(() => {
@@ -31,7 +33,7 @@ export default function MyApp(props) {
         <AuthProvider>
           <GlobalProvider>
             <Head>
-              <title>Student Service Request</title>
+              <title>Web eMedCare Connector</title>
               <meta
                 name="viewport"
                 content="minimum-scale=1, initial-scale=1, width=device-width"
@@ -47,7 +49,14 @@ export default function MyApp(props) {
   );
 }
 
+MyApp.getInitialProps = async (appContext) => {
+  const appProps = await App.getInitialProps(appContext)
+  return { ...appProps }
+}
+
 MyApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   pageProps: PropTypes.object.isRequired,
 };
+
+export default appWithTranslation(MyApp);
