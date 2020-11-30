@@ -1,7 +1,6 @@
 import { Avatar, Button, Checkbox, FormControlLabel, Grid, Link, makeStyles, TextField } from "@material-ui/core";
-import { deepOrange } from "@material-ui/core/colors";
 import { Smartphone } from "@material-ui/icons";
-import { useTranslation, withTranslation } from '../../i18n';
+import { useTranslation } from '../../i18n';
 
 const useStyles = makeStyles((theme) => ({
   form: {

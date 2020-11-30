@@ -1,7 +1,10 @@
 import Head from 'next/head'
+import { defaultPage } from '../src/hocs/defaultPage'
 
-export default function Home() {
+function HomePage() {
   return (
     <div>Web eMedCare Connector</div>
   )
 }
+
+export default defaultPage(HomePage)

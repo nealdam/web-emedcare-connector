@@ -1,6 +1,6 @@
 import { CssBaseline, makeStyles } from "@material-ui/core";
-import MyAppBar from "../MyAppBar";
-import MyDrawer from '../MyDrawer'
+import AppBar from "../components/AppBar";
+import Drawer from "../components/Drawer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,8 +20,8 @@ export function defaultPage(Component) {
 
     return (
       <div className={classes.root}>
-        <MyAppBar />
-        <MyDrawer />
+        <AppBar />
+        <Drawer />
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Component {...arguments} />

@@ -15,10 +15,6 @@ const theme = createMuiTheme({
     },
     background: {
       default: '#F5F5F5',
-    },
-    action: {
-      selected: '#ffac33',
-      hover: '#ffc570'
     }
   },
 });
