@@ -18,8 +18,9 @@ import useGlobalContext from "../../contexts/globalContext";
 import { useTranslation } from "../../i18n";
 import PatientIcon from '../../constants/icons/PatientIcon';
 import DoctorIcon from '../../constants/icons/DoctorIcon';
-import { EventNote } from "@material-ui/icons";
+import { EventNote, MeetingRoom } from "@material-ui/icons";
 import NurseIcon from '../../constants/icons/NurseIcon';
+import RoomIcon from '../../constants/icons/RoomIcon';
 // import Link from "./Link";
 
 const useStyles = makeStyles((theme) => ({
@@ -112,31 +113,13 @@ function MyDrawer(props) {
           <ListSubheader component="div">{t("Scheduler")}</ListSubheader>
         }
       >
-        <Link href="/admin/students">
+        <Link href="/scheduler/schedule">
           <ListItem
             button
-            selected={drawerSelectedItem.startsWith("/admin/students")}
+            selected={drawerSelectedItem.startsWith("/scheduler/schedule")}
           >
-            <ListItemIcon>{/* <StudentIcon /> */}</ListItemIcon>
-            <ListItemText primary="Students" />
-          </ListItem>
-        </Link>
-        <Link href="/admin/departments">
-          <ListItem
-            button
-            selected={drawerSelectedItem.startsWith("/admin/departments")}
-          >
-            <ListItemIcon>{/* <DepartmentsIcon /> */}</ListItemIcon>
-            <ListItemText primary="Departments" />
-          </ListItem>
-        </Link>
-        <Link href="/admin/agents">
-          <ListItem
-            button
-            selected={drawerSelectedItem.startsWith("/admin/agents")}
-          >
-            <ListItemIcon>{/* <AgentIcon /> */}</ListItemIcon>
-            <ListItemText primary="Agents" />
+            <ListItemIcon><EventNote/></ListItemIcon>
+            <ListItemText primary={t("Scheduled")} />
           </ListItem>
         </Link>
       </List>
@@ -144,13 +127,13 @@ function MyDrawer(props) {
         component="nav"
         subheader={<ListSubheader component="div">{t("Room manager")}</ListSubheader>}
       >
-        <Link href="/manager/department">
+        <Link href="/room-manager/room">
           <ListItem
             button
-            selected={drawerSelectedItem.startsWith("/manager/department")}
+            selected={drawerSelectedItem.startsWith("/room-manager/room")}
           >
-            <ListItemIcon>{/* <DepartmentIcon /> */}</ListItemIcon>
-            <ListItemText primary="Department" />
+            <ListItemIcon><RoomIcon /></ListItemIcon>
+            <ListItemText primary={t("Room")} />
           </ListItem>
         </Link>
       </List>

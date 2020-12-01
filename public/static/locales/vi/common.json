@@ -13,5 +13,7 @@
   "Schedule": "Lịch khám",
   "Patient": "Bệnh nhân",
   "Doctor": "Bác sĩ",
-  "Nurse": "Y tá"
+  "Nurse": "Y tá",
+  "Scheduled": "Sắp lịch",
+  "Room": "Phòng khám"
 }
