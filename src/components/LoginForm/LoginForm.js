@@ -1,4 +1,4 @@
-import { Avatar, Button, Checkbox, FormControlLabel, Grid, Link, makeStyles, TextField } from "@material-ui/core";
+import { Avatar, Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, Link, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
 import { Smartphone } from "@material-ui/icons";
 import { useTranslation } from '../../i18n';
 
@@ -22,6 +22,20 @@ function LoginForm() {
 
   return (
     <form className={classes.form} noValidate>
+      <FormControl required variant="outlined" fullWidth>
+        <InputLabel>{t("Facility")}</InputLabel>
+        <Select
+          native
+          label={t("Facility")}
+        >
+          <option value={0}>
+            Bình Dương
+          </option>
+          <option value={1}>
+            Long An
+          </option>
+        </Select>
+      </FormControl>
       <TextField
         variant="outlined"
         margin="normal"
