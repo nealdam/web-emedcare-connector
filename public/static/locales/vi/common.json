@@ -29,5 +29,8 @@
   "Disease time": "Thời gian bệnh",
   "Disease status": "Trạng thái bệnh",
   "Patient info": "Thông tin bệnh nhân",
-  "Medical history": "Tiền sử bệnh án"
+  "Medical history": "Tiền sử bệnh án",
+  "Shift": "Ca",
+  "Block": "Phiên",
+  "Specialist": "Chuyên khoa"
 }

@@ -12,18 +12,19 @@ import {
 import InfoIcon from "@material-ui/icons/Info";
 import AppointmentIcon from "@material-ui/icons/CalendarToday";
 import { useTranslation } from "../../i18n";
+import { useRouter } from "next/router";
 
 const patients = [
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
-  { hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 1, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 2, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 3, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 4, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 5, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 6, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 7, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 8, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 9, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
+  { id: 10, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
 ];
 
 const useStyle = makeStyles((theme) => ({
@@ -35,6 +36,15 @@ const useStyle = makeStyles((theme) => ({
 export default function PatientTable() {
   const { t } = useTranslation();
   const classes = useStyle();
+  const router = useRouter();
+
+  const handleClickPatientInfo = (patientId) => {
+    router.push(router.asPath + "/" + patientId + "/profile");
+  }
+
+  const handleClickPatientAppointment = (patientId) => {
+    router.push(router.asPath + "/" + patientId + "/appointment");
+  }
 
   return (
     <TableContainer component={Paper}>
@@ -50,7 +60,7 @@ export default function PatientTable() {
         </TableHead>
         <TableBody>
           {patients.map((row) => (
-            <TableRow key={row.hiscode}>
+            <TableRow key={row.id}>
               <TableCell>{row.hiscode}</TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.phoneNumber}</TableCell>
@@ -59,6 +69,7 @@ export default function PatientTable() {
                   color="primary"
                   aria-label="Patient info"
                   component="span"
+                  onClick={() => handleClickPatientInfo(row.id)}
                 >
                   <InfoIcon />
                 </IconButton>
@@ -68,6 +79,7 @@ export default function PatientTable() {
                   color="primary"
                   aria-label="Patient appointment"
                   component="span"
+                  onClick={() => handleClickPatientAppointment(row.id)}
                 >
                   <AppointmentIcon />
                 </IconButton>
