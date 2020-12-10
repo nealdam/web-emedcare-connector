@@ -1,10 +1,11 @@
+import PatientTable from "../../../src/components/PatientTable"
 import { defaultPage } from "../../../src/hocs/defaultPage"
 
 function CustomerServicePatientPage() {
 
   return (
     <div>
-      Customer Service Patient Page
+      <PatientTable />
     </div>
   )
 }
