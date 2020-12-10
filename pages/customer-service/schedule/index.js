@@ -1,10 +1,12 @@
-import { defaultPage } from "../../../src/hocs/defaultPage"
+import Schedule from "../../../src/components/Schedule";
+import { defaultPage } from "../../../src/hocs/defaultPage";
 
 function CustomerServiceSchedulePage() {
-
   return (
-    <div>Customer Service Schedule Page</div>
-  )
+    <div>
+      <Schedule />
+    </div>
+  );
 }
 
-export default defaultPage(CustomerServiceSchedulePage)
+export default defaultPage(CustomerServiceSchedulePage);

@@ -12,9 +12,13 @@
   "Room manager": "Quản lý phòng",
   "Schedule": "Lịch khám",
   "Patient": "Bệnh nhân",
+  "Pt.": "Bn.",
+  "Pt.No": "Ms.Bn",
   "Doctor": "Bác sĩ",
+  "Dr.": "Bs.",
   "Nurse": "Y tá",
   "Scheduled": "Sắp lịch",
-  "Room": "Phòng khám",
-  "Facility": "Cơ sở"
+  "Room": "Phòng",
+  "Facility": "Cơ sở",
+  "Date": "Ngày"
 }
