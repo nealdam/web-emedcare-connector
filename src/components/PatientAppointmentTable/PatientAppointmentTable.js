@@ -11,6 +11,7 @@ import {
 } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
 import { useTranslation } from "../../i18n";
+import PropTypes from 'prop-types';
 
 const appointments = [
   { id: 1, room: "P.001", doctor: "Nguyễn Văn A", date: "20/02/2020", shift: "08:00 AM - 11:00 AM", block: "A - 08:00 AM", specialist: "Tai, mũi, họng", status: "Overdue" },
@@ -66,4 +67,8 @@ export default function PatientAppointmentTable() {
       </TableContainer>
     </div>
   );
+}
+
+PatientAppointmentTable.propTypes = {
+  appointments: PropTypes.array,
 }

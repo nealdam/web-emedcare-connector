@@ -1,4 +1,5 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import PropTypes from 'prop-types'
 import { useTranslation } from "../../i18n";
 
 const medicalHistory = [
@@ -6,7 +7,7 @@ const medicalHistory = [
   { name: "Gan", date: "20/11/2000", status: "cured" }
 ]
 
-export default function MedicalHistoryTable() {
+export default function MedicalHistoryTable(props) {
 
   const {t} = useTranslation();
 
@@ -32,4 +33,8 @@ export default function MedicalHistoryTable() {
       </Table>
     </TableContainer>
   )
+}
+
+MedicalHistoryTable.proptypes = {
+  medicalHistory: PropTypes.array
 }

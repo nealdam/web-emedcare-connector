@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { useTranslation } from "../../i18n";
 import MedicalHistoryTable from "../MedicalHistoryTable";
+import PropTypes from 'prop-types';
 
 const patientProfile = {
   name: "Trần Văn A",
@@ -117,4 +118,8 @@ export default function PatientProfile() {
       </Grid>
     </Paper>
   );
+}
+
+PatientProfile.propTypes = {
+  patientProfile: PropTypes.object
 }

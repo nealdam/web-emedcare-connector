@@ -25,6 +25,7 @@ import {
   TABLE_MIN_WIDTH,
   TIME_CELL_MIN_WiDTH,
 } from "../../constants/dimensions";
+import PropTypes from 'prop-types';
 
 const time = [
   { time: "0 AM" },
@@ -164,6 +165,10 @@ function Schedule() {
       </Grid>
     </Grid>
   );
+}
+
+Schedule.propTypes = {
+  appointments: PropTypes.array,
 }
 
 export default Schedule;

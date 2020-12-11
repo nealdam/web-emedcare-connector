@@ -13,6 +13,7 @@ import InfoIcon from "@material-ui/icons/Info";
 import AppointmentIcon from "@material-ui/icons/CalendarToday";
 import { useTranslation } from "../../i18n";
 import { useRouter } from "next/router";
+import PropTypes from 'prop-types';
 
 const patients = [
   { id: 1, hiscode: "001", name: "Trần Văn A", phoneNumber: "0906587525" },
@@ -90,4 +91,8 @@ export default function PatientTable() {
       </Table>
     </TableContainer>
   );
+}
+
+PatientTable.propTypes = {
+  patients: PropTypes.array,
 }
