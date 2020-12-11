@@ -23,11 +23,12 @@ const useStyle = makeStyles((theme) => ({
   },
   imgDiv: {
     width: "100%",
-    padding: theme.spacing(1),
+    // padding: theme.spacing(1),
   },
   img: {
-    margin: "auto",
-    marginTop: theme.spacing(1),
+    // margin: "auto",
+    // marginTop: theme.spacing(1),
+    width: "100%"
   },
   textField: {
     marginTop: theme.spacing(1),
@@ -51,13 +52,13 @@ export default function PatientProfile() {
           </Typography>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={3} md={2}>
-              <Container>
+              {/* <Container> */}
                 <img
                   src="https://via.placeholder.com/150x200"
                   alt="profile picture"
                   className={classes.img}
                 />
-              </Container>
+              {/* </Container> */}
             </Grid>
             <Grid item xs={12} sm={9} md={10}>
               <TextField
