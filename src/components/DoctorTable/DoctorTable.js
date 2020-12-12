@@ -111,7 +111,7 @@ const useStyle = makeStyles((theme) => ({
 }))
 
 export default function DoctorTable(props) {
-  const { handleClickDoctorDetail } = props
+  const { handleClickDoctorDetail, handleClickCreateDoctorAccount } = props
   const { t } = useTranslation();
   const classes = useStyle();
 
@@ -147,6 +147,7 @@ export default function DoctorTable(props) {
                       variant="outlined"
                       color="primary"
                       startIcon={<AddIcon />}
+                      onClick={() => handleClickCreateDoctorAccount(row.id)}
                     >
                       {t("Create account")}
                     </Button>
@@ -193,4 +194,5 @@ export default function DoctorTable(props) {
 DoctorTable.propTypes = {
   doctors: PropTypes.arrayOf(PropTypes.object),
   handleClickDoctorDetail: PropTypes.func,
+  handleClickCreateDoctorAccount: PropTypes.func,
 };

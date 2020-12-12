@@ -50,5 +50,10 @@
   "Appointment": "Lịch hẹn",
   "Doctor list": "Danh sách bác sĩ",
   "Patient list": "Danh sách bệnh nhân",
-  "Appointment list": "Danh sách đặt lịch"
+  "Appointment list": "Danh sách đặt lịch",
+  "Create doctor account": "Tạo tài khoản bác sĩ",
+  "Confirm password": "Nhập lại mật khẩu",
+  "Create": "Tạo",
+  "Close": "Đóng",
+  "Create account successful": "Tạo tài khoản thành công"
 }
