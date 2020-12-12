@@ -1,7 +1,7 @@
-import { makeStyles, Paper } from "@material-ui/core";
-import PatientAppointmentTable from "../../../../../src/components/PatientAppointmentTable"
-import SectionTitle from "../../../../../src/components/SectionTitle";
-import { defaultPage } from "../../../../../src/hocs/defaultPage"
+import { makeStyles } from "@material-ui/core";
+import PatientAppointmentTable from "../../../../../src/components/PatientAppointmentTable";
+import Section from "../../../../../src/components/Section/Section";
+import { defaultPage } from "../../../../../src/hocs/defaultPage";
 import { useTranslation } from "../../../../../src/i18n";
 
 const useStyle = makeStyles((theme) => ({
@@ -16,10 +16,9 @@ function CustomerServicePatientAppointmentPage() {
   const {t} = useTranslation();
 
   return (
-    <Paper className={classes.paper}>
-      <SectionTitle title={t("Appointment")} />
+    <Section title={t("Appointment")}>
       <PatientAppointmentTable />
-    </Paper>
+    </Section>
   )
 }
 

@@ -1,7 +1,7 @@
-import { makeStyles, Paper, TextField } from "@material-ui/core";
+import { makeStyles, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useTranslation } from "../../i18n";
-import SectionTitle from "../SectionTitle";
+import Section from "../Section";
 
 const accountDetail = { id: 1, username: "bs.nva", password: "*********", email: "bs.nva@gmail.com", phoneNumber: "0907485623"}
 
@@ -20,8 +20,7 @@ export default function AccountDetail() {
   const { t } = useTranslation();
 
   return (
-    <Paper className={classes.paper}>
-      <SectionTitle title={t("Account info")} />
+    <Section title={t("Account info")}>
 
       <TextField
         className={classes.textField}
@@ -63,7 +62,7 @@ export default function AccountDetail() {
           readOnly: true,
         }}
       />
-    </Paper>
+    </Section>
   );
 }
 

@@ -1,14 +1,13 @@
 import {
   Grid,
   makeStyles,
-  Paper,
-  TextField,
-  Typography,
+
+  TextField
 } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useTranslation } from "../../i18n";
 import MedicalHistoryTable from "../MedicalHistoryTable";
-import SectionTitle from "../SectionTitle";
+import Section from "../Section";
 
 const patientProfile = {
   id: 1,
@@ -20,9 +19,6 @@ const patientProfile = {
 };
 
 const useStyle = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-  },
   img: {
     width: "100%",
   },
@@ -40,11 +36,9 @@ export default function PatientProfile() {
   const classes = useStyle();
 
   return (
-    // <Paper className={classes.paper}>
     <Grid container spacing={2}>
       <Grid item xs={12}>
-        <Paper className={classes.paper}>
-          <SectionTitle title={t("Patient info")} />
+        <Section title={t("Patient info")}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={3} md={2}>
               <img
@@ -106,16 +100,12 @@ export default function PatientProfile() {
               />
             </Grid>
           </Grid>
-        </Paper>
+        </Section>
       </Grid>
       <Grid item xs={12}>
-        <Paper className={classes.paper}>
-          <SectionTitle title={t("Medical history")} />
-          <MedicalHistoryTable />
-        </Paper>
+        <MedicalHistoryTable />
       </Grid>
     </Grid>
-    // </Paper>
   );
 }
 

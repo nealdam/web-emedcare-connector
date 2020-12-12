@@ -21,7 +21,7 @@ import PropTypes from "prop-types";
 import FemaleIcon from "../../constants/icons/FemaleIcon";
 import MaleIcon from "../../constants/icons/MaleIcon";
 import { useTranslation } from "../../i18n";
-import SectionTitle from "../SectionTitle";
+import Section from "../Section";
 
 const doctors = [
   {
@@ -107,9 +107,7 @@ const doctors = [
 ];
 
 const useStyle = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-  }
+
 }))
 
 export default function DoctorTable(props) {
@@ -118,8 +116,7 @@ export default function DoctorTable(props) {
   const classes = useStyle();
 
   return (
-    <Paper className={classes.paper}>
-      <SectionTitle title={t("Doctor list")} />
+    <Section title={t("Doctor list")}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -189,7 +186,7 @@ export default function DoctorTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-    </Paper>
+    </Section>
   );
 }
 

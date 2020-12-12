@@ -25,7 +25,8 @@ import {
   TABLE_MIN_WIDTH,
   TIME_CELL_MIN_WiDTH,
 } from "../../constants/dimensions";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import Section from "../Section";
 
 const time = [
   { time: "0 AM" },
@@ -104,71 +105,73 @@ function Schedule() {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            disableToolbar
-            variant="inline"
-            inputVariant="outlined"
-            format="dd/MM/yyyy"
-            margin="normal"
-            id="date-picker-inline"
-            label={t("Date")}
-            value={selectedDate}
-            onChange={handleDateChange}
-            KeyboardButtonProps={{
-              "aria-label": "change date",
-            }}
-          />
-        </MuiPickersUtilsProvider>
+    <Section title={t("Appointment list")}>
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              inputVariant="outlined"
+              format="dd/MM/yyyy"
+              margin="normal"
+              id="date-picker-inline"
+              label={t("Date")}
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                "aria-label": "change date",
+              }}
+            />
+          </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid item xs={12}>
+          <Paper className={classes.paper} variant="outlined">
+            <TableContainer>
+              <Table
+                aria-label="customer service schedule"
+                className={classes.table}
+              >
+                <TableHead>
+                  <TableCell className={classes.timeCell}></TableCell>
+                  {doctorRow.map((row) => (
+                    <TableCell
+                      key={row.doctorCode}
+                      className={classes.doctorCell}
+                    >
+                      <DoctorCell
+                        doctorName={row.doctorName}
+                        roomNumber={row.roomNumber}
+                      />
+                    </TableCell>
+                  ))}
+                </TableHead>
+                <TableBody>
+                  {time.map((rowTime) => (
+                    <TableRow>
+                      <TableCell>{rowTime.time}</TableCell>
+                      {appointmentRow.map((row) => (
+                        <TableCell key={row.appointmentId}>
+                          <AppointmentCell
+                            patientName={row.patientName}
+                            patientCode={row.patientCode}
+                          />
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Paper>
+        </Grid>
       </Grid>
-      <Grid item xs={12}>
-        <Paper className={classes.paper} variant="outlined">
-          <TableContainer>
-            <Table
-              aria-label="customer service schedule"
-              className={classes.table}
-            >
-              <TableHead>
-                <TableCell className={classes.timeCell}></TableCell>
-                {doctorRow.map((row) => (
-                  <TableCell
-                    key={row.doctorCode}
-                    className={classes.doctorCell}
-                  >
-                    <DoctorCell
-                      doctorName={row.doctorName}
-                      roomNumber={row.roomNumber}
-                    />
-                  </TableCell>
-                ))}
-              </TableHead>
-              <TableBody>
-                {time.map((rowTime) => (
-                  <TableRow>
-                    <TableCell>{rowTime.time}</TableCell>
-                    {appointmentRow.map((row) => (
-                      <TableCell key={row.appointmentId}>
-                        <AppointmentCell
-                          patientName={row.patientName}
-                          patientCode={row.patientCode}
-                        />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Paper>
-      </Grid>
-    </Grid>
+    </Section>
   );
 }
 
 Schedule.propTypes = {
   appointments: PropTypes.array,
-}
+};
 
 export default Schedule;

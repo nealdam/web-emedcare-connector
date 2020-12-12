@@ -1,7 +1,7 @@
-import { Grid, makeStyles, Paper, TextField } from "@material-ui/core";
-import { useTranslation } from "../../../i18n";
-import SectionTitle from "../../SectionTitle";
+import { Grid, makeStyles, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
+import { useTranslation } from "../../../i18n";
+import Section from "../../Section";
 
 const doctorProfile = {
   id: 1,
@@ -33,8 +33,7 @@ export default function DoctorInfo() {
 
   return (
     <div>
-      <Paper className={classes.paper}>
-        <SectionTitle title={t("Doctor info")} />
+      <Section title={t("Doctor info")}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={3} md={2}>
             <img
@@ -116,7 +115,7 @@ export default function DoctorInfo() {
             />
           </Grid>
         </Grid>
-      </Paper>
+      </Section>
     </div>
   );
 }
