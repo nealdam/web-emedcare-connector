@@ -47,5 +47,8 @@
   "Account info": "Thông tin tài khoản",
   "Patient code": "Mã số bệnh nhân",
   "Doctor code": "Mã số bác sĩ",
-  "Appointment": "Lịch hẹn"
+  "Appointment": "Lịch hẹn",
+  "Doctor list": "Danh sách bác sĩ",
+  "Patient list": "Danh sách bệnh nhân",
+  "Appointment list": "Danh sách đặt lịch"
 }
