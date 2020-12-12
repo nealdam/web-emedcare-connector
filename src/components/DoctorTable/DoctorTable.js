@@ -29,6 +29,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Văn A",
     sex: 1,
+    birthDate: "24/12/1887",
     account: "bs.nva",
     accountStatus: "active",
   },
@@ -37,6 +38,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Văn A",
     sex: 1,
+    birthDate: "24/12/1887",
     account: "",
     accountStatus: "none",
   },
@@ -45,6 +47,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Thị A",
     sex: 0,
+    birthDate: "24/12/1887",
     account: "bs.nva",
     accountStatus: "active",
   },
@@ -53,6 +56,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Văn A",
     sex: 1,
+    birthDate: "24/12/1887",
     account: "",
     accountStatus: "none",
   },
@@ -61,6 +65,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Văn A",
     sex: 1,
+    birthDate: "24/12/1887",
     account: "bs.nva",
     accountStatus: "disabled",
   },
@@ -69,6 +74,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Văn A",
     sex: 1,
+    birthDate: "24/12/1887",
     account: "bs.nva",
     accountStatus: "active",
   },
@@ -77,6 +83,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Thị A",
     sex: 0,
+    birthDate: "24/12/1887",
     account: "bs.nva",
     accountStatus: "active",
   },
@@ -85,6 +92,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Văn A",
     sex: 1,
+    birthDate: "24/12/1887",
     account: "bs.nva",
     accountStatus: "active",
   },
@@ -93,6 +101,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Văn A",
     sex: 1,
+    birthDate: "24/12/1887",
     account: "bs.nva",
     accountStatus: "active",
   },
@@ -101,6 +110,7 @@ const doctors = [
     hisCode: "001",
     name: "Nguyễn Văn A",
     sex: 1,
+    birthDate: "24/12/1887",
     account: "bs.nva",
     accountStatus: "active",
   },
@@ -124,7 +134,7 @@ export default function DoctorTable(props) {
               <TableCell>{t("Dr.No")}</TableCell>
               <TableCell>{t("Name")}</TableCell>
               <TableCell align="center">{t("Sex")}</TableCell>
-              {/* <TableCell>{t("Specialist")}</TableCell> */}
+              <TableCell>{t("Birth date")}</TableCell>
               <TableCell>{t("Account")}</TableCell>
               <TableCell>{t("Account status")}</TableCell>
               <TableCell></TableCell>
@@ -138,7 +148,7 @@ export default function DoctorTable(props) {
                 <TableCell align="center">
                   {row.sex == 0 ? <FemaleIcon /> : <MaleIcon />}
                 </TableCell>
-                {/* <TableCell>{row.specialist.join(", ")}</TableCell> */}
+                <TableCell>{row.birthDate}</TableCell>
                 <TableCell>
                   {row.account ? (
                     row.account

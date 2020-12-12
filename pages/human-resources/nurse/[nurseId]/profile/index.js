@@ -1,10 +1,11 @@
+import NurseDetail from "../../../../../src/components/NurseDetail"
 import { defaultPage } from "../../../../../src/hocs/defaultPage"
 
 function HumanResourcesNurseProfilePage() {
 
   return (
     <div>
-      Human Resources Nurse Profile Page
+      <NurseDetail />
     </div>
   )
 }

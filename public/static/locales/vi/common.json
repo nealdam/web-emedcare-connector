@@ -17,7 +17,7 @@
   "Doctor": "Bác sĩ",
   "Dr.": "Bs.",
   "Dr.No": "Ms.Bs",
-  "Nurse": "Y tá",
+  "Nurse": "Điều đưỡng",
   "Scheduled": "Sắp lịch",
   "Room": "Phòng",
   "Facility": "Cơ sở",
@@ -42,7 +42,7 @@
   "Active": "Hoạt động",
   "Disabled": "Vô hiệu hóa",
   "Doctor info": "Thông tin bác sĩ",
-  "Birth Date": "Ngày sinh",
+  "Birth date": "Ngày sinh",
   "Email": "Email",
   "Account info": "Thông tin tài khoản",
   "Patient code": "Mã số bệnh nhân",
@@ -55,5 +55,8 @@
   "Confirm password": "Nhập lại mật khẩu",
   "Create": "Tạo",
   "Close": "Đóng",
-  "Create account successful": "Tạo tài khoản thành công"
+  "Create account successful": "Tạo tài khoản thành công",
+  "Nurse list": "Danh sách y tá",
+  "Nr.No": "Ms.Đd",
+  "Nurse info": "Thông tin điều dưỡng"
 }
