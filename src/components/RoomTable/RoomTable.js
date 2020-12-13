@@ -119,8 +119,8 @@ export default function RoomTable(props) {
                 <TableCell>{room.number}</TableCell>
                 <TableCell>{room.name}</TableCell>
                 <TableCell>
-                  {room.specialist.map((specialist) => (
-                    <Chip className={classes.chip} label={specialist} />
+                  {room.specialist.map((index, specialist) => (
+                    <Chip className={classes.chip} key={index} label={specialist} />
                   ))}
                 </TableCell>
                 <TableCell>

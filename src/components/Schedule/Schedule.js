@@ -148,7 +148,7 @@ function Schedule() {
                 </TableHead>
                 <TableBody>
                   {time.map((rowTime) => (
-                    <TableRow>
+                    <TableRow key={rowTime.time}>
                       <TableCell>{rowTime.time}</TableCell>
                       {appointmentRow.map((row) => (
                         <TableCell key={row.appointmentId}>

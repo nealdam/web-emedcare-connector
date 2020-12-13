@@ -62,5 +62,10 @@
   "Ro.No": "Ms.P",
   "Room number": "Số phòng",
   "Status": "Trạng thái",
-  "Room list": "Danh sách phòng"
+  "Room list": "Danh sách phòng",
+  "Nurse code": "Mã số điều dưỡng",
+  "Open": "Mở",
+  "Room info": "Thông tin phòng khám",
+  "Room specialist": "Chuyên ngành phòng khám",
+  "Room code": "Mã số phòng khám"
 }

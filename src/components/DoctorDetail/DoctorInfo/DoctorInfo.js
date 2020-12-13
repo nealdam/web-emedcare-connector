@@ -77,7 +77,7 @@ export default function DoctorInfo() {
               className={classes.textField}
               variant="outlined"
               fullWidth
-              label={t("Birth Date")}
+              label={t("Birth date")}
               value={doctorProfile.birthDate}
               InputProps={{
                 readOnly: true,

@@ -69,7 +69,7 @@ export default function NurseInfo(props) {
             className={classes.textField}
             variant="outlined"
             fullWidth
-            label={t("Birth Date")}
+            label={t("Birth date")}
             value={nurseInfo.birthDate}
             InputProps={{
               readOnly: true,

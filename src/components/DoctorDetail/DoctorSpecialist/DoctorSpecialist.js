@@ -18,8 +18,8 @@ export default function DoctorSpecialist() {
 
   return (
     <Section title={t("Specialist")}>
-      {doctorSpecialists.map((specialist) => (
-        <Chip className={classes.chip} label={specialist} />
+      {doctorSpecialists.map((index, specialist) => (
+        <Chip className={classes.chip} key={index} label={specialist} />
       ))}
     </Section>
   )
