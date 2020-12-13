@@ -1,9 +1,20 @@
+import { useRouter } from "next/router";
+import RoomTable from "../../../src/components/RoomTable"
 import { defaultPage } from "../../../src/hocs/defaultPage"
 
 function RoomManagerRoomPage() {
 
+  const router = useRouter();
+
+  const handleClickRoomInfo = (roomId) => {
+    router.push(router.asPath + "/" + roomId + "/detail")
+  }
+  
+
   return (
-    <div>Room Manager Room Page</div>
+    <div>
+      <RoomTable handleClickRoomInfo={handleClickRoomInfo} />
+    </div>
   )
 }
 
