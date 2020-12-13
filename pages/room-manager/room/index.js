@@ -9,7 +9,6 @@ function RoomManagerRoomPage() {
   const handleClickRoomInfo = (roomId) => {
     router.push(router.asPath + "/" + roomId + "/detail")
   }
-  
 
   return (
     <div>

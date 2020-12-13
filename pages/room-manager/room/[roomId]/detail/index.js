@@ -1,3 +1,4 @@
+import RoomDetail from "../../../../../src/components/RoomDetail"
 import { defaultPage } from "../../../../../src/hocs/defaultPage"
 
 function RoomManagerRoomDetailPage(props) {
@@ -5,7 +6,7 @@ function RoomManagerRoomDetailPage(props) {
 
   return (
     <div>
-      Room Manager Room Detail
+      <RoomDetail />
     </div>
   )
 }
