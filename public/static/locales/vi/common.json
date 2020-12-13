@@ -67,5 +67,13 @@
   "Open": "Mở",
   "Room info": "Thông tin phòng khám",
   "Room specialist": "Chuyên ngành phòng khám",
-  "Room code": "Mã số phòng khám"
+  "Room code": "Mã số phòng khám",
+  "Monday": "Thứ hai",
+  "Tuesday": "Thứ ba",
+  "Wednesday": "Thứ tư",
+  "Thursday": "Thứ năm",
+  "Friday": "Thứ sáu",
+  "Saturday": "Thứ bảy",
+  "Sunday": "Chủ nhật",
+  "Shift table": "Bảng ca trực"
 }

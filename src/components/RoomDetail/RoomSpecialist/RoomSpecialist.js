@@ -17,7 +17,7 @@ export default function RoomSpecialist(props) {
 
   return (
     <Section title={t("Room specialist")}>
-      {roomSpecialists.map((index, specialist) => (
+      {roomSpecialists.map((specialist, index) => (
         <Chip className={classes.chip} key={index} label={specialist} />
       ))}
     </Section>
