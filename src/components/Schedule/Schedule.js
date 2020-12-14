@@ -14,6 +14,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import {
+  DatePicker,
   KeyboardDatePicker,
   KeyboardTimePicker,
   MuiPickersUtilsProvider,
@@ -118,7 +119,7 @@ function Schedule() {
           <MuiPickersUtilsProvider
             utils={DateFnsUtils}
           >
-            <KeyboardDatePicker
+            <DatePicker
               fullWidth
               disableToolbar
               variant="inline"
