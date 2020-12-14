@@ -1,5 +1,6 @@
 import {
   IconButton,
+  InputAdornment,
   makeStyles,
   Paper,
   Table,
@@ -8,6 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@material-ui/core";
 import InfoIcon from "@material-ui/icons/Info";
 import AppointmentIcon from "@material-ui/icons/CalendarToday";
@@ -15,6 +17,7 @@ import { useTranslation } from "../../i18n";
 import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import Section from "../Section";
+import { Search } from "@material-ui/icons";
 
 const patients = [
   {
@@ -93,6 +96,9 @@ const useStyle = makeStyles((theme) => ({
   actionCell: {
     maxWidth: 100,
   },
+  searchBox: {
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 export default function PatientTable() {
@@ -110,6 +116,20 @@ export default function PatientTable() {
 
   return (
     <Section title={t("Patient list")}>
+      <TextField
+        className={classes.searchBox}
+        variant="outlined"
+        fullWidth
+        label={t("Search")}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Search />
+            </InputAdornment>
+          ),
+        }}
+        helperText={`${t("Search")}: ${t("Patient name")}, ${t("Patient code")}, ${t("Phone number")}`}
+      />
       <TableContainer component={Paper}>
         <Table aria-label="Patient table">
           <TableHead>
