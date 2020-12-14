@@ -1,11 +1,11 @@
 import ShiftTable from "../../../src/components/ShiftTable"
 import { defaultPage } from "../../../src/hocs/defaultPage"
 
-function SchedulerSchedulePage() {
+function SchedulerShiftPage() {
 
   return (
     <ShiftTable />
   )
 }
 
-export default defaultPage(SchedulerSchedulePage)
+export default defaultPage(SchedulerShiftPage)

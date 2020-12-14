@@ -113,10 +113,10 @@ function MyDrawer(props) {
           <ListSubheader component="div">{t("Scheduler")}</ListSubheader>
         }
       >
-        <Link href="/scheduler/schedule">
+        <Link href="/scheduler/shift">
           <ListItem
             button
-            selected={drawerSelectedItem.startsWith("/scheduler/schedule")}
+            selected={drawerSelectedItem.startsWith("/scheduler/shift")}
           >
             <ListItemIcon><EventNote/></ListItemIcon>
             <ListItemText primary={t("Scheduled")} />

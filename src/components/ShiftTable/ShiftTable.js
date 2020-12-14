@@ -19,6 +19,7 @@ import ShiftCell from "./ShiftCell/ShiftCell";
 import { format } from "date-fns";
 import DayCell from "./DayCell";
 import DoctorCell from "./DoctorCell";
+import { useRouter } from "next/router";
 
 const doctorShifts = [
   {
@@ -28,7 +29,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
@@ -47,7 +48,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
@@ -64,7 +65,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
@@ -82,7 +83,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
@@ -100,7 +101,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
@@ -118,7 +119,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
@@ -136,7 +137,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
@@ -154,7 +155,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
@@ -172,7 +173,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
@@ -190,7 +191,7 @@ const doctorShifts = [
       {
         shifts: [
           { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 1, time: "01:00 PM - 06:00 PM" },
+          { id: 2, time: "01:00 PM - 06:00 PM" },
         ],
       },
       { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
@@ -212,14 +213,26 @@ const useStyles = makeStyles((theme) => ({
   },
   dayCell: {
     minWidth: 250
+  },
+  shiftCell: {
+    cursor: "pointer",
+    "&:hover": {
+      background: theme.palette.action.hover
+    }
   }
 }))
 
 export default function ShiftTable(props) {
   const { t } = useTranslation();
   const classes = useStyles();
+  const router = useRouter();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleClickShiftDetail = (shiftId) => {
+    router.push(router.asPath + "/" + shiftId + "/detail")
+  }
+  
 
   return (
     <Section title={t("Shift table")}>
@@ -263,7 +276,7 @@ export default function ShiftTable(props) {
                     <Grid container spacing={2}>
                       {day.shifts.map((shift) => (
                         <Grid item xs={12} key={shift.id}>
-                          <ShiftCell shift={shift} />
+                          <ShiftCell className={classes.shiftCell} shift={shift} onClick={() => handleClickShiftDetail(shift.id)} />
                         </Grid>
                       ))}
                     </Grid>

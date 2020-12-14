@@ -2,6 +2,7 @@ import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
 import { AccessTime, MeetingRoom } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import NurseIcon from "../../../constants/icons/NurseIcon";
+import clsx from 'clsx'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -10,11 +11,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ShiftCell(props) {
-  const { shift } = props;
+  const { shift, className, onClick } = props;
   const classes = useStyles();
 
   return (
-    <Grid className={classes.container} container component={Paper} spacing={1} elevation={3}>
+    <Grid className={clsx(classes.container, className)} container component={Paper} spacing={1} elevation={3} onClick={onClick}>
       <Grid item xs={2}>
         <AccessTime />
       </Grid>
