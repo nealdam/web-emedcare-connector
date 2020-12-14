@@ -2,6 +2,7 @@ import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   Grid,
+  InputAdornment,
   makeStyles,
   Paper,
   Table,
@@ -10,6 +11,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@material-ui/core";
 import {
   KeyboardDatePicker,
@@ -27,6 +29,7 @@ import {
 } from "../../constants/dimensions";
 import PropTypes from "prop-types";
 import Section from "../Section";
+import { Search } from "@material-ui/icons";
 
 const time = [
   { time: "0 AM" },
@@ -90,6 +93,10 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     overflowX: "auto",
   },
+  searchBox: {
+    marginTop: 16,
+    marginBottom: 8,
+  }
 }));
 
 function Schedule() {
@@ -107,7 +114,7 @@ function Schedule() {
   return (
     <Section title={t("Appointment list")}>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={12} md={2}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <KeyboardDatePicker
               disableToolbar
@@ -124,6 +131,24 @@ function Schedule() {
               }}
             />
           </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid item xs={12} md={10}>
+          <TextField
+          className={classes.searchBox}
+            variant="outlined"
+            fullWidth
+            label={t("Search")}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            helperText={`${t("Search")}: ${t("Doctor name")}, ${t("Doctor code")}, ${t(
+              "Patient name"
+            )}, ${t("Patient code")}, ${t("Room number")}`}
+          />
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper} variant="outlined">
