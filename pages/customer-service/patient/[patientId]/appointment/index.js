@@ -1,0 +1,25 @@
+import { makeStyles } from "@material-ui/core";
+import PatientAppointmentTable from "../../../../../src/components/PatientAppointmentTable";
+import Section from "../../../../../src/components/Section/Section";
+import { defaultPage } from "../../../../../src/hocs/defaultPage";
+import { useTranslation } from "../../../../../src/i18n";
+
+const useStyle = makeStyles((theme) => ({
+  paper: {
+    padding: theme.spacing(2)
+  }
+}))
+
+function CustomerServicePatientAppointmentPage() {
+
+  const classes = useStyle();
+  const {t} = useTranslation();
+
+  return (
+    <Section title={t("Appointment")}>
+      <PatientAppointmentTable />
+    </Section>
+  )
+}
+
+export default defaultPage(CustomerServicePatientAppointmentPage);
