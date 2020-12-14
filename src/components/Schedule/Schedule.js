@@ -96,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
   searchBox: {
     marginTop: 16,
     marginBottom: 8,
-  }
+  },
 }));
 
 function Schedule() {
@@ -115,8 +115,11 @@ function Schedule() {
     <Section title={t("Appointment list")}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <MuiPickersUtilsProvider
+            utils={DateFnsUtils}
+          >
             <KeyboardDatePicker
+              fullWidth
               disableToolbar
               variant="inline"
               inputVariant="outlined"
@@ -134,7 +137,7 @@ function Schedule() {
         </Grid>
         <Grid item xs={12} md={10}>
           <TextField
-          className={classes.searchBox}
+            className={classes.searchBox}
             variant="outlined"
             fullWidth
             label={t("Search")}
@@ -145,9 +148,11 @@ function Schedule() {
                 </InputAdornment>
               ),
             }}
-            helperText={`${t("Search")}: ${t("Doctor name")}, ${t("Doctor code")}, ${t(
-              "Patient name"
-            )}, ${t("Patient code")}, ${t("Room number")}`}
+            helperText={`${t("Search")}: ${t("Doctor name")}, ${t(
+              "Doctor code"
+            )}, ${t("Patient name")}, ${t("Patient code")}, ${t(
+              "Room number"
+            )}`}
           />
         </Grid>
         <Grid item xs={12}>

@@ -9,7 +9,7 @@ import isWithinInterval from "date-fns/isWithinInterval";
 import { DatePicker } from "@material-ui/pickers";
 import { createStyles } from "@material-ui/styles";
 import { IconButton, withStyles } from "@material-ui/core";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { useTranslation } from "../../i18n";
 
 class WeekPicker extends PureComponent {
@@ -17,7 +17,7 @@ class WeekPicker extends PureComponent {
     selectedDate: startOfWeek(this.props.date),
   };
 
-  handleWeekChange = date => {
+  handleWeekChange = (date) => {
     this.props.setDate(date);
     this.setState({ selectedDate: startOfWeek(date) });
   };
@@ -26,7 +26,10 @@ class WeekPicker extends PureComponent {
     let dateClone = date;
 
     return dateClone && isValid(dateClone)
-      ? `${format(startOfWeek(dateClone), "dd/MM")} - ${format(endOfWeek(dateClone), "dd/MM")}`
+      ? `${format(startOfWeek(dateClone), "dd/MM")} - ${format(
+          endOfWeek(dateClone),
+          "dd/MM"
+        )}`
       : invalidLabel;
   };
 
@@ -67,6 +70,7 @@ class WeekPicker extends PureComponent {
 
     return (
       <DatePicker
+        fullWidth
         label="Week picker"
         inputVariant="outlined"
         value={selectedDate}
@@ -78,7 +82,7 @@ class WeekPicker extends PureComponent {
   }
 }
 
-const styles = createStyles(theme => ({
+const styles = createStyles((theme) => ({
   dayWrapper: {
     position: "relative",
   },
@@ -125,4 +129,4 @@ export default withStyles(styles)(WeekPicker);
 WeekPicker.propTypes = {
   date: PropTypes.object,
   setDate: PropTypes.func,
-}
+};

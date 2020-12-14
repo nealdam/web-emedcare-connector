@@ -1,6 +1,7 @@
 import { Grid, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import DoctorIcon from '../../../constants/icons/DoctorIcon';
+import HisCodeIcon from '../../../constants/icons/HisCodeIcon';
 
 export default function DoctorCell(props) {
 
@@ -15,7 +16,7 @@ export default function DoctorCell(props) {
         <Typography variant="body1">{name}</Typography>
       </Grid>
       <Grid item xs={2}>
-      <Typography variant="body1">#</Typography>
+        <HisCodeIcon />
       </Grid>
       <Grid item xs={10}>
       <Typography variant="body1">{code}</Typography>

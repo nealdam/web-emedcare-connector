@@ -6,6 +6,7 @@ import { MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { useState } from "react";
 import {
   Grid,
+  InputAdornment,
   makeStyles,
   Paper,
   Table,
@@ -14,12 +15,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@material-ui/core";
 import ShiftCell from "./ShiftCell/ShiftCell";
 import { format } from "date-fns";
 import DayCell from "./DayCell";
 import DoctorCell from "./DoctorCell";
 import { useRouter } from "next/router";
+import { Search } from "@material-ui/icons";
 
 const doctorShifts = [
   {
@@ -209,18 +212,21 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   doctorCell: {
-    minWidth: 200
+    minWidth: 200,
   },
   dayCell: {
-    minWidth: 250
+    minWidth: 250,
   },
   shiftCell: {
     cursor: "pointer",
     "&:hover": {
-      background: theme.palette.action.hover
-    }
-  }
-}))
+      background: theme.palette.action.hover,
+    },
+  },
+  searchBox: {
+    marginBottom: theme.spacing(2),
+  },
+}));
 
 export default function ShiftTable(props) {
   const { t } = useTranslation();
@@ -230,16 +236,42 @@ export default function ShiftTable(props) {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleClickShiftDetail = (shiftId) => {
-    router.push(router.asPath + "/" + shiftId + "/detail")
-  }
-  
+    router.push(router.asPath + "/" + shiftId + "/detail");
+  };
 
   return (
     <Section title={t("Shift table")}>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <WeekPicker date={selectedDate} setDate={setSelectedDate} />
-      </MuiPickersUtilsProvider>
-      <TableContainer className={classes.tableContainer} component={Paper} elevation={0} variant="outlined">
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={2}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils} >
+            <WeekPicker date={selectedDate} setDate={setSelectedDate} />
+          </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid item xs={12} md={10}>
+          <TextField
+            className={classes.searchBox}
+            variant="outlined"
+            fullWidth
+            label={t("Search")}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            helperText={`${t("Search")}: ${t("Doctor name")}, ${t(
+              "Doctor code"
+            )}, ${t("Room name")}, ${t("Room number")}`}
+          />
+        </Grid>
+      </Grid>
+      <TableContainer
+        className={classes.tableContainer}
+        component={Paper}
+        elevation={0}
+        variant="outlined"
+      >
         <Table>
           <TableHead>
             <TableRow>
@@ -270,13 +302,19 @@ export default function ShiftTable(props) {
           <TableBody>
             {doctorShifts.map((doctorShift) => (
               <TableRow key={doctorShift.id}>
-                <TableCell><DoctorCell name={doctorShift.doctorName} code="001" /></TableCell>
+                <TableCell>
+                  <DoctorCell name={doctorShift.doctorName} code="001" />
+                </TableCell>
                 {doctorShift.shiftDay.map((day, index) => (
-                  <TableCell key={index} style={{ verticalAlign: 'top'}} >
+                  <TableCell key={index} style={{ verticalAlign: "top" }}>
                     <Grid container spacing={2}>
                       {day.shifts.map((shift) => (
                         <Grid item xs={12} key={shift.id}>
-                          <ShiftCell className={classes.shiftCell} shift={shift} onClick={() => handleClickShiftDetail(shift.id)} />
+                          <ShiftCell
+                            className={classes.shiftCell}
+                            shift={shift}
+                            onClick={() => handleClickShiftDetail(shift.id)}
+                          />
                         </Grid>
                       ))}
                     </Grid>

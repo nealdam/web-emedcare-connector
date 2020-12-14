@@ -1,6 +1,7 @@
 import {
   Button,
   Chip,
+  InputAdornment,
   makeStyles,
   Paper,
   Table,
@@ -9,12 +10,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
 } from "@material-ui/core";
 import { useTranslation } from "../../i18n";
 import Section from "../Section";
 import PropTypes from "prop-types";
 import RoomStatus from "./RoomStatus";
-import { Info } from "@material-ui/icons";
+import { Info, Search } from "@material-ui/icons";
 
 const rooms = [
   {
@@ -91,17 +93,34 @@ const rooms = [
 
 const useStyles = makeStyles((theme) => ({
   chip: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
+  },
+  searchBox: {
+    marginBottom: theme.spacing(2),
   }
-}))
+}));
 
 export default function RoomTable(props) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { handleClickRoomInfo } = props
+  const { handleClickRoomInfo } = props;
 
   return (
     <Section title={t("Room list")}>
+      <TextField
+        className={classes.searchBox}
+        variant="outlined"
+        fullWidth
+        label={t("Search")}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Search />
+            </InputAdornment>
+          ),
+        }}
+        helperText={`${t("Search")}: ${t("Room name")}, ${t("Room code")}`}
+      />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -120,7 +139,11 @@ export default function RoomTable(props) {
                 <TableCell>{room.name}</TableCell>
                 <TableCell>
                   {room.specialist.map((specialist, index) => (
-                    <Chip className={classes.chip} key={index} label={specialist} />
+                    <Chip
+                      className={classes.chip}
+                      key={index}
+                      label={specialist}
+                    />
                   ))}
                 </TableCell>
                 <TableCell>

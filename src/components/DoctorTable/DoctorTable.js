@@ -1,18 +1,19 @@
 import {
   Button,
   Chip,
-
+  InputAdornment,
   makeStyles,
-
   Paper,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow
+  TableRow,
+  TextField,
 } from "@material-ui/core";
 import { green, red } from "@material-ui/core/colors";
+import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
 import DisabledIcon from "@material-ui/icons/Close";
 import ActiveIcon from "@material-ui/icons/Done";
@@ -117,16 +118,34 @@ const doctors = [
 ];
 
 const useStyle = makeStyles((theme) => ({
-
-}))
+  searchBox: {
+    marginBottom: theme.spacing(2),
+  }
+}));
 
 export default function DoctorTable(props) {
-  const { handleClickDoctorDetail, handleClickCreateDoctorAccount } = props
+  const { handleClickDoctorDetail, handleClickCreateDoctorAccount } = props;
   const { t } = useTranslation();
   const classes = useStyle();
 
   return (
     <Section title={t("Doctor list")}>
+      <TextField
+        className={classes.searchBox}
+        variant="outlined"
+        fullWidth
+        label={t("Search")}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Search />
+            </InputAdornment>
+          ),
+        }}
+        helperText={`${t("Search")}: ${t("Doctor name")}, ${t(
+          "Doctor code"
+        )}, ${t("Account")}`}
+      />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
