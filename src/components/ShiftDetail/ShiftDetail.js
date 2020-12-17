@@ -1,5 +1,6 @@
 import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
+import BlockTable from "../BlockTable";
 import DoctorInfo from "../DoctorDetail/DoctorInfo";
 import NurseInfo from "../NurseDetail/NurseInfo";
 import RoomInfo from "../RoomDetail/RoomInfo";
@@ -29,9 +30,20 @@ const nurseInfo = {
   birthDate: "24/12/1889",
 };
 
+const blocks = [
+  { id: 1, prefix: "A", startedAt: "08:00 AM", duration: 30 },
+  { id: 2, prefix: "B", startedAt: "08:30 AM", duration: 30 },
+  { id: 3, prefix: "C", startedAt: "09:00 AM", duration: 30 },
+  { id: 4, prefix: "D", startedAt: "09:30 AM", duration: 30 },
+  { id: 5, prefix: "E", startedAt: "10:00 AM", duration: 30 },
+]
+
 export default function ShiftDetail(props) {
   return (
     <Grid container spacing={2}>
+      <Grid item xs={12} md={6}>
+        <BlockTable blocks={blocks} />
+      </Grid>
       <Grid item xs={12} md={6}>
         <ShiftInfo shiftInfo={shiftInfo} />
       </Grid>
