@@ -1,7 +1,21 @@
-import { Avatar, Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, Link, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
+import {
+  Avatar,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  InputLabel,
+  Link,
+  makeStyles,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
 import { Smartphone } from "@material-ui/icons";
 import { useState } from "react";
-import { useTranslation } from '../../i18n';
+import GoogleIcon from "../../constants/icons/GoogleIcon";
+import { useTranslation } from "../../i18n";
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -13,13 +27,16 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     backgroundColor: theme.palette.primary.main,
-  }
+    "&:hover": {
+      backgroundColor: theme.palette.primary.dark
+    }
+  },
 }));
 
 function LoginForm(props) {
   const classes = useStyles();
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const { handleGoogleLoginClick, handleLoginClick } = props;
 
@@ -30,16 +47,9 @@ function LoginForm(props) {
     <form className={classes.form} noValidate>
       <FormControl required variant="outlined" fullWidth>
         <InputLabel>{t("Facility")}</InputLabel>
-        <Select
-          native
-          label={t("Facility")}
-        >
-          <option value={0}>
-            Bình Dương
-          </option>
-          <option value={1}>
-            Long An
-          </option>
+        <Select native label={t("Facility")}>
+          <option value={0}>Bình Dương</option>
+          <option value={1}>Long An</option>
         </Select>
       </FormControl>
       <TextField
@@ -52,7 +62,7 @@ function LoginForm(props) {
         name="username"
         autoComplete="username"
         value={email}
-        onChange={e => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)}
         autoFocus
       />
       <TextField
@@ -65,7 +75,7 @@ function LoginForm(props) {
         type="password"
         id="password"
         value={password}
-        onChange={e => setPassword(e.target.value)}
+        onChange={(e) => setPassword(e.target.value)}
         autoComplete="current-password"
       />
       <FormControlLabel
@@ -73,11 +83,12 @@ function LoginForm(props) {
         label={t("Remember me")}
       />
       <Button
+        type="submit"
         fullWidth
         variant="contained"
         color="primary"
         className={classes.submit}
-        onClick={() => handleLoginClick(email, password)}
+        onClick={(e) => {e.preventDefault();handleLoginClick(email, password)}}
       >
         {t("Sign in")}
       </Button>
@@ -87,22 +98,18 @@ function LoginForm(props) {
         color="primary"
         className={classes.submit}
         onClick={handleGoogleLoginClick}
+        startIcon={<GoogleIcon />}
       >
-        <Avatar variant="square" className={classes.icon}>
-          G
-        </Avatar>
         {t("Continue with Google")}
       </Button>
       <Button
-        type="submit"
         fullWidth
         variant="contained"
         color="primary"
+        disabled
         className={classes.submit}
+        startIcon={<Smartphone />}
       >
-        <Avatar variant="square" className={classes.icon}>
-          <Smartphone />
-        </Avatar>
         {t("Continue with phone number")}
       </Button>
       <Grid container>
