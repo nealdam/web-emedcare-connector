@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import RoomTable from "../../../src/components/RoomTable"
 import { defaultPage } from "../../../src/hocs/defaultPage"
+import { protectRoute } from "../../../src/hocs/protectRoute";
 
 function RoomManagerRoomPage() {
 
@@ -17,4 +18,4 @@ function RoomManagerRoomPage() {
   )
 }
 
-export default defaultPage(RoomManagerRoomPage);
+export default protectRoute(defaultPage(RoomManagerRoomPage));

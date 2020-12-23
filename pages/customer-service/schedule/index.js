@@ -2,6 +2,7 @@ import { Fab, makeStyles } from "@material-ui/core";
 import BackToTopIcon from "@material-ui/icons/ArrowUpward";
 import Schedule from "../../../src/components/Schedule";
 import { defaultPage } from "../../../src/hocs/defaultPage";
+import { protectRoute } from "../../../src/hocs/protectRoute";
 import { useTranslation } from "../../../src/i18n";
 
 const useStyle = makeStyles((theme) => ({
@@ -35,4 +36,4 @@ function CustomerServiceSchedulePage() {
   );
 }
 
-export default defaultPage(CustomerServiceSchedulePage);
+export default protectRoute(defaultPage(CustomerServiceSchedulePage));

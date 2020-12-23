@@ -1,5 +1,6 @@
 import ShiftTable from "../../../src/components/ShiftTable"
 import { defaultPage } from "../../../src/hocs/defaultPage"
+import { protectRoute } from "../../../src/hocs/protectRoute"
 
 function SchedulerShiftPage() {
 
@@ -8,4 +9,4 @@ function SchedulerShiftPage() {
   )
 }
 
-export default defaultPage(SchedulerShiftPage)
+export default protectRoute(defaultPage(SchedulerShiftPage))

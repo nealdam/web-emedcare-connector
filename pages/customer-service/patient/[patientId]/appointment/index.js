@@ -2,6 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import PatientAppointmentTable from "../../../../../src/components/PatientAppointmentTable";
 import Section from "../../../../../src/components/Section/Section";
 import { defaultPage } from "../../../../../src/hocs/defaultPage";
+import { protectRoute } from "../../../../../src/hocs/protectRoute";
 import { useTranslation } from "../../../../../src/i18n";
 
 const useStyle = makeStyles((theme) => ({
@@ -22,4 +23,4 @@ function CustomerServicePatientAppointmentPage() {
   )
 }
 
-export default defaultPage(CustomerServicePatientAppointmentPage);
+export default protectRoute(defaultPage(CustomerServicePatientAppointmentPage));

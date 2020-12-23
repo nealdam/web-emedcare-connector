@@ -1,4 +1,5 @@
 import { defaultPage } from "../../src/hocs/defaultPage"
+import { protectRoute } from "../../src/hocs/protectRoute";
 
 function RoomManagerPage() {
 
@@ -7,4 +8,4 @@ function RoomManagerPage() {
   )
 }
 
-export default defaultPage(RoomManagerPage);
+export default protectRoute(defaultPage(RoomManagerPage));

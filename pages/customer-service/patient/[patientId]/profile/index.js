@@ -1,5 +1,6 @@
 import PatientProfile from "../../../../../src/components/PatientProfile";
 import { defaultPage } from "../../../../../src/hocs/defaultPage";
+import { protectRoute } from "../../../../../src/hocs/protectRoute";
 
 function CustomerSerivcePatientProfilePage() {
 
@@ -11,4 +12,4 @@ function CustomerSerivcePatientProfilePage() {
   )
 }
 
-export default defaultPage(CustomerSerivcePatientProfilePage);
+export default protectRoute(defaultPage(CustomerSerivcePatientProfilePage));

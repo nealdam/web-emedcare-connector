@@ -1,6 +1,7 @@
-import { Avatar, Container, makeStyles, Paper } from "@material-ui/core";
+import { Avatar, Button, Container, makeStyles, Paper } from "@material-ui/core";
 import { LockOutlined } from "@material-ui/icons";
 import LoginForm from "../src/components/LoginForm/LoginForm";
+import useAuthContext from "../src/contexts/authContext";
 import { withTranslation } from "../src/i18n";
 
 const useStyles = makeStyles((theme) => ({
@@ -19,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 function LoginPage() {
 
   const classes = useStyles();
+  const { loggedInUser, authLoading, googleLogin, emailPasswordLogin } = useAuthContext();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -26,7 +28,7 @@ function LoginPage() {
         <Avatar className={classes.avatar}>
           <LockOutlined />
         </Avatar>
-        <LoginForm />
+        <LoginForm handleLoginClick={emailPasswordLogin} handleGoogleLoginClick={googleLogin} />
       </div>
     </Container>
   )

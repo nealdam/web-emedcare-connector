@@ -1,5 +1,6 @@
 import RoomDetail from "../../../../../src/components/RoomDetail"
 import { defaultPage } from "../../../../../src/hocs/defaultPage"
+import { protectRoute } from "../../../../../src/hocs/protectRoute"
 
 function RoomManagerRoomDetailPage(props) {
 
@@ -11,4 +12,4 @@ function RoomManagerRoomDetailPage(props) {
   )
 }
 
-export default defaultPage(RoomManagerRoomDetailPage)
+export default protectRoute(defaultPage(RoomManagerRoomDetailPage))

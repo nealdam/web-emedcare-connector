@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import NurseTable from "../../../src/components/NurseTable";
 import { defaultPage } from "../../../src/hocs/defaultPage"
+import { protectRoute } from "../../../src/hocs/protectRoute";
 
 function HumanResourcesNursePage() {
 
@@ -16,4 +17,4 @@ function HumanResourcesNursePage() {
   )
 }
 
-export default defaultPage(HumanResourcesNursePage);
+export default protectRoute(defaultPage(HumanResourcesNursePage));

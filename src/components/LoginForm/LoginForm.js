@@ -1,5 +1,6 @@
 import { Avatar, Button, Checkbox, FormControl, FormControlLabel, Grid, InputLabel, Link, makeStyles, MenuItem, Select, TextField } from "@material-ui/core";
 import { Smartphone } from "@material-ui/icons";
+import { useState } from "react";
 import { useTranslation } from '../../i18n';
 
 const useStyles = makeStyles((theme) => ({
@@ -15,10 +16,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function LoginForm() {
+function LoginForm(props) {
   const classes = useStyles();
 
   const {t} = useTranslation();
+
+  const { handleGoogleLoginClick, handleLoginClick } = props;
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   return (
     <form className={classes.form} noValidate>
@@ -45,6 +51,8 @@ function LoginForm() {
         label={t("Username")}
         name="username"
         autoComplete="username"
+        value={email}
+        onChange={e => setEmail(e.target.value)}
         autoFocus
       />
       <TextField
@@ -56,6 +64,8 @@ function LoginForm() {
         label={t("Password")}
         type="password"
         id="password"
+        value={password}
+        onChange={e => setPassword(e.target.value)}
         autoComplete="current-password"
       />
       <FormControlLabel
@@ -63,20 +73,20 @@ function LoginForm() {
         label={t("Remember me")}
       />
       <Button
-        type="submit"
         fullWidth
         variant="contained"
         color="primary"
         className={classes.submit}
+        onClick={() => handleLoginClick(email, password)}
       >
         {t("Sign in")}
       </Button>
       <Button
-        type="submit"
         fullWidth
         variant="contained"
         color="primary"
         className={classes.submit}
+        onClick={handleGoogleLoginClick}
       >
         <Avatar variant="square" className={classes.icon}>
           G

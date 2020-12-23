@@ -3,13 +3,16 @@ import { firebaseAuth, googleProvider } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { isAllowedLoginDomain } from "../utils/emailUtil";
 import { useRouter } from "next/router";
-import { errorNotify, infoNotify, successNotify } from "../constants/notistackVariants";
+import {
+  errorNotify,
+  infoNotify,
+  successNotify,
+} from "../constants/notistackVariants";
 import { useSnackbar } from "notistack";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-
   const { enqueueSnackbar } = useSnackbar();
 
   const router = useRouter();
@@ -27,17 +30,28 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (user && user.uid) {
-      console.debug("Validated gmail user")
+      console.debug("Validated gmail user");
       console.debug("Accepted login domain: " + process.env.allowedLoginDomain);
       if (isAllowedLoginDomain(user.email)) {
-      console.debug("login successful")
+        console.debug("login successful");
         console.debug("set logged in user");
-        enqueueSnackbar("Login successful", successNotify)
+        enqueueSnackbar("Login successful", successNotify);
         setLoggedInUser(user);
+
+        console.debug("query: " + router.query.lastUrl);
+
+        if (router.query.lastUrl) {
+          router.push(router.query.lastUrl);
+        } else {
+          router.push("/");
+        }
       } else {
-        console.debug("wrong email domain", user.email)
+        console.debug("wrong email domain", user.email);
         setLoggedInUser(null);
-        enqueueSnackbar("Must sign in with " + process.env.allowedLoginDomain + " domain", errorNotify)
+        enqueueSnackbar(
+          "Must sign in with " + process.env.allowedLoginDomain + " domain",
+          errorNotify
+        );
         logout(false);
       }
     } else {
@@ -53,23 +67,41 @@ export const AuthProvider = ({ children }) => {
     }
   }, [loggedInUser]);
 
-  const login = () => {
+  const googleLogin = () => {
     firebaseAuth
       .signInWithPopup(googleProvider)
       .then((result) => {
         // router.push("/")
       })
       .catch((error) => {
-        enqueueSnackbar("Login failed contact Administrator for more information", errorNotify)
+        enqueueSnackbar(
+          "Login failed contact Administrator for more information",
+          errorNotify
+        );
         console.error("bruno says", error);
       });
   };
+
+  const emailPasswordLogin = (email, password) => {
+    firebaseAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        // router.push("/")
+      })
+      .catch((error) => {
+        enqueueSnackbar(
+          "Login failed contact Administrator for more information",
+          errorNotify
+        );
+        console.error("bruno says", error);
+      });
+  }
 
   const logout = (pushMess) => {
     firebaseAuth
       .signOut()
       .then(() => {
-        if (!!pushMess) enqueueSnackbar("Logout successful", infoNotify)
+        if (!!pushMess) enqueueSnackbar("Logout successful", infoNotify);
         console.log("sign out successful");
       })
       .catch((error) => {
@@ -79,7 +111,14 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated: !!user, loggedInUser: loggedInUser || user, authLoading, login, logout }}
+      value={{
+        isAuthenticated: !!user,
+        loggedInUser: loggedInUser || user,
+        authLoading,
+        googleLogin,
+        emailPasswordLogin,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>

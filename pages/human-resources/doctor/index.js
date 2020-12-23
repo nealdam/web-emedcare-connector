@@ -5,6 +5,7 @@ import CreateDoctorAccountDialog from "../../../src/components/CreateDoctorAccou
 import DoctorTable from "../../../src/components/DoctorTable/DoctorTable";
 import { successNotify } from "../../../src/constants/notistackVariants";
 import { defaultPage } from "../../../src/hocs/defaultPage";
+import { protectRoute } from "../../../src/hocs/protectRoute";
 import { useTranslation } from "../../../src/i18n";
 
 function HumanResourcesDoctorPage() {
@@ -43,4 +44,4 @@ function HumanResourcesDoctorPage() {
   );
 }
 
-export default defaultPage(HumanResourcesDoctorPage);
+export default protectRoute(defaultPage(HumanResourcesDoctorPage));
