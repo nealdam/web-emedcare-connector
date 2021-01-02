@@ -1,0 +1,1 @@
+export const GET_ALL_NURSES_URL = process.env.serverUrl + "/nurses";

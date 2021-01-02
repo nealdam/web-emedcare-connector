@@ -18,6 +18,7 @@ import { useTranslation } from "../../i18n";
 import Section from "../Section";
 import InfoIcon from "@material-ui/icons/Info";
 import { Search } from "@material-ui/icons";
+import { format, parseISO } from "date-fns";
 
 const nurses = [
   {
@@ -100,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NurseTable(props) {
   const { t } = useTranslation();
-  const { handleClickNurseProfile } = props;
+  const { handleClickNurseProfile, nurses } = props;
   const classes = useStyles();
 
   return (
@@ -136,11 +137,11 @@ export default function NurseTable(props) {
             {nurses.map((nurse) => (
               <TableRow key={nurse.id}>
                 <TableCell>{nurse.hisCode}</TableCell>
-                <TableCell>{nurse.name}</TableCell>
+                <TableCell>{nurse.fullName}</TableCell>
                 <TableCell>
-                  {nurse.sex == 0 ? <MaleIcon /> : <FemaleIcon />}
+                  {nurse.gender == 0 ? <MaleIcon /> : <FemaleIcon />}
                 </TableCell>
-                <TableCell>{nurse.birthDate}</TableCell>
+                <TableCell>{format(parseISO(nurse.birthDate, ), "dd/MM/yyy")}</TableCell>
                 <TableCell>
                   <Button
                     variant="outlined"
