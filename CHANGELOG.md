@@ -15,6 +15,7 @@ Implement usecase
 - Appointment cell
 - Doctor cell
 - "Login with google" button
+- Profile menu
 
 ### Fixed
 
