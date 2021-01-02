@@ -40,8 +40,11 @@ export const AuthProvider = ({ children }) => {
 
         console.debug("query: " + router.query.lastUrl);
 
+        //FIXME: reload page
         if (router.query.lastUrl) {
           router.push(router.query.lastUrl);
+        } else if (!router.pathname.startsWith("/login")) {
+          // do nothing
         } else {
           router.push("/");
         }
@@ -95,7 +98,7 @@ export const AuthProvider = ({ children }) => {
         );
         console.error("bruno says", error);
       });
-  }
+  };
 
   const logout = (pushMess) => {
     firebaseAuth
