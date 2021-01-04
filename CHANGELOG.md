@@ -9,6 +9,7 @@ Implement usecase
 - Block list
 - Login with Google Account
 - Login with Email and password
+- Create new nurse
 
 ### Changed
 
