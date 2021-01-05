@@ -7,21 +7,22 @@ export default function RoomStatus(props) {
   const { status } = props;
   const { t } = useTranslation();
 
-  return status == "Open" ? (
+  return status ? (
     <Chip
       color="primary"
       style={{ backgroundColor: green[500] }}
       label={t("Open")}
     />
-  ) : status == "Close" ? (
+  ) : (
     <Chip
       color="primary"
       style={{ backgroundColor: red[500] }}
       label={t("Close")}
     />
-  ) : (
-    <Chip color="default" label={status} />
-  );
+  ) 
+  // : (
+  //   <Chip color="default" label={status} />
+  // );
 }
 
 RoomStatus.propTypes = {

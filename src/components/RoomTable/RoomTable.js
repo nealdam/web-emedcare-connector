@@ -18,78 +18,78 @@ import PropTypes from "prop-types";
 import RoomStatus from "./RoomStatus";
 import { Info, Search } from "@material-ui/icons";
 
-const rooms = [
-  {
-    id: 1,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Open",
-  },
-  {
-    id: 2,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Open",
-  },
-  {
-    id: 3,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Open",
-  },
-  {
-    id: 4,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Open",
-  },
-  {
-    id: 5,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Open",
-  },
-  {
-    id: 6,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Open",
-  },
-  {
-    id: 7,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Close",
-  },
-  {
-    id: 8,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Open",
-  },
-  {
-    id: 9,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Open",
-  },
-  {
-    id: 10,
-    number: "001",
-    name: "Nhi 1",
-    specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-    status: "Open",
-  },
-];
+// const rooms = [
+//   {
+//     id: 1,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Open",
+//   },
+//   {
+//     id: 2,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Open",
+//   },
+//   {
+//     id: 3,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Open",
+//   },
+//   {
+//     id: 4,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Open",
+//   },
+//   {
+//     id: 5,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Open",
+//   },
+//   {
+//     id: 6,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Open",
+//   },
+//   {
+//     id: 7,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Close",
+//   },
+//   {
+//     id: 8,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Open",
+//   },
+//   {
+//     id: 9,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Open",
+//   },
+//   {
+//     id: 10,
+//     number: "001",
+//     name: "Nhi 1",
+//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
+//     status: "Open",
+//   },
+// ];
 
 const useStyles = makeStyles((theme) => ({
   chip: {
@@ -103,7 +103,7 @@ const useStyles = makeStyles((theme) => ({
 export default function RoomTable(props) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { handleClickRoomInfo } = props;
+  const { handleClickRoomInfo, rooms } = props;
 
   return (
     <Section title={t("Room list")}>
@@ -136,18 +136,18 @@ export default function RoomTable(props) {
             {rooms.map((room) => (
               <TableRow key={room.id}>
                 <TableCell>{room.number}</TableCell>
-                <TableCell>{room.name}</TableCell>
+                <TableCell>{room.hisCode}</TableCell>
                 <TableCell>
-                  {room.specialist.map((specialist, index) => (
+                  {room.specialties.map((specialty, index) => (
                     <Chip
                       className={classes.chip}
                       key={index}
-                      label={specialist}
+                      label={specialty.name}
                     />
                   ))}
                 </TableCell>
                 <TableCell>
-                  <RoomStatus status={room.status} />
+                  <RoomStatus status={room.isAvailable} />
                 </TableCell>
                 <TableCell>
                   <Button

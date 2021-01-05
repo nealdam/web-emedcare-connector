@@ -12,6 +12,7 @@ Implement usecase
 - Create new nurse
 - Get Doctor List
 - Create new Doctor
+- Get room list
 
 ### Changed
 
