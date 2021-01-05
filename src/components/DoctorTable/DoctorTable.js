@@ -18,104 +18,105 @@ import AddIcon from "@material-ui/icons/Add";
 import DisabledIcon from "@material-ui/icons/Close";
 import ActiveIcon from "@material-ui/icons/Done";
 import InfoIcon from "@material-ui/icons/Info";
+import { format, parseISO } from "date-fns";
 import PropTypes from "prop-types";
 import FemaleIcon from "../../constants/icons/FemaleIcon";
 import MaleIcon from "../../constants/icons/MaleIcon";
 import { useTranslation } from "../../i18n";
 import Section from "../Section";
 
-const doctors = [
-  {
-    id: 1,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 2,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "",
-    accountStatus: "none",
-  },
-  {
-    id: 3,
-    hisCode: "001",
-    name: "Nguyễn Thị A",
-    sex: 0,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 4,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "",
-    accountStatus: "none",
-  },
-  {
-    id: 5,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "disabled",
-  },
-  {
-    id: 6,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 7,
-    hisCode: "001",
-    name: "Nguyễn Thị A",
-    sex: 0,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 8,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 9,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 10,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-];
+// const doctors = [
+//   {
+//     id: 1,
+//     hisCode: "001",
+//     name: "Nguyễn Văn A",
+//     sex: 1,
+//     birthDate: "24/12/1887",
+//     account: "bs.nva",
+//     accountStatus: "active",
+//   },
+//   {
+//     id: 2,
+//     hisCode: "001",
+//     name: "Nguyễn Văn A",
+//     sex: 1,
+//     birthDate: "24/12/1887",
+//     account: "",
+//     accountStatus: "none",
+//   },
+//   {
+//     id: 3,
+//     hisCode: "001",
+//     name: "Nguyễn Thị A",
+//     sex: 0,
+//     birthDate: "24/12/1887",
+//     account: "bs.nva",
+//     accountStatus: "active",
+//   },
+//   {
+//     id: 4,
+//     hisCode: "001",
+//     name: "Nguyễn Văn A",
+//     sex: 1,
+//     birthDate: "24/12/1887",
+//     account: "",
+//     accountStatus: "none",
+//   },
+//   {
+//     id: 5,
+//     hisCode: "001",
+//     name: "Nguyễn Văn A",
+//     sex: 1,
+//     birthDate: "24/12/1887",
+//     account: "bs.nva",
+//     accountStatus: "disabled",
+//   },
+//   {
+//     id: 6,
+//     hisCode: "001",
+//     name: "Nguyễn Văn A",
+//     sex: 1,
+//     birthDate: "24/12/1887",
+//     account: "bs.nva",
+//     accountStatus: "active",
+//   },
+//   {
+//     id: 7,
+//     hisCode: "001",
+//     name: "Nguyễn Thị A",
+//     sex: 0,
+//     birthDate: "24/12/1887",
+//     account: "bs.nva",
+//     accountStatus: "active",
+//   },
+//   {
+//     id: 8,
+//     hisCode: "001",
+//     name: "Nguyễn Văn A",
+//     sex: 1,
+//     birthDate: "24/12/1887",
+//     account: "bs.nva",
+//     accountStatus: "active",
+//   },
+//   {
+//     id: 9,
+//     hisCode: "001",
+//     name: "Nguyễn Văn A",
+//     sex: 1,
+//     birthDate: "24/12/1887",
+//     account: "bs.nva",
+//     accountStatus: "active",
+//   },
+//   {
+//     id: 10,
+//     hisCode: "001",
+//     name: "Nguyễn Văn A",
+//     sex: 1,
+//     birthDate: "24/12/1887",
+//     account: "bs.nva",
+//     accountStatus: "active",
+//   },
+// ];
 
 const useStyle = makeStyles((theme) => ({
   searchBox: {
@@ -124,7 +125,7 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 export default function DoctorTable(props) {
-  const { handleClickDoctorDetail, handleClickCreateDoctorAccount } = props;
+  const { handleClickDoctorDetail, handleClickCreateDoctorAccount, doctors } = props;
   const { t } = useTranslation();
   const classes = useStyle();
 
@@ -161,16 +162,18 @@ export default function DoctorTable(props) {
           </TableHead>
           <TableBody>
             {doctors.map((row) => (
-              <TableRow key={row.id}>
+              <TableRow 
+                key={row.id}
+              >
                 <TableCell>{row.hisCode}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell align="center">
-                  {row.sex == 0 ? <FemaleIcon /> : <MaleIcon />}
+                  {row.gender == 0 ? <FemaleIcon /> : <MaleIcon />}
                 </TableCell>
-                <TableCell>{row.birthDate}</TableCell>
+                <TableCell>{format(parseISO(row.birthDay, ), "dd/MM/yyy")}</TableCell>
                 <TableCell>
                   {row.account ? (
-                    row.account
+                    row.account.email
                   ) : (
                     <Button
                       variant="outlined"
@@ -183,7 +186,7 @@ export default function DoctorTable(props) {
                   )}
                 </TableCell>
                 <TableCell>
-                  {row.accountStatus == "none" ? (
+                  {/* {row.accountStatus == "none" ? (
                     ""
                   ) : row.accountStatus == "active" ? (
                     <Chip
@@ -199,7 +202,7 @@ export default function DoctorTable(props) {
                       color="primary"
                       style={{ backgroundColor: red[500] }}
                     />
-                  )}
+                  )} */}
                 </TableCell>
                 <TableCell>
                   <Button

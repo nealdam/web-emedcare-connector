@@ -10,6 +10,8 @@ Implement usecase
 - Login with Google Account
 - Login with Email and password
 - Create new nurse
+- Get Doctor List
+- Create new Doctor
 
 ### Changed
 
