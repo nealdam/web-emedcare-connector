@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { useTranslation } from "../../i18n";
 import Section from "../Section/Section";
 import WeekPicker from "../WeekPicker";
@@ -318,4 +319,8 @@ export default function ShiftTable(props) {
       </TableContainer>
     </Section>
   );
+}
+
+ShiftTable.propTypes = {
+  shifts: PropTypes.object,
 }

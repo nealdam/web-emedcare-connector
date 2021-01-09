@@ -1,9 +1,14 @@
 import {
   Button,
   Chip,
+  FormControl,
+  Grid,
   InputAdornment,
+  InputLabel,
   makeStyles,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -17,6 +22,7 @@ import Section from "../Section";
 import PropTypes from "prop-types";
 import RoomStatus from "./RoomStatus";
 import { Info, Search } from "@material-ui/icons";
+import { useState } from "react";
 
 // const rooms = [
 //   {
@@ -96,8 +102,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   searchBox: {
-    marginBottom: theme.spacing(2),
-  }
+    // marginBottom: theme.spacing(2),
+  },
 }));
 
 export default function RoomTable(props) {
@@ -105,65 +111,89 @@ export default function RoomTable(props) {
   const classes = useStyles();
   const { handleClickRoomInfo, rooms } = props;
 
+  const [selectedRoomStatus, setSelectedRoomStatus] = useState(0);
+
   return (
     <Section title={t("Room list")}>
-      <TextField
-        className={classes.searchBox}
-        variant="outlined"
-        fullWidth
-        label={t("Search")}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Search />
-            </InputAdornment>
-          ),
-        }}
-        helperText={`${t("Search")}: ${t("Room name")}, ${t("Room code")}`}
-      />
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t("Room number")}</TableCell>
-              <TableCell>{t("Name")}</TableCell>
-              <TableCell>{t("Specialist")}</TableCell>
-              <TableCell>{t("Status")}</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rooms.map((room) => (
-              <TableRow key={room.id}>
-                <TableCell>{room.number}</TableCell>
-                <TableCell>{room.hisCode}</TableCell>
-                <TableCell>
-                  {room.specialties.map((specialty, index) => (
-                    <Chip
-                      className={classes.chip}
-                      key={index}
-                      label={specialty.name}
-                    />
-                  ))}
-                </TableCell>
-                <TableCell>
-                  <RoomStatus status={room.isAvailable} />
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<Info />}
-                    onClick={() => handleClickRoomInfo(room.id)}
-                  >
-                    {t("Info")}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={10}>
+          <TextField
+            className={classes.searchBox}
+            variant="outlined"
+            fullWidth
+            label={t("Search")}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Search />
+                </InputAdornment>
+              ),
+            }}
+            helperText={`${t("Search")}: ${t("Room name")}, ${t("Room code")}`}
+          />
+        </Grid>
+        <Grid item xs={12} md={2}>
+          <FormControl variant="outlined" fullWidth>
+            <InputLabel>{t("Status")}</InputLabel>
+            <Select
+              value={selectedRoomStatus}
+              onChange={(event) => {setSelectedRoomStatus(event.target.value)}}
+              label={t("Room status")}
+            >
+              <MenuItem value={0}>
+                <em>{t("All")}</em>
+              </MenuItem>
+              <MenuItem value={1}>{t("Open")}</MenuItem>
+              <MenuItem value={2}>{t("Close")}</MenuItem>
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>{t("Room number")}</TableCell>
+                  <TableCell>{t("Name")}</TableCell>
+                  <TableCell>{t("Specialist")}</TableCell>
+                  <TableCell>{t("Status")}</TableCell>
+                  <TableCell></TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rooms.map((room) => (
+                  <TableRow key={room.id}>
+                    <TableCell>{room.number}</TableCell>
+                    <TableCell>{room.hisCode}</TableCell>
+                    <TableCell>
+                      {room.specialties.map((specialty, index) => (
+                        <Chip
+                          className={classes.chip}
+                          key={index}
+                          label={specialty.name}
+                        />
+                      ))}
+                    </TableCell>
+                    <TableCell>
+                      <RoomStatus status={room.isAvailable} />
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        startIcon={<Info />}
+                        onClick={() => handleClickRoomInfo(room.id)}
+                      >
+                        {t("Info")}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+      </Grid>
     </Section>
   );
 }
