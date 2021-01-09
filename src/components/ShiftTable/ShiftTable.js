@@ -18,7 +18,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import ShiftCell from "./ShiftCell/ShiftCell";
-import { format } from "date-fns";
+import { addDays, format, startOfWeek } from "date-fns";
 import DayCell from "./DayCell";
 import DoctorCell from "./DoctorCell";
 import { useRouter } from "next/router";
@@ -233,7 +233,11 @@ export default function ShiftTable(props) {
   const classes = useStyles();
   const router = useRouter();
 
+  const numbers = [0, 1, 2, 3, 4, 5, 6];
+
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const weekStartDay = startOfWeek(selectedDate, { weekStartsOn: 1 });
 
   const handleClickShiftDetail = (shiftId) => {
     router.push(router.asPath + "/" + shiftId + "/detail");
@@ -243,7 +247,7 @@ export default function ShiftTable(props) {
     <Section title={t("Shift table")}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils} >
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <WeekPicker date={selectedDate} setDate={setSelectedDate} />
           </MuiPickersUtilsProvider>
         </Grid>
@@ -276,27 +280,14 @@ export default function ShiftTable(props) {
           <TableHead>
             <TableRow>
               <TableCell className={classes.doctorCell}></TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Monday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Tuesday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Wednesday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Thursday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Friday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Saturday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Sunday")} date={format(new Date(), "dd")} />
-              </TableCell>
+              {numbers.map((number) => (
+                <TableCell className={classes.dayCell} align="center">
+                  <DayCell
+                    day={t(format(addDays(weekStartDay, number), "EEEE"))}
+                    date={format(addDays(weekStartDay, number), "dd")}
+                  />
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>

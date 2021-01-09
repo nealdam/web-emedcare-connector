@@ -141,7 +141,7 @@ export default function NurseTable(props) {
                 <TableCell>
                   {nurse.gender == 0 ? <MaleIcon /> : <FemaleIcon />}
                 </TableCell>
-                <TableCell>{format(parseISO(nurse.birthDate, ), "dd/MM/yyy")}</TableCell>
+                <TableCell>{format(parseISO(nurse.birthDay), "dd/MM/yyy")}</TableCell>
                 <TableCell>
                   <Button
                     variant="outlined"
