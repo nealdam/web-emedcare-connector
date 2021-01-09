@@ -1,5 +1,6 @@
 import {
   Button,
+  Chip,
   FormControl,
   Grid,
   InputLabel,
@@ -8,10 +9,20 @@ import {
   Select,
   TextField,
 } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useTranslation } from "../../i18n";
 import Section from "../Section";
+import PropTypes from 'prop-types'
+
+// const specialties = [
+//   { id: 1, name: "Tai, mũi, họng" },
+//   { id: 2, name: "Tay, chân, miệng" },
+//   { id: 3, name: "Tim" },
+//   { id: 4, name: "Chấn thương chỉnh hình" },
+//   { id: 5, name: "Răng, hàm, mặt" },
+// ];
 
 const useStyles = makeStyles((theme) => ({
   formControl: {},
@@ -31,7 +42,7 @@ export default function AddRoomForm(props) {
   const classes = useStyles();
   const { t } = useTranslation();
   const router = useRouter();
-  const { handleAddNewRoom } = props;
+  const { handleAddNewRoom, specialties } = props;
 
   const [facilityId, setFacilityId] = useState(1);
   const [hisCode, setHisCode] = useState("");
@@ -85,6 +96,21 @@ export default function AddRoomForm(props) {
             setNumber(event.target.value);
           }}
         />
+        <Autocomplete
+          className={classes.textField}
+          multiple
+          options={specialties}
+          getOptionLabel={(option) => option.name}
+          filterSelectedOptions
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant="outlined"
+              label={t("Specialty")}
+              placeholder={t("Specialty")}
+            />
+          )}
+        />
       </div>
       <Grid container justify="flex-end">
         <Button
@@ -106,4 +132,9 @@ export default function AddRoomForm(props) {
       </Grid>
     </Section>
   );
+}
+
+AddRoomForm.propTypes = {
+  handleAddNewRoom: PropTypes.func,
+  specialties: PropTypes.arrayOf(PropTypes.object)
 }

@@ -1,8 +1,10 @@
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
+import useSWR from "swr";
 import AddRoomForm from "../../../../src/components/AddRoomForm"
 import { errorNotify, successNotify } from "../../../../src/constants/notistackVariants";
-import { CREATE_NEW_ROOM_URL } from "../../../../src/constants/url";
+import { CREATE_NEW_ROOM_URL, GET_ALL_SPECIALTY_URL } from "../../../../src/constants/url";
+import fetcher from "../../../../src/fetcher";
 import { defaultPage } from "../../../../src/hocs/defaultPage"
 import { protectRoute } from "../../../../src/hocs/protectRoute"
 import { useTranslation } from "../../../../src/i18n";
@@ -12,6 +14,8 @@ function AddNewRoomPage() {
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
   const router = useRouter();
+
+  const { data, error } = useSWR(GET_ALL_SPECIALTY_URL, fetcher);
 
   const handleAddNewRoom = (facilityId, hisCode, number) => {
     fetch(CREATE_NEW_ROOM_URL, {
@@ -45,9 +49,12 @@ function AddNewRoomPage() {
       });
   };
 
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading...</div>;
+
   return (
     <div>
-      <AddRoomForm handleAddNewRoom={handleAddNewRoom} />
+      <AddRoomForm handleAddNewRoom={handleAddNewRoom} specialties={data} />
     </div>
   )
 }
