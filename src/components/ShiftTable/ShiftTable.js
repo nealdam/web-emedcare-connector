@@ -115,97 +115,7 @@ const doctorShifts = [
       { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
       { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
     ],
-  },
-  {
-    id: 6,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 7,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 8,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 9,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 10,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
+  }
 ];
 
 const useStyles = makeStyles((theme) => ({
@@ -277,7 +187,7 @@ export default function ShiftTable(props) {
         elevation={0}
         variant="outlined"
       >
-        <Table>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               <TableCell className={classes.doctorCell}></TableCell>
