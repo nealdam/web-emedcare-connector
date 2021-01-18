@@ -18,12 +18,12 @@ const useStyles = makeStyles((theme) => ({
 
 function SchedulerShiftPage() {
   const classes = useStyles();
-  const route = useRouter();
+  const router = useRouter();
   
   const { data, error } = useSWR(GET_ALL_SHIFT_URL, fetcher);
 
   const handleClickAddNewShift = () => {
-
+    router.push(router.pathname + "/add")
   }
 
   if (error) return <div>failed to load</div>;

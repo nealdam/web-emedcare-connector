@@ -18,7 +18,7 @@ import useGlobalContext from "../../contexts/globalContext";
 import { useTranslation } from "../../i18n";
 import PatientIcon from '../../constants/icons/PatientIcon';
 import DoctorIcon from '../../constants/icons/DoctorIcon';
-import { EventNote, MeetingRoom } from "@material-ui/icons";
+import { EventNote, MeetingRoom, People } from "@material-ui/icons";
 import NurseIcon from '../../constants/icons/NurseIcon';
 import RoomIcon from '../../constants/icons/RoomIcon';
 // import Link from "./Link";
@@ -134,6 +134,20 @@ function MyDrawer(props) {
           >
             <ListItemIcon><RoomIcon /></ListItemIcon>
             <ListItemText primary={t("Room")} />
+          </ListItem>
+        </Link>
+      </List>
+      <List
+        component="nav"
+        subheader={<ListSubheader component="div">{t("Helper")}</ListSubheader>}
+      >
+        <Link href="/helper/room-queue">
+          <ListItem
+            button
+            selected={drawerSelectedItem.startsWith("/helper/room-queue")}
+          >
+            <ListItemIcon><People /></ListItemIcon>
+            <ListItemText primary={t("Room queue")} />
           </ListItem>
         </Link>
       </List>
