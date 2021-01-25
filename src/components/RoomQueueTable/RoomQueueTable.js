@@ -91,7 +91,7 @@ export default function RoomQueueTable(props) {
   const [selectedFacility, setSelectedFacility] = useState(0);
 
   return (
-    <Section title={t("Room table")}>
+    <Section title={t("Room list")}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={10}>
           <SearchBox

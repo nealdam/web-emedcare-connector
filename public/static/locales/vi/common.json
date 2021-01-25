@@ -92,5 +92,10 @@
   "All": "Tất cả",
   "Queue": "Hàng đợi",
   "Queue list": "Danh sách hàng đợi",
-  "Number": "số"
+  "Number": "Số",
+  "Appointment confirmation": "Xác nhận lịch hẹn",
+  "Appointment time": "Thời gian khám",
+  "Room queue": "Hàng chờ",
+  "Confirmed": "Đã xác nhận",
+  "Pending confirmation": "Chờ xác nhận"
 }
