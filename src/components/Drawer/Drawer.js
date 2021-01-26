@@ -27,6 +27,7 @@ import {
 } from "@material-ui/icons";
 import NurseIcon from "../../constants/icons/NurseIcon";
 import RoomIcon from "../../constants/icons/RoomIcon";
+import LinkIcon from '@material-ui/icons/Link';
 // import Link from "./Link";
 
 const useStyles = makeStyles((theme) => ({
@@ -116,6 +117,21 @@ function MyDrawer(props) {
               </Badge>
             </ListItemIcon>
             <ListItemText primary={t("Appointment confirmation")} />
+          </ListItem>
+        </Link>
+        <Link href="/customer-service/account-linking">
+          <ListItem
+            button
+            selected={drawerSelectedItem.startsWith(
+              "/customer-service/account-linking"
+            )}
+          >
+            <ListItemIcon>
+              {/* <Badge color="error" badgeContent={14}> */}
+                <LinkIcon />
+              {/* </Badge> */}
+            </ListItemIcon>
+            <ListItemText primary={t("Account linking")} />
           </ListItem>
         </Link>
       </List>

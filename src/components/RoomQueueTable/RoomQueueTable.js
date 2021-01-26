@@ -83,9 +83,13 @@ const useStyles = makeStyles((theme) => ({
   searchBox: {
     // marginBottom: theme.spacing(2),
   },
+  roomNumberCell: {
+    maxWidth: 200
+  }
 }));
 
 export default function RoomQueueTable(props) {
+  const classes = useStyles();
   const { t } = useTranslation();
 
   const [selectedFacility, setSelectedFacility] = useState(0);
@@ -124,7 +128,7 @@ export default function RoomQueueTable(props) {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell>{t("Room number")}</TableCell>
+                  <TableCell width={150}>{t("Room number")}</TableCell>
                   <TableCell>{t("Room name")}</TableCell>
                   <TableCell></TableCell>
                 </TableRow>

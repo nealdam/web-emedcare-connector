@@ -97,5 +97,13 @@
   "Appointment time": "Thời gian khám",
   "Room queue": "Hàng chờ",
   "Confirmed": "Đã xác nhận",
-  "Pending confirmation": "Chờ xác nhận"
+  "Pending confirmation": "Chờ xác nhận",
+  "Account linking": "Kết nối tài khoản",
+  "Account linking request list": "Danh sách yêu cầu kết nối tài khoản",
+  "Patient phone number": "Số điện thoại bệnh nhân",
+  "Medical record": "Hồ sơ bệnh án",
+  "Linked": "Đã liên kết",
+  "Not linked": "Chưa liên kết",
+  "Connect to": "Kết nối tới",
+  "Link": "Liên kết"
 }
