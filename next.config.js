@@ -22,7 +22,7 @@ module.exports = (phase) => {
   const env = {
     serverUrl: (() => {
       if (isDev) return 'https://localhost:5001/api'
-      if (isProd || isStaging) return '/api'
+      if (isProd || isStaging) return 'http://vasbe.hisoft.vn/api'
       return 'https://localhost:5001/api'
     })()
   };
