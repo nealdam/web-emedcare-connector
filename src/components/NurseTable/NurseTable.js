@@ -64,11 +64,11 @@ export default function NurseTable(props) {
             {nurses.map((nurse) => (
               <TableRow key={nurse.id}>
                 <TableCell>{nurse.hisCode}</TableCell>
-                <TableCell>{nurse.fullName}</TableCell>
+                <TableCell>{nurse.name}</TableCell>
                 <TableCell>
                   {nurse.gender == 0 ? <MaleIcon /> : <FemaleIcon />}
                 </TableCell>
-                <TableCell>{format(parseISO(nurse.birthDay), "dd/MM/yyy")}</TableCell>
+                <TableCell>{format(parseISO(nurse.birthDate), "dd/MM/yyy")}</TableCell>
                 <TableCell>
                   <Button
                     variant="outlined"

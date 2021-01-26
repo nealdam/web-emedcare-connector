@@ -77,7 +77,7 @@ export default function DoctorTable(props) {
                 <TableCell align="center">
                   {row.gender == 0 ? <FemaleIcon /> : <MaleIcon />}
                 </TableCell>
-                <TableCell>{format(parseISO(row.birthDay, ), "dd/MM/yyy")}</TableCell>
+                <TableCell>{format(parseISO(row.birthDate, ), "dd/MM/yyy")}</TableCell>
                 <TableCell>
                   {row.account ? (
                     row.account.email
