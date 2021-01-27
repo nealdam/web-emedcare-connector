@@ -14,8 +14,8 @@ An Van An's clinic Web UI for Van An's clinic agents.
 
 ### Prerequisites
 
-- NodeJS v12.18.3
-- Npm 6.14.6
+- NodeJS >= v10.13
+- NPM >= 6.4.1
 
 ### Installation
 
