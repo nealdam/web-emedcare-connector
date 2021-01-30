@@ -21,19 +21,18 @@ An Van An's clinic Web UI for Van An's clinic agents.
 
 1. Clone the repo
 
-  ```sh
-  git clone https://github.com/nealdam/web-emedcare-connector.git
-  ```
+    ```sh
+    git clone https://github.com/nealdam/web-emedcare-connector.git
+    ```
 
 2. Install NPM packages
 
-  ```sh
-  npm install
-  ```
+    ```sh
+    npm install
+    ```
 
 ### Usage
 
   ```sh
   npm run build && npm run start
   ```
-  
