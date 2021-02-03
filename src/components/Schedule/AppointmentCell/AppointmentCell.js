@@ -13,10 +13,11 @@ import { useTranslation } from "../../../i18n";
 
 const useStyle = makeStyles((theme) => ({
   card: {
-    cursor: "pointer",
-    "&:hover": {
-      background: theme.palette.action.hover,
-    },
+    // cursor: "pointer",
+    // "&:hover": {
+    //   background: theme.palette.action.hover,
+    // },
+    marginBottom: theme.spacing(1)
   },
 }));
 

@@ -3,6 +3,7 @@ import DateFnsUtils from "@date-io/date-fns";
 import {
   Grid,
   InputAdornment,
+  LinearProgress,
   makeStyles,
   Paper,
   Table,
@@ -31,7 +32,10 @@ import {
 import PropTypes from "prop-types";
 import Section from "../Section";
 import { Search } from "@material-ui/icons";
+import { convertInto2DDataDisplay } from "../../utils/appointmentsUtil";
+import { parse, parseJSON } from "date-fns";
 
+// FIXME: time number
 const time = [
   { time: "0 AM" },
   { time: "1 AM" },
@@ -100,13 +104,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Schedule() {
+function Schedule(props) {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  const [selectedDate, setSelectedDate] = useState(
-    new Date("2014-08-18T21:11:54")
-  );
+  const { doctors, selectedDate, setSelectedDate } = props;
+
+  // const [selectedDate, setSelectedDate] = useState(
+  //   new Date("2014-08-18T21:11:54")
+  // );
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
@@ -116,9 +122,7 @@ function Schedule() {
     <Section title={t("Appointment list")}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2}>
-          <MuiPickersUtilsProvider
-            utils={DateFnsUtils}
-          >
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DatePicker
               fullWidth
               disableToolbar
@@ -164,31 +168,61 @@ function Schedule() {
                 className={classes.table}
               >
                 <TableHead>
-                  <TableCell className={classes.timeCell}></TableCell>
-                  {doctorRow.map((row) => (
-                    <TableCell
-                      key={row.doctorCode}
-                      className={classes.doctorCell}
-                    >
-                      <DoctorCell
-                        doctorName={row.doctorName}
-                        roomNumber={row.roomNumber}
-                      />
-                    </TableCell>
-                  ))}
+                  <TableRow>
+                    <TableCell className={classes.timeCell}></TableCell>
+                    {doctors.map((doctor) => (
+                      <TableCell key={doctor.id} className={classes.doctorCell}>
+                        <DoctorCell
+                          doctorName={doctor.name}
+                          roomNumber={doctor.hisCode}
+                        />
+                      </TableCell>
+                    ))}
+                  </TableRow>
                 </TableHead>
                 <TableBody>
-                  {time.map((rowTime) => (
+                  {time.map((rowTime, index) => (
                     <TableRow key={rowTime.time}>
                       <TableCell>{rowTime.time}</TableCell>
-                      {appointmentRow.map((row) => (
-                        <TableCell key={row.appointmentId}>
+                      {doctors.map((doctor) => {
+                        var cell;
+
+                        if (doctor.shifts.length > 0) {
+                          cell = doctor.shifts.map((shift) => {
+                            if (
+                              parseJSON(shift.startedAt).getHours() - 7 ==
+                              index
+                            ) {
+                              return shift.blocks.map((block) => {
+                                return block.appointments.map((appointment) => {
+                                  return (
+                                    // <TableCell key={appointment.id}>
+                                    <AppointmentCell
+                                      patientName={appointment.patient.name}
+                                      patientCode={appointment.patient.hisCode}
+                                    />
+                                    // </TableCell>
+                                  );
+                                });
+                              });
+                            }
+                          });
+                        }
+
+                        return (
+                          <TableCell style={{ verticalAlign: "top" }}>
+                            {cell}
+                          </TableCell>
+                        );
+                      })}
+                      {/* {doctors.map((doctor) => (
+                        <TableCell key={doctor.appointmentId}>
                           <AppointmentCell
-                            patientName={row.patientName}
-                            patientCode={row.patientCode}
+                            patientName={doctor.patientName}
+                            patientCode={doctor.patientCode}
                           />
                         </TableCell>
-                      ))}
+                      ))} */}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -202,7 +236,9 @@ function Schedule() {
 }
 
 Schedule.propTypes = {
-  appointments: PropTypes.array,
+  doctors: PropTypes.array,
+  selectedDate: PropTypes.object,
+  setSelectedDate: PropTypes.func,
 };
 
 export default Schedule;
