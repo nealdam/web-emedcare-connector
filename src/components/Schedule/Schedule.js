@@ -189,11 +189,9 @@ function Schedule(props) {
 
                         if (doctor.shifts.length > 0) {
                           cell = doctor.shifts.map((shift) => {
-                            if (
-                              parseJSON(shift.startedAt).getHours() - 7 ==
-                              index
-                            ) {
                               return shift.blocks.map((block) => {
+
+                              if (parseJSON(block.startedAt).getHours() - 7 == index) {
                                 return block.appointments.map((appointment) => {
                                   return (
                                     // <TableCell key={appointment.id}>
@@ -204,8 +202,9 @@ function Schedule(props) {
                                     // </TableCell>
                                   );
                                 });
+                              }
                               });
-                            }
+                            
                           });
                         }
 
