@@ -45,13 +45,13 @@ function LoginForm(props) {
 
   return (
     <form className={classes.form} noValidate>
-      <FormControl required variant="outlined" fullWidth>
+      {/* <FormControl required variant="outlined" fullWidth>
         <InputLabel>{t("Facility")}</InputLabel>
         <Select native label={t("Facility")}>
           <option value={0}>Bình Dương</option>
           <option value={1}>Long An</option>
         </Select>
-      </FormControl>
+      </FormControl> */}
       <TextField
         variant="outlined"
         margin="normal"
@@ -92,7 +92,7 @@ function LoginForm(props) {
       >
         {t("Sign in")}
       </Button>
-      <Button
+      {/* <Button
         fullWidth
         variant="contained"
         color="primary"
@@ -111,7 +111,7 @@ function LoginForm(props) {
         startIcon={<Smartphone />}
       >
         {t("Continue with phone number")}
-      </Button>
+      </Button> */}
       <Grid container>
         <Grid item xs>
           <Link href="#" variant="body2">

@@ -30,7 +30,7 @@ export default function ConfirmAppointmentTable(props) {
   return (
     <Section title={t("Appointment confirmation")}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={10}>
+        <Grid item xs={12} md={12}>
           <SearchBox
             helpText={`${t("Search")}: ${t("Patient name")}, ${t(
               "Patient code"
@@ -38,7 +38,7 @@ export default function ConfirmAppointmentTable(props) {
           />
         </Grid>
         <Grid item xs={12} md={2}>
-          <FormControl variant="outlined" fullWidth>
+          {/* <FormControl variant="outlined" fullWidth>
             <InputLabel>{t("Facility")}</InputLabel>
             <Select
               value={selectedFacility}
@@ -56,7 +56,7 @@ export default function ConfirmAppointmentTable(props) {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>

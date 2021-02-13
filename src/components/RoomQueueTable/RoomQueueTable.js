@@ -1,4 +1,5 @@
 import { Button, FormControl, Grid, InputLabel, makeStyles, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@material-ui/core";
+import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useTranslation } from "../../i18n";
@@ -93,17 +94,22 @@ export default function RoomQueueTable(props) {
   const { t } = useTranslation();
 
   const [selectedFacility, setSelectedFacility] = useState(0);
+  const router = useRouter();
+
+  const handleRoomClick = (id) => {
+    router.push(router.pathname + "/" + id);
+  }
 
   return (
     <Section title={t("Room list")}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={10}>
+        <Grid item xs={12} md={12}>
           <SearchBox
             helpText={`${t("Search")}: ${t("Room number")}, ${t("Room name")}`}
           />
         </Grid>
         <Grid item xs={12} md={2}>
-          <FormControl variant="outlined" fullWidth>
+          {/* <FormControl variant="outlined" fullWidth>
             <InputLabel>{t("Facility")}</InputLabel>
             <Select
               value={selectedFacility}
@@ -121,7 +127,7 @@ export default function RoomQueueTable(props) {
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
         </Grid>
         <Grid item xs={12}> {/* room queue */}
           <TableContainer component={Paper}>
@@ -139,7 +145,7 @@ export default function RoomQueueTable(props) {
                     <TableCell>{room.number}</TableCell>
                     <TableCell>{room.name}</TableCell>
                     <TableCell>
-                      <Button variant="outlined" color="primary">
+                      <Button variant="outlined" color="primary" onClick={() => handleRoomClick(room.id)}>
                         {t("Queue")}
                       </Button>
                     </TableCell>
