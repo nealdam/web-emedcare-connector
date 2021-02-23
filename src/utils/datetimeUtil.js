@@ -4,6 +4,10 @@ export const toDate = (text) => {
     return format(parseISO(text,), "dd/MM/yyy")
 }
 
+export const toTime = (text) => {
+    return format(parseISO(text,), "hh:mm")
+}
+
 export const toDateTime = (text) => {
     return format(parseISO(text,), "hh:mm dd/MM/yyy")
 }

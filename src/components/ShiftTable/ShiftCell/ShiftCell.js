@@ -3,6 +3,7 @@ import { AccessTime, MeetingRoom } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import NurseIcon from "../../../constants/icons/NurseIcon";
 import clsx from 'clsx'
+import { toTime } from "../../../utils/datetimeUtil";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,7 +21,7 @@ export default function ShiftCell(props) {
         <AccessTime />
       </Grid>
       <Grid item xs={10}>
-        <Typography variant="body1">{shift.time}</Typography>
+        <Typography variant="body1">{toTime(shift.startedAt)} - {toTime(shift.endedAt)}</Typography>
       </Grid>
       <Grid item xs={2}>
         <NurseIcon />

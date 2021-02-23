@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types";
 import { useTranslation } from "../../i18n";
 import Section from "../Section/Section";
 import WeekPicker from "../WeekPicker";
@@ -19,104 +19,11 @@ import {
   TextField,
 } from "@material-ui/core";
 import ShiftCell from "./ShiftCell/ShiftCell";
-import { addDays, format, startOfWeek } from "date-fns";
+import { addDays, format, isSameDay, parse, parseISO, startOfWeek } from "date-fns";
 import DayCell from "./DayCell";
 import DoctorCell from "./DoctorCell";
 import { useRouter } from "next/router";
 import { Search } from "@material-ui/icons";
-
-const doctorShifts = [
-  {
-    id: 1,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 2,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 3,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 4,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 5,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  }
-];
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
@@ -139,14 +46,60 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ShiftTable(props) {
-  const { t } = useTranslation();
+const ShiftRow = (props) => {
   const classes = useStyles();
+  const {
+    doctor,
+    doctorShifts: { shifts, isLoading, isError },
+    firstDateOfWeek,
+  } = props;
+
+  const weekDayIndex = [0, 1, 2, 3, 4, 5, 6];
+
+  return (
+    <TableRow key={doctor.id}>
+      <TableCell>
+        <DoctorCell name={doctor.name} code={doctor.hisCode} />
+      </TableCell>
+      {
+        isLoading
+        ? <TableCell colSpan={7}>loading</TableCell>
+        : isError
+          ? <TableCell colSpan={7}>error</TableCell>
+          : weekDayIndex.map((dayIndex, index) => {
+            const currentCellDate = addDays(firstDateOfWeek, dayIndex);
+            return (
+              <TableCell key={index} style={{ verticalAlign: "top" }}>
+                <Grid container spacing={2}>
+                {shifts.map((shift) => {
+                  if (isSameDay(currentCellDate, parseISO(shift.startedAt))) {
+                    return (
+                      <Grid item xs={12} key={shift.id}>
+                          <ShiftCell
+                            className={classes.shiftCell}
+                            shift={shift}
+                            onClick={() => handleClickShiftDetail(shift.id)}
+                          />
+                        </Grid>
+                    )
+                  }
+                })}
+                </Grid>
+              </TableCell>
+            )
+          })
+      }
+    </TableRow>
+  );
+};
+
+export default function ShiftTable(props) {
+  const classes = useStyles();
+  const { doctors, getDoctorShift, selectedDate, setSelectedDate } = props;
+  const { t } = useTranslation();
   const router = useRouter();
 
-  const numbers = [0, 1, 2, 3, 4, 5, 6];
-
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const weekDayIndex = [0, 1, 2, 3, 4, 5, 6];
 
   const weekStartDay = startOfWeek(selectedDate, { weekStartsOn: 1 });
 
@@ -191,7 +144,7 @@ export default function ShiftTable(props) {
           <TableHead>
             <TableRow>
               <TableCell className={classes.doctorCell}></TableCell>
-              {numbers.map((number) => (
+              {weekDayIndex.map((number) => (
                 <TableCell className={classes.dayCell} align="center">
                   <DayCell
                     day={t(format(addDays(weekStartDay, number), "EEEE"))}
@@ -202,27 +155,12 @@ export default function ShiftTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {doctorShifts.map((doctorShift) => (
-              <TableRow key={doctorShift.id}>
-                <TableCell>
-                  <DoctorCell name={doctorShift.doctorName} code="001" />
-                </TableCell>
-                {doctorShift.shiftDay.map((day, index) => (
-                  <TableCell key={index} style={{ verticalAlign: "top" }}>
-                    <Grid container spacing={2}>
-                      {day.shifts.map((shift) => (
-                        <Grid item xs={12} key={shift.id}>
-                          <ShiftCell
-                            className={classes.shiftCell}
-                            shift={shift}
-                            onClick={() => handleClickShiftDetail(shift.id)}
-                          />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </TableCell>
-                ))}
-              </TableRow>
+            {doctors.map((doctor) => (
+              <ShiftRow
+                doctor={doctor}
+                doctorShifts={getDoctorShift(doctor.id)}
+                firstDateOfWeek={startOfWeek(selectedDate)}
+              />
             ))}
           </TableBody>
         </Table>
@@ -232,5 +170,8 @@ export default function ShiftTable(props) {
 }
 
 ShiftTable.propTypes = {
-  shifts: PropTypes.object,
-}
+  doctors: PropTypes.arrayOf(PropTypes.object),
+  getDoctorShift: PropTypes.func,
+  selectedDate: PropTypes.object,
+  setSelectedDate: PropTypes.func,
+};
