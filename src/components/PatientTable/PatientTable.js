@@ -18,79 +18,80 @@ import { useRouter } from "next/router";
 import PropTypes from "prop-types";
 import Section from "../Section";
 import { Search } from "@material-ui/icons";
+import { format, parseISO } from "date-fns";
 
-const patients = [
-  {
-    id: 1,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-  {
-    id: 2,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-  {
-    id: 3,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-  {
-    id: 4,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-  {
-    id: 5,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-  {
-    id: 6,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-  {
-    id: 7,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-  {
-    id: 8,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-  {
-    id: 9,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-  {
-    id: 10,
-    hiscode: "001",
-    birthDate: "26/12/2997",
-    name: "Trần Văn A",
-    phoneNumber: "0906587525",
-  },
-];
+// const patients = [
+//   {
+//     id: 1,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+//   {
+//     id: 2,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+//   {
+//     id: 3,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+//   {
+//     id: 4,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+//   {
+//     id: 5,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+//   {
+//     id: 6,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+//   {
+//     id: 7,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+//   {
+//     id: 8,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+//   {
+//     id: 9,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+//   {
+//     id: 10,
+//     hiscode: "001",
+//     birthDate: "26/12/2997",
+//     name: "Trần Văn A",
+//     phoneNumber: "0906587525",
+//   },
+// ];
 
 const useStyle = makeStyles((theme) => ({
   actionCell: {
@@ -101,10 +102,12 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-export default function PatientTable() {
+export default function PatientTable(props) {
   const { t } = useTranslation();
   const classes = useStyle();
   const router = useRouter();
+
+  const { patients } = props;
 
   const handleClickPatientInfo = (patientId) => {
     router.push(router.asPath + "/" + patientId + "/profile");
@@ -128,7 +131,9 @@ export default function PatientTable() {
             </InputAdornment>
           ),
         }}
-        helperText={`${t("Search")}: ${t("Patient name")}, ${t("Patient code")}, ${t("Phone number")}`}
+        helperText={`${t("Search")}: ${t("Patient name")}, ${t(
+          "Patient code"
+        )}, ${t("Phone number")}`}
       />
       <TableContainer component={Paper}>
         <Table aria-label="Patient table">
@@ -145,9 +150,9 @@ export default function PatientTable() {
           <TableBody>
             {patients.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.hiscode}</TableCell>
+                <TableCell>{row.hisCode}</TableCell>
                 <TableCell>{row.name}</TableCell>
-                <TableCell>{row.birthDate}</TableCell>
+                <TableCell>{format(parseISO(row.birthDate, ), "dd/MM/yyy")}</TableCell>
                 <TableCell>{row.phoneNumber}</TableCell>
                 <TableCell>
                   <IconButton

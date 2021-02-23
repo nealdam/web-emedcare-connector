@@ -13,3 +13,5 @@ export const CREATE_NEW_ROOM_URL = host + "/rooms"
 export const GET_ALL_SHIFT_URL = host + "/shifts"
 
 export const GET_ALL_SPECIALTY_URL = host + "/specialties"
+
+export const GET_PATIENT_URL = host + "/patients"
