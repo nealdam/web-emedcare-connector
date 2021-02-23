@@ -27,13 +27,13 @@ export default function ShiftCell(props) {
         <NurseIcon />
       </Grid>
       <Grid item xs={10}>
-        <Typography variant="body1">Nguyễn Thị B</Typography>
+        <Typography variant="body1">{shift.nurse.name}</Typography>
       </Grid>
       <Grid item xs={2}>
         <MeetingRoom />
       </Grid>
       <Grid item xs={10}>
-        <Typography variant="body1">P001</Typography>
+        <Typography variant="body1">{shift.room.number}</Typography>
       </Grid>
     </Grid>
   );
