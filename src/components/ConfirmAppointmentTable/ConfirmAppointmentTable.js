@@ -18,6 +18,7 @@ import {
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { useTranslation } from "../../i18n";
+import { toDateTime } from "../../utils/datetimeUtil";
 import SearchBox from "../SearchBox";
 import Section from "../Section/Section";
 
@@ -73,9 +74,9 @@ export default function ConfirmAppointmentTable(props) {
               <TableBody>
                 {appointments.map((appointment) => (
                   <TableRow key={appointment.id}>
-                    <TableCell>{appointment.hisCode}</TableCell>
-                    <TableCell>{appointment.patientName}</TableCell>
-                    <TableCell>{appointment.appointmentTime}</TableCell>
+                    <TableCell>{appointment.patient.hisCode}</TableCell>
+                    <TableCell>{appointment.patient.name}</TableCell>
+                    <TableCell>{toDateTime(appointment.block.startedAt)}</TableCell>
                     <TableCell align="center">
                       {appointment.isConfirmed 
                       ? <Chip label={t("Confirmed")} color="primary" style={{backgroundColor: colors.green[500]}} /> 
