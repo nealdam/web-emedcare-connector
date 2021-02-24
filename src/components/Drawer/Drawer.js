@@ -27,7 +27,8 @@ import {
 } from "@material-ui/icons";
 import NurseIcon from "../../constants/icons/NurseIcon";
 import RoomIcon from "../../constants/icons/RoomIcon";
-import LinkIcon from '@material-ui/icons/Link';
+import LinkIcon from "@material-ui/icons/Link";
+import { useGetUnConfirmedAppointment } from "../../hooks/appointmentHooks";
 // import Link from "./Link";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +62,12 @@ function MyDrawer(props) {
   } = useGlobalContext();
 
   const { t } = useTranslation();
+
+  const {
+    data: numberOfUnConfirmedAppointment,
+    isLoading,
+    isError,
+  } = useGetUnConfirmedAppointment();
 
   const drawer = (
     <div>
@@ -112,9 +119,17 @@ function MyDrawer(props) {
             )}
           >
             <ListItemIcon>
-              <Badge color="error" badgeContent={14}>
+              {numberOfUnConfirmedAppointment ? (
+                <Badge
+                  color="error"
+                  badgeContent={numberOfUnConfirmedAppointment}
+                  max={999}
+                >
+                  <EventAvailable />
+                </Badge>
+              ) : (
                 <EventAvailable />
-              </Badge>
+              )}
             </ListItemIcon>
             <ListItemText primary={t("Appointment confirmation")} />
           </ListItem>
@@ -128,7 +143,7 @@ function MyDrawer(props) {
           >
             <ListItemIcon>
               {/* <Badge color="error" badgeContent={14}> */}
-                <LinkIcon />
+              <LinkIcon />
               {/* </Badge> */}
             </ListItemIcon>
             <ListItemText primary={t("Account linking")} />
