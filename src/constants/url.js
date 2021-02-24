@@ -18,3 +18,5 @@ export const GET_ALL_SPECIALTY_URL = host + "/specialties"
 export const GET_PATIENT_URL = host + "/patients"
 
 export const GET_APPOINTMENT_URL = host + "/appointments"
+
+export const GET_USER_RELATED_PATIENT_URL = host + "/users/patients/relatedPatient"

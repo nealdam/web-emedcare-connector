@@ -17,6 +17,7 @@ import Section from "../Section/Section";
 import PropTypes from "prop-types";
 import AccountLinkingRequestDetailDialog from "./AccountLinkingRequestDetailDialog";
 import { useState } from "react";
+import PatientAccountRelatedPatientTableRow from "./PatientAccountRelatedPatientTableRow/PatientAccountRelatedPatientTableRow";
 
 const linkingRequests = [
   {
@@ -63,7 +64,7 @@ const linkingRequests = [
 
 export default function AccountLinkingRequestTable(props) {
   const { t } = useTranslation();
-  // const { linkingRequests } = props;
+  const { profiles, isLoading, isError } = props;
 
   const [isRequestDetailOpen, setIsRequestDetailOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState();
@@ -76,6 +77,9 @@ export default function AccountLinkingRequestTable(props) {
     setSelectedRequest();
     setIsRequestDetailOpen(true);
   }
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
     <div>
@@ -93,38 +97,15 @@ export default function AccountLinkingRequestTable(props) {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>{t("Name")}</TableCell>
-                    <TableCell>{t("Birth date")}</TableCell>
-                    <TableCell>{t("Phone number")}</TableCell>
-                    <TableCell>{t("Connect to")}</TableCell>
-                    <TableCell>{t("Status")}</TableCell>
                     <TableCell></TableCell>
+                    <TableCell>{t("Name")}</TableCell>
+                    <TableCell>{t("Email")}</TableCell>
+                    <TableCell>{t("Phone number")}</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {linkingRequests.map((request) => (
-                    <TableRow key={request.id}>
-                      <TableCell>{request.name}</TableCell>
-                      <TableCell>{request.birthDate}</TableCell>
-                      <TableCell>{request.phoneNumber}</TableCell>
-                      <TableCell>{request.profileRelationship}</TableCell>
-                      <TableCell>
-                        {request.status ? (
-                          <Chip label={t("Linked")} />
-                        ) : (
-                          <Chip
-                            label={t("Not linked")}
-                            color="primary"
-                            style={{ backgroundColor: colors.red[500] }}
-                          />
-                        )}
-                      </TableCell>
-                      <TableCell>
-                        <Button variant="outlined" color="primary" onClick={handleClickDetail}>
-                          {t("Info")}
-                        </Button>
-                      </TableCell>
-                    </TableRow>
+                  {profiles.map((profile) => (
+                    <PatientAccountRelatedPatientTableRow profile={profile} colSpan={4} key={profile.id} />
                   ))}
                 </TableBody>
               </Table>
@@ -138,5 +119,7 @@ export default function AccountLinkingRequestTable(props) {
 }
 
 AccountLinkingRequestTable.propTypes = {
-  linkingProfiles: PropTypes.arrayOf(PropTypes.object),
+  profiles: PropTypes.arrayOf(PropTypes.object),
+  isLoading: PropTypes.bool,
+  isError: PropTypes.bool,
 };
