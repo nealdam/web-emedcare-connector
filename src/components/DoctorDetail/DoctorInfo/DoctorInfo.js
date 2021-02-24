@@ -1,18 +1,8 @@
 import { Grid, makeStyles, TextField } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { useTranslation } from "../../../i18n";
+import { toDate } from "../../../utils/datetimeUtil";
 import Section from "../../Section";
-
-const doctorProfile = {
-  id: 1,
-  hisCode: "001",
-  name: "Trần Văn A",
-  sex: "Nam",
-  birthDate: "25/12/1974",
-  email: "bs.tva@gmail.com",
-  phoneNumber: "0906585245",
-  address: "101 Độc Lập, P.Tân Thành, Q.Tân Phú, Tp.HCM",
-};
 
 const useStyle = makeStyles((theme) => ({
   paper: {
@@ -27,12 +17,13 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-export default function DoctorInfo() {
+export default function DoctorInfo(props) {
   const classes = useStyle();
   const { t } = useTranslation();
 
+  const { doctor } = props;
+
   return (
-    <div>
       <Section title={t("Doctor info")}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={3} md={2}>
@@ -48,7 +39,7 @@ export default function DoctorInfo() {
               variant="outlined"
               fullWidth
               label={t("Doctor code")}
-              value={doctorProfile.hisCode}
+              value={doctor.hisCode}
               InputProps={{
                 readOnly: true,
               }}
@@ -58,7 +49,7 @@ export default function DoctorInfo() {
               variant="outlined"
               fullWidth
               label={t("Name")}
-              value={doctorProfile.name}
+              value={doctor.name}
               InputProps={{
                 readOnly: true,
               }}
@@ -68,7 +59,7 @@ export default function DoctorInfo() {
               variant="outlined"
               fullWidth
               label={t("Sex")}
-              value={doctorProfile.sex}
+              value={doctor.sex ? t("Male") : t("Female")}
               InputProps={{
                 readOnly: true,
               }}
@@ -78,37 +69,7 @@ export default function DoctorInfo() {
               variant="outlined"
               fullWidth
               label={t("Birth date")}
-              value={doctorProfile.birthDate}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              fullWidth
-              label={t("Email")}
-              value={doctorProfile.email}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              fullWidth
-              label={t("Phone number")}
-              value={doctorProfile.phoneNumber}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              fullWidth
-              label={t("Address")}
-              value={doctorProfile.address}
+              value={toDate(doctor.birthDate)}
               InputProps={{
                 readOnly: true,
               }}
@@ -116,10 +77,9 @@ export default function DoctorInfo() {
           </Grid>
         </Grid>
       </Section>
-    </div>
   );
 }
 
 DoctorInfo.propTypes = {
-  doctorProfile: PropTypes.object,
+  doctor: PropTypes.object,
 };
