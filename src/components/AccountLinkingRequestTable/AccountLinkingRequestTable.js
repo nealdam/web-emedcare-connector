@@ -64,7 +64,7 @@ const linkingRequests = [
 
 export default function AccountLinkingRequestTable(props) {
   const { t } = useTranslation();
-  const { profiles, isLoading, isError } = props;
+  const { profiles, isLoading, isError, handleSearch } = props;
 
   const [isRequestDetailOpen, setIsRequestDetailOpen] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState();
@@ -90,6 +90,7 @@ export default function AccountLinkingRequestTable(props) {
               helpText={`${t("Search")}: ${t("Patient name")}, ${t(
                 "Patient phone number"
               )}`}
+              handleSearch={handleSearch}
             />
           </Grid>
           <Grid item xs={12}>

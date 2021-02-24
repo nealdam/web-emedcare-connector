@@ -6,15 +6,14 @@ import { useUserRelatedPatientByUserNamePhoneNumber } from "../../../src/hooks/u
 
 function AccountLinkingPage() {
 
-  const [userNamePhoneNumber, setUserNamePhoneNumber] = useState("");
-  const { profiles, isLoading, isError } = useUserRelatedPatientByUserNamePhoneNumber(userNamePhoneNumber);
+  const { profiles, isLoading, isError, setUserNamePhoneNumber } = useUserRelatedPatientByUserNamePhoneNumber();
 
   const handleFind = (searchText) => {
-    
+    setUserNamePhoneNumber(searchText);
   }
 
   return (
-    <AccountLinkingRequestTable profiles={profiles} isLoading={isLoading} isError={isError} />
+    <AccountLinkingRequestTable profiles={profiles} isLoading={isLoading} isError={isError} handleSearch={handleFind} />
   )
 }
 
