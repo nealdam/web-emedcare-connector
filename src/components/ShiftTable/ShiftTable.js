@@ -52,12 +52,13 @@ const ShiftRow = (props) => {
     doctor,
     doctorShifts: { shifts, isLoading, isError },
     firstDateOfWeek,
+    handleClickShiftDetail
   } = props;
 
   const weekDayIndex = [0, 1, 2, 3, 4, 5, 6];
 
   return (
-    <TableRow key={doctor.id}>
+    <TableRow>
       <TableCell>
         <DoctorCell name={doctor.name} code={doctor.hisCode} />
       </TableCell>
@@ -145,7 +146,7 @@ export default function ShiftTable(props) {
             <TableRow>
               <TableCell className={classes.doctorCell}></TableCell>
               {weekDayIndex.map((number) => (
-                <TableCell className={classes.dayCell} align="center">
+                <TableCell className={classes.dayCell} align="center" key={number}>
                   <DayCell
                     day={t(format(addDays(weekStartDay, number), "EEEE"))}
                     date={format(addDays(weekStartDay, number), "dd")}
@@ -160,6 +161,8 @@ export default function ShiftTable(props) {
                 doctor={doctor}
                 doctorShifts={getDoctorShift(doctor.id)}
                 firstDateOfWeek={startOfWeek(selectedDate)}
+                handleClickShiftDetail={handleClickShiftDetail}
+                key={doctor.id}
               />
             ))}
           </TableBody>

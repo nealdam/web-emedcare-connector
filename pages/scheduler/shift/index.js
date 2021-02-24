@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import useSWR from "swr";
 import ShiftTable from "../../../src/components/ShiftTable";
-import { GET_ALL_DOCTORS_URL, GET_DOCTOR_URL, GET_SHIFT_URL } from "../../../src/constants/url";
+import { GET_ALL_DOCTORS_URL, GET_DOCTOR_URL, GET_SHIFT_INFO_URL } from "../../../src/constants/url";
 import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
@@ -33,7 +33,7 @@ function SchedulerShiftPage() {
   }
 
   const getDoctorShift = (doctorId) => {
-    let shiftUrl = GET_SHIFT_URL 
+    let shiftUrl = GET_SHIFT_INFO_URL 
       + "?doctor_id=" + doctorId
       + "&start_at_min=" + startOfWeek(selectedDate).toISOString()
       + "&start_at_max=" + endOfWeek(selectedDate).toISOString();

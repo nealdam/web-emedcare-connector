@@ -9,5 +9,5 @@ export const toTime = (text) => {
 }
 
 export const toDateTime = (text) => {
-    return format(parseISO(text,), "hh:mm dd/MM/yyy")
+    return format(parseISO(text,), "hh:mm a - dd/MM/yyy")
 }

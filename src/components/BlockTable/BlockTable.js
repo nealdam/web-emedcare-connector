@@ -15,8 +15,8 @@ export default function BlockTable(props) {
           <TableHead>
             <TableRow>
               <TableCell>{t("Prefix")}</TableCell>
-              <TableCell>{t("Start at")}</TableCell>
-              <TableCell>{t("Duration")}</TableCell>
+              <TableCell>{t("Start time")}</TableCell>
+              <TableCell>{t("Duration")} ({t("Minutes")})</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -24,7 +24,7 @@ export default function BlockTable(props) {
               <TableRow key={block.id}>
                 <TableCell>{block.prefix}</TableCell>
                 <TableCell>{block.startedAt}</TableCell>
-                <TableCell>{block.duration}</TableCell>
+                <TableCell>{block.duration * 60}</TableCell>
               </TableRow>
             ))}
           </TableBody>

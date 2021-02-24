@@ -108,5 +108,9 @@
   "Link": "Liên kết",
   "Specialist": "Chuyên khoa",
   "Helper": "Hỗ trợ",
-  "Relationship": "Quan hệ"
+  "Relationship": "Quan hệ",
+  "Start time": "Giờ bắt đầu",
+  "End time": "Giờ kết thúc",
+  "Duration": "Thời gian",
+  "Minutes": "Phút"
 }

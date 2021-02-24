@@ -96,23 +96,7 @@ export default function DoctorTable(props) {
                   )}
                 </TableCell>
                 <TableCell>
-                  {/* {row.accountStatus == "none" ? (
-                    ""
-                  ) : row.accountStatus == "active" ? (
-                    <Chip
-                      icon={<ActiveIcon />}
-                      label={t("Active")}
-                      color="primary"
-                      style={{ backgroundColor: green[500] }}
-                    />
-                  ) : (
-                    <Chip
-                      icon={<DisabledIcon />}
-                      label={t("Disabled")}
-                      color="primary"
-                      style={{ backgroundColor: red[500] }}
-                    />
-                  )} */}
+                  {row.account.status.displayName}
                 </TableCell>
                 <TableCell>
                   <Button
