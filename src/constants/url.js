@@ -1,6 +1,6 @@
 const host = process.env.serverUrl;
 
-export const GET_ALL_NURSES_URL = host + "/nurses"
+export const GET_NURSE_URL = host + "/nurses"
 export const CREATE_NEW_NURSE_URL = host + "/nurses"
 
 export const GET_DOCTOR_URL = host + "/doctors"

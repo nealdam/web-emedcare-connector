@@ -3,7 +3,7 @@ import { Add } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import NurseTable from "../../../src/components/NurseTable";
-import { GET_ALL_NURSES_URL } from "../../../src/constants/url";
+import { GET_NURSE_URL } from "../../../src/constants/url";
 import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 function HumanResourcesNursePage() {
   const classes = useStyles();
   const route = useRouter();
-  const { data, error } = useSWR(GET_ALL_NURSES_URL, fetcher);
+  const { data, error } = useSWR(GET_NURSE_URL, fetcher);
 
   const handleClickNurseProfile = (nurseId) => {
     route.push(route.asPath + "/" + nurseId + "/profile");
