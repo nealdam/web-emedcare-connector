@@ -2,7 +2,7 @@ import { useState } from "react";
 import AccountLinkingRequestTable from "../../../src/components/AccountLinkingRequestTable";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
-import { useUserRelatedPatientByUserNamePhoneNumber } from "../../../src/hooks/userHook";
+import { useUserRelatedPatientByUserNamePhoneNumber } from "../../../src/hooks/userHooks";
 
 function AccountLinkingPage() {
 
