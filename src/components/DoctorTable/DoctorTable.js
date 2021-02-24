@@ -32,9 +32,12 @@ const useStyle = makeStyles((theme) => ({
 }));
 
 export default function DoctorTable(props) {
-  const { handleClickDoctorDetail, handleClickCreateDoctorAccount, doctors } = props;
+  const { handleClickDoctorDetail, handleClickCreateDoctorAccount, doctors, isLoading, isError } = props;
   const { t } = useTranslation();
   const classes = useStyle();
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
     <Section title={t("Doctor list")}>

@@ -11,6 +11,7 @@ import { GET_ALL_DOCTORS_URL } from "../../../src/constants/url";
 import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
+import { useDoctor } from "../../../src/hooks/doctorHooks";
 import { useTranslation } from "../../../src/i18n";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +27,8 @@ function HumanResourcesDoctorPage() {
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
-  const { data, error } = useSWR(GET_ALL_DOCTORS_URL, fetcher);
+  
+  const { data, isLoading, isError } = useDoctor();
 
   const [isCreateDoctorDialogOpen, setIsCreateDoctorDialogOpen] = useState(
     false
@@ -49,15 +51,14 @@ function HumanResourcesDoctorPage() {
     enqueueSnackbar(t("Create account successful"), successNotify);
   };
 
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-
   return (
     <div>
       <DoctorTable
         handleClickDoctorDetail={handleClickDoctorDetail}
         handleClickCreateDoctorAccount={handleClickCreateDoctorAccount}
         doctors={data}
+        isLoading={isLoading}
+        isError={isError}
       />
       <CreateDoctorAccountDialog
         open={isCreateDoctorDialogOpen}
