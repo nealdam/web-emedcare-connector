@@ -5,7 +5,7 @@ export const toDate = (text) => {
 }
 
 export const toTime = (text) => {
-    return format(parseISO(text,), "hh:mm")
+    return format(parseISO(text,), "hh:mm a")
 }
 
 export const toDateTime = (text) => {

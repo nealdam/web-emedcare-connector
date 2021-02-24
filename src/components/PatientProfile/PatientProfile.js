@@ -9,15 +9,6 @@ import { useTranslation } from "../../i18n";
 import MedicalHistoryTable from "../MedicalHistoryTable";
 import Section from "../Section";
 
-const patientProfile = {
-  id: 1,
-  hisCode: "001",
-  name: "Trần Văn A",
-  sex: "Nam",
-  phoneNumber: "0906585245",
-  address: "101 Độc Lập, P.Tân Thành, Q.Tân Phú, Tp.HCM",
-};
-
 const useStyle = makeStyles((theme) => ({
   img: {
     width: "100%",
@@ -31,9 +22,13 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-export default function PatientProfile() {
+export default function PatientProfile(props) {
   const { t } = useTranslation();
   const classes = useStyle();
+  const { patient, isLoading, isError } = props;
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
     <Grid container spacing={2}>
@@ -53,7 +48,7 @@ export default function PatientProfile() {
                 variant="outlined"
                 fullWidth
                 label={t("Patient code")}
-                value={patientProfile.hisCode}
+                value={patient.hisCode}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -63,7 +58,7 @@ export default function PatientProfile() {
                 variant="outlined"
                 fullWidth
                 label={t("Name")}
-                value={patientProfile.name}
+                value={patient.name}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -73,7 +68,7 @@ export default function PatientProfile() {
                 variant="outlined"
                 fullWidth
                 label={t("Sex")}
-                value={patientProfile.sex}
+                value={patient.sex ? t("Male") : t("Female")}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -83,7 +78,7 @@ export default function PatientProfile() {
                 variant="outlined"
                 fullWidth
                 label={t("Phone number")}
-                value={patientProfile.phoneNumber}
+                value={patient.phoneNumber}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -93,7 +88,7 @@ export default function PatientProfile() {
                 variant="outlined"
                 fullWidth
                 label={t("Address")}
-                value={patientProfile.address}
+                value={patient.address}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -103,7 +98,7 @@ export default function PatientProfile() {
         </Section>
       </Grid>
       <Grid item xs={12}>
-        <MedicalHistoryTable />
+        {/* <MedicalHistoryTable /> */}
       </Grid>
     </Grid>
   );

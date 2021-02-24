@@ -19,6 +19,8 @@ import PropTypes from "prop-types";
 import Section from "../Section";
 import { Search } from "@material-ui/icons";
 import { format, parseISO } from "date-fns";
+import FemaleIcon from "../../constants/icons/FemaleIcon";
+import MaleIcon from "../../constants/icons/MaleIcon";
 
 // const patients = [
 //   {
@@ -141,10 +143,10 @@ export default function PatientTable(props) {
             <TableRow>
               <TableCell>{t("Pt.No")}</TableCell>
               <TableCell>{t("Name")}</TableCell>
-              <TableCell>{t("Birth date")}</TableCell>
-              <TableCell>{t("Phone number")}</TableCell>
-              <TableCell size="small"></TableCell>
-              <TableCell size="small"></TableCell>
+              <TableCell align="center">{t("Birth date")}</TableCell>
+              <TableCell align="center">{t("Sex")}</TableCell>
+              <TableCell size="small" align="center">{t("Info")}</TableCell>
+              <TableCell size="small" align="center">{t("Appointment")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -152,9 +154,13 @@ export default function PatientTable(props) {
               <TableRow key={row.id}>
                 <TableCell>{row.hisCode}</TableCell>
                 <TableCell>{row.name}</TableCell>
-                <TableCell>{format(parseISO(row.birthDate, ), "dd/MM/yyy")}</TableCell>
-                <TableCell>{row.phoneNumber}</TableCell>
-                <TableCell>
+                <TableCell align="center">
+                  {format(parseISO(row.birthDate), "dd/MM/yyy")}
+                </TableCell>
+                <TableCell align="center">
+                  {row.sex ? <MaleIcon /> : <FemaleIcon />}
+                </TableCell>
+                <TableCell align="center">
                   <IconButton
                     color="primary"
                     aria-label="Patient info"
@@ -164,7 +170,7 @@ export default function PatientTable(props) {
                     <InfoIcon />
                   </IconButton>
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                   <IconButton
                     color="primary"
                     aria-label="Patient appointment"
