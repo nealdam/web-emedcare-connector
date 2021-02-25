@@ -3,10 +3,11 @@ import { Add } from "@material-ui/icons";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import RoomTable from "../../../src/components/RoomTable";
-import { GET_ALL_ROOMS_URL } from "../../../src/constants/url";
+import { GET_ROOM_URL } from "../../../src/constants/url";
 import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
+import { useRoomInformation } from "../../../src/hooks/roomHooks";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RoomManagerRoomPage() {
   const classes = useStyles();
-  const { data, error } = useSWR(GET_ALL_ROOMS_URL, fetcher);
+  const { data, isLoading, isError } = useRoomInformation();
 
   const router = useRouter();
 
@@ -30,12 +31,9 @@ function RoomManagerRoomPage() {
     router.push(router.pathname + "/add");
   }
 
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-
   return (
     <div>
-      <RoomTable handleClickRoomInfo={handleClickRoomInfo} rooms={data} />
+      <RoomTable handleClickRoomInfo={handleClickRoomInfo} rooms={data} isLoading={isLoading} isError={isError} />
       <Fab className={classes.fab} color="primary" aria-label="Add new nurse" onClick={handleClickAddNewRoom}>
         <Add />
       </Fab>

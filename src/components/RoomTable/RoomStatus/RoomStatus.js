@@ -7,7 +7,7 @@ export default function RoomStatus(props) {
   const { status } = props;
   const { t } = useTranslation();
 
-  return status ? (
+  return status.name == "Available" ? (
     <Chip
       color="primary"
       style={{ backgroundColor: green[500] }}

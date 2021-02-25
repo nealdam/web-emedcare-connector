@@ -24,79 +24,6 @@ import RoomStatus from "./RoomStatus";
 import { Info, Search } from "@material-ui/icons";
 import { useState } from "react";
 
-// const rooms = [
-//   {
-//     id: 1,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Open",
-//   },
-//   {
-//     id: 2,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Open",
-//   },
-//   {
-//     id: 3,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Open",
-//   },
-//   {
-//     id: 4,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Open",
-//   },
-//   {
-//     id: 5,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Open",
-//   },
-//   {
-//     id: 6,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Open",
-//   },
-//   {
-//     id: 7,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Close",
-//   },
-//   {
-//     id: 8,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Open",
-//   },
-//   {
-//     id: 9,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Open",
-//   },
-//   {
-//     id: 10,
-//     number: "001",
-//     name: "Nhi 1",
-//     specialist: ["Tai, mũi, họng", "Nhi", "Chấn thương chỉnh hình"],
-//     status: "Open",
-//   },
-// ];
-
 const useStyles = makeStyles((theme) => ({
   chip: {
     marginRight: theme.spacing(1),
@@ -109,9 +36,12 @@ const useStyles = makeStyles((theme) => ({
 export default function RoomTable(props) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { handleClickRoomInfo, rooms } = props;
+  const { handleClickRoomInfo, rooms, isLoading, isError } = props;
 
   const [selectedRoomStatus, setSelectedRoomStatus] = useState(0);
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
     <Section title={t("Room list")}>
@@ -175,7 +105,7 @@ export default function RoomTable(props) {
                       ))}
                     </TableCell>
                     <TableCell>
-                      <RoomStatus status={room.isAvailable} />
+                      <RoomStatus status={room.status} />
                     </TableCell>
                     <TableCell>
                       <Button
@@ -200,5 +130,7 @@ export default function RoomTable(props) {
 
 RoomTable.propTypes = {
   rooms: PropTypes.array,
+  isLoading: PropTypes.bool,
+  isError: PropTypes.object,
   handleClickRoomInfo: PropTypes.func,
 };
