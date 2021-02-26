@@ -123,4 +123,5 @@ AccountLinkingRequestTable.propTypes = {
   profiles: PropTypes.arrayOf(PropTypes.object),
   isLoading: PropTypes.bool,
   isError: PropTypes.bool,
+  handleSearch: PropTypes.func,
 };

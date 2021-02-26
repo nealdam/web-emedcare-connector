@@ -19,6 +19,7 @@ import PropTypes from "prop-types";
 import { useState } from "react";
 import { useTranslation } from "../../i18n";
 import { toDateTime } from "../../utils/datetimeUtil";
+import ColorChip from "../ColorChip/ColorChip";
 import SearchBox from "../SearchBox";
 import Section from "../Section/Section";
 
@@ -79,8 +80,8 @@ export default function ConfirmAppointmentTable(props) {
                     <TableCell>{toDateTime(appointment.block.startedAt)}</TableCell>
                     <TableCell align="center">
                       {appointment.isConfirmed 
-                      ? <Chip label={t("Confirmed")} color="primary" style={{backgroundColor: colors.green[500]}} /> 
-                      : <Chip label={t("Pending confirmation")} color="primary" style={{backgroundColor: colors.yellow[500], color: "black"}} />}
+                      ? <ColorChip label={t("Confirmed")} variant="success" /> 
+                      : <ColorChip label={t("Pending confirmation")} variant="warning" />}
                     </TableCell>
                     <TableCell>
                       <Button

@@ -17,6 +17,7 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import { toDate } from "../../../utils/datetimeUtil";
 import { parse, parseISO } from "date-fns";
 import { useState } from "react";
+import ColorChip from "../../ColorChip/ColorChip";
 
 export default function PatientAccountRelatedPatientTableRow(props) {
   const { profile, colSpan } = props;
@@ -34,8 +35,8 @@ export default function PatientAccountRelatedPatientTableRow(props) {
         </TableCell>
         <TableCell>{profile.name}</TableCell>
         {/* <TableCell>{toDate(parseISO(profile.birthDate))}</TableCell> */}
-        <TableCell>{profile.phoneNumber}</TableCell>
         <TableCell>{profile.email}</TableCell>
+        <TableCell>{profile.phoneNumber}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell
@@ -64,13 +65,9 @@ export default function PatientAccountRelatedPatientTableRow(props) {
                       <TableCell>{patient.calledBy}</TableCell>
                       <TableCell>
                         {patient.isConnected ? (
-                          <Chip label={t("Linked")} />
+                          <ColorChip label={t("Linked")} />
                         ) : (
-                          <Chip
-                            label={t("Not linked")}
-                            color="primary"
-                            style={{ backgroundColor: colors.red[500] }}
-                          />
+                          <ColorChip label={t("Not linked")} variant='error' />
                         )}
                       </TableCell>
                       <TableCell>
