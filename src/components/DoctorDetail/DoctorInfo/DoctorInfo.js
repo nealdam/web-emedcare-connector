@@ -24,59 +24,59 @@ export default function DoctorInfo(props) {
   const { doctor } = props;
 
   return (
-      <Section title={t("Doctor info")}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={3} md={2}>
-            <img
-              src="https://via.placeholder.com/150x200"
-              alt="profile picture"
-              className={classes.img}
-            />
-          </Grid>
-          <Grid item xs={12} sm={9} md={10}>
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              fullWidth
-              label={t("Doctor code")}
-              value={doctor.hisCode}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              fullWidth
-              label={t("Name")}
-              value={doctor.name}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              fullWidth
-              label={t("Sex")}
-              value={doctor.sex ? t("Male") : t("Female")}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              fullWidth
-              label={t("Birth date")}
-              value={toDate(doctor.birthDate)}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </Grid>
+    <Section title={t("Doctor info")}>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={3} md={2}>
+          <img
+            src="https://via.placeholder.com/150x200"
+            alt="profile picture"
+            className={classes.img}
+          />
         </Grid>
-      </Section>
+        <Grid item xs={12} sm={9} md={10}>
+          <TextField
+            className={classes.textField}
+            variant="outlined"
+            fullWidth
+            label={t("Doctor code")}
+            value={doctor.hisCode}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            className={classes.textField}
+            variant="outlined"
+            fullWidth
+            label={t("Name")}
+            value={doctor.name}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            className={classes.textField}
+            variant="outlined"
+            fullWidth
+            label={t("Sex")}
+            value={doctor.sex ? t("Female") : t("Male")}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+          <TextField
+            className={classes.textField}
+            variant="outlined"
+            fullWidth
+            label={t("Birth date")}
+            value={toDate(doctor.birthDate)}
+            InputProps={{
+              readOnly: true,
+            }}
+          />
+        </Grid>
+      </Grid>
+    </Section>
   );
 }
 

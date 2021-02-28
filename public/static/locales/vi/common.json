@@ -112,5 +112,9 @@
   "Start time": "Giờ bắt đầu",
   "End time": "Giờ kết thúc",
   "Duration": "Thời gian",
-  "Minutes": "Phút"
+  "Minutes": "Phút",
+  "Booker info": "Thông tin người đặt lịch",
+  "Appointment result": "Kết quả khám",
+  "Block info": "Thông tin phiên khám",
+  "Appointment info": "Thông tin lịch hẹn"
 }

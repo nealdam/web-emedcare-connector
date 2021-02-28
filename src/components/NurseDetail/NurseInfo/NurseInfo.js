@@ -54,7 +54,7 @@ export default function NurseInfo(props) {
             variant="outlined"
             fullWidth
             label={t("Sex")}
-            value={nurse.sex ? t("Male") : t("Female")}
+            value={nurse.sex ? t("Female") : t("Male")}
             InputProps={{
               readOnly: true,
             }}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import useSWR from "swr";
 import { GET_APPOINTMENT_URL } from "../constants/url"
 import fetcher from "../fetcher";
@@ -11,5 +12,19 @@ export const useGetUnConfirmedAppointment = () => {
         data: data,
         isLoading: !error && !data,
         isError: error,
+    }
+}
+
+export const useSingleAppointmentDetail = () => {
+    const [appointmentId, setAppointmentId] = useState();
+
+    const url = GET_APPOINTMENT_URL + "/" + appointmentId + "/detail"
+    const { data, error } = useSWR(appointmentId ? url : null, fetcher);
+
+    return {
+        data: data,
+        isLoading: !error && !data,
+        isError: error,
+        setAppointmentId: setAppointmentId
     }
 }

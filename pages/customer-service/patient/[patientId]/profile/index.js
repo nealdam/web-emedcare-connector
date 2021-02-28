@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import PatientProfile from "../../../../../src/components/PatientProfile";
+import PatientInfo from "../../../../../src/components/PatientInfo";
 import { defaultPage } from "../../../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../../../src/hocs/protectRoute";
 import { usePatientDetail } from "../../../../../src/hooks/patientHooks";
@@ -12,7 +12,7 @@ function CustomerServicePatientProfilePage() {
 
   return (
     <div>
-      <PatientProfile patient={data} isLoading={isLoading} isError={isError} />
+      <PatientInfo patient={data} isLoading={isLoading} isError={isError} />
     </div>
   );
 }

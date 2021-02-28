@@ -25,9 +25,7 @@ import Section from "../Section/Section";
 
 export default function ConfirmAppointmentTable(props) {
   const { t } = useTranslation();
-  const { appointments, facilities } = props;
-
-  const [selectedFacility, setSelectedFacility] = useState(0);
+  const { appointments, handleClickAppointmentDetail } = props;
 
   return (
     <Section title={t("Appointment confirmation")}>
@@ -40,25 +38,6 @@ export default function ConfirmAppointmentTable(props) {
           />
         </Grid>
         <Grid item xs={12} md={2}>
-          {/* <FormControl variant="outlined" fullWidth>
-            <InputLabel>{t("Facility")}</InputLabel>
-            <Select
-              value={selectedFacility}
-              onChange={(event) => {
-                setSelectedFacility(event.target.value);
-              }}
-              label={t("Facility")}
-            >
-              <MenuItem value={0}>
-                <em>{t("All")}</em>
-              </MenuItem>
-              {facilities.map((facility) => (
-                <MenuItem key={facility.id} value={facility.id}>
-                  {facility.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl> */}
         </Grid>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
@@ -87,6 +66,7 @@ export default function ConfirmAppointmentTable(props) {
                       <Button
                         color="primary"
                         variant="outlined"
+                        onClick={(e) => {e.preventDefault(); handleClickAppointmentDetail(appointment.id)}}
                       >
                         {t("Info")}
                       </Button>
@@ -104,51 +84,7 @@ export default function ConfirmAppointmentTable(props) {
 
 ConfirmAppointmentTable.propTypes = {
   appointments: PropTypes.arrayOf(PropTypes.object),
+  handleClickAppointmentDetail: PropTypes.func,
 };
 
-ConfirmAppointmentTable.defaultProps = {
-  facilities: [
-    {
-      id: 1,
-      name: "CS1",
-    },
-    { id: 2, name: "CS2" },
-  ],
-  appointments: [
-    {
-      id: 1,
-      hisCode: "001",
-      patientName: "Nguyen Van A",
-      appointmentTime: "08:00 AM - 09:00 AM 21/12/2020",
-      isConfirmed: false,
-    },
-    {
-      id: 2,
-      hisCode: "001",
-      patientName: "Nguyen Van A",
-      appointmentTime: "08:00 AM - 09:00 AM 21/12/2020",
-      isConfirmed: false,
-    },
-    {
-      id: 3,
-      hisCode: "001",
-      patientName: "Nguyen Van A",
-      appointmentTime: "08:00 AM - 09:00 AM 21/12/2020",
-      isConfirmed: false,
-    },
-    {
-      id: 4,
-      hisCode: "001",
-      patientName: "Nguyen Van A",
-      appointmentTime: "08:00 AM - 09:00 AM 21/12/2020",
-      isConfirmed: true,
-    },
-    {
-      id: 5,
-      hisCode: "001",
-      patientName: "Nguyen Van A",
-      appointmentTime: "08:00 AM - 09:00 AM 21/12/2020",
-      isConfirmed: true,
-    },
-  ],
-};
+

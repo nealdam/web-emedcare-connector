@@ -158,7 +158,7 @@ export default function PatientTable(props) {
                   {format(parseISO(row.birthDate), "dd/MM/yyy")}
                 </TableCell>
                 <TableCell align="center">
-                  {row.sex ? <MaleIcon /> : <FemaleIcon />}
+                  {row.sex ? <FemaleIcon /> : <MaleIcon />}
                 </TableCell>
                 <TableCell align="center">
                   <IconButton
