@@ -7,6 +7,7 @@ import { GET_ALL_DOCTORS_APPOINTMENTS } from "../../../src/constants/url";
 import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
+import { useDoctorAppointment } from "../../../src/hooks/doctorHooks";
 import { useTranslation } from "../../../src/i18n";
 
 const useStyle = makeStyles((theme) => ({
@@ -21,21 +22,17 @@ function CustomerServiceSchedulePage() {
   const { t } = useTranslation();
   const classes = useStyle();
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const { data, isLoading, isError, paging, setPageIndex, setPageSize, setSelectedDate} = useDoctorAppointment();
 
-  var url = GET_ALL_DOCTORS_APPOINTMENTS + "?date=" + selectedDate.toISOString();
 
-  const { data, error } = useSWR(url, fetcher);
 
   const handleClickScrollToTop = () => {
     window.scrollTo(0, 0);
   };
 
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-
   return (
     <div>
+      <Schedule isLoading={isLoading} isError={isError} doctors={data} paging={paging} setSelectedDate={setSelectedDate} setPageIndex={setPageIndex} setPageSize={setPageSize} />
       <Fab
         color="primary"
         aria-label="Back to top"
@@ -44,7 +41,6 @@ function CustomerServiceSchedulePage() {
       >
         <BackToTopIcon />
       </Fab>
-      <Schedule doctors={data} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
     </div>
   );
 }

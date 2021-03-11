@@ -16,8 +16,6 @@ import {
 } from "@material-ui/core";
 import {
   DatePicker,
-  KeyboardDatePicker,
-  KeyboardTimePicker,
   MuiPickersUtilsProvider,
 } from "@material-ui/pickers";
 import { useState } from "react";
@@ -32,7 +30,6 @@ import {
 import PropTypes from "prop-types";
 import Section from "../Section";
 import { Search } from "@material-ui/icons";
-import { convertInto2DDataDisplay } from "../../utils/appointmentsUtil";
 import { parse, parseJSON } from "date-fns";
 
 // FIXME: time number
@@ -63,26 +60,6 @@ const time = [
   { time: "11 PM" },
 ];
 
-const doctorRow = [
-  { doctorCode: 1, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 2, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 3, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 4, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 5, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 6, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 7, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-];
-
-const appointmentRow = [
-  { appointmentId: 1, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 2, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 3, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 4, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 5, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 6, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 7, patientName: "Tran Thi A", patientCode: "BN001" },
-];
-
 const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: TABLE_MIN_WIDTH,
@@ -108,7 +85,14 @@ function Schedule(props) {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  const { doctors, selectedDate, setSelectedDate } = props;
+  const [selectedDate, setSelectedDate] = useState(Date.now);
+
+  const { isLoading, isError, doctors, paging, setSelectedDate: setDate, setPageIndex, setPageSize } = props;
+
+  console.log("isLoading: " + isLoading);
+  console.log("isError: " + isError);
+  console.log("doctor: " + doctors);
+  console.log("paging: " + paging);
 
   // const [selectedDate, setSelectedDate] = useState(
   //   new Date("2014-08-18T21:11:54")
@@ -116,7 +100,11 @@ function Schedule(props) {
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
+    setDate(date);
   };
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
     <Section title={t("Appointment list")}>
@@ -235,9 +223,12 @@ function Schedule(props) {
 }
 
 Schedule.propTypes = {
+  isLoading: PropTypes.bool,
+  isError: PropTypes.object,
   doctors: PropTypes.array,
-  selectedDate: PropTypes.object,
   setSelectedDate: PropTypes.func,
+  setPageIndex: PropTypes.func,
+  setPageSize: PropTypes.func,
 };
 
 export default Schedule;

@@ -15,7 +15,7 @@ export default function Section(props) {
 
   return (
     <Paper className={classes.paper}>
-      <SectionTitle title={title} />
+      {title && <SectionTitle title={title} />}
       {props.children}
     </Paper>
   );
