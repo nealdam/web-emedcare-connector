@@ -28,7 +28,7 @@ import {
 import NurseIcon from "../../constants/icons/NurseIcon";
 import RoomIcon from "../../constants/icons/RoomIcon";
 import LinkIcon from "@material-ui/icons/Link";
-import { useGetUnConfirmedAppointment } from "../../hooks/appointmentHooks";
+import { useGetUnConfirmedAppointmentCount } from "../../hooks/appointmentHooks";
 // import Link from "./Link";
 
 const useStyles = makeStyles((theme) => ({
@@ -64,10 +64,10 @@ function MyDrawer(props) {
   const { t } = useTranslation();
 
   const {
-    data: numberOfUnConfirmedAppointment,
+    data,
     isLoading,
     isError,
-  } = useGetUnConfirmedAppointment();
+  } = useGetUnConfirmedAppointmentCount();
 
   const drawer = (
     <div>
@@ -119,10 +119,10 @@ function MyDrawer(props) {
             )}
           >
             <ListItemIcon>
-              {numberOfUnConfirmedAppointment ? (
+              {data ? (
                 <Badge
                   color="error"
-                  badgeContent={numberOfUnConfirmedAppointment}
+                  badgeContent={data.data}
                   max={999}
                 >
                   <EventAvailable />

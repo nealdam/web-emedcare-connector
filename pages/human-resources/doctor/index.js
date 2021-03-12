@@ -8,10 +8,9 @@ import CreateDoctorAccountDialog from "../../../src/components/CreateDoctorAccou
 import DoctorTable from "../../../src/components/DoctorTable/DoctorTable";
 import { successNotify } from "../../../src/constants/notistackVariants";
 import { GET_ALL_DOCTORS_URL } from "../../../src/constants/url";
-import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
-import { useDoctor } from "../../../src/hooks/doctorHooks";
+import { useDoctorInformation } from "../../../src/hooks/doctorHooks";
 import { useTranslation } from "../../../src/i18n";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,11 +27,11 @@ function HumanResourcesDoctorPage() {
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
   
-  const { data, isLoading, isError } = useDoctor();
+  const { data, isLoading, isError, setOffset, setLimit } = useDoctorInformation();
 
-  const [isCreateDoctorDialogOpen, setIsCreateDoctorDialogOpen] = useState(
-    false
-  );
+  // const [isCreateDoctorDialogOpen, setIsCreateDoctorDialogOpen] = useState(
+  //   false
+  // );
 
   const handleClickDoctorDetail = (doctorId) => {
     router.push(router.asPath + "/" + doctorId + "/profile");
@@ -42,25 +41,28 @@ function HumanResourcesDoctorPage() {
     setIsCreateDoctorDialogOpen(true);
   };
 
-  const handleClickAddNewDoctor = () => {
-    router.push(router.pathname + "/add");
-  };
+  // const handleClickAddNewDoctor = () => {
+  //   router.push(router.pathname + "/add");
+  // };
 
-  const handleCreateDoctorAccount = () => {
-    setIsCreateDoctorDialogOpen(false);
-    enqueueSnackbar(t("Create account successful"), successNotify);
-  };
+  // const handleCreateDoctorAccount = () => {
+  //   setIsCreateDoctorDialogOpen(false);
+  //   enqueueSnackbar(t("Create account successful"), successNotify);
+  // };
 
   return (
     <div>
       <DoctorTable
         handleClickDoctorDetail={handleClickDoctorDetail}
         handleClickCreateDoctorAccount={handleClickCreateDoctorAccount}
-        doctors={data}
+        doctors={data && data.data}
+        paging={data && data.paging}
         isLoading={isLoading}
         isError={isError}
+        setOffset={setOffset}
+        setLimit={setLimit}
       />
-      <CreateDoctorAccountDialog
+      {/* <CreateDoctorAccountDialog
         open={isCreateDoctorDialogOpen}
         setOpen={setIsCreateDoctorDialogOpen}
         handleCreateAccount={handleCreateDoctorAccount}
@@ -72,7 +74,7 @@ function HumanResourcesDoctorPage() {
         onClick={handleClickAddNewDoctor}
       >
         <Add />
-      </Fab>
+      </Fab> */}
     </div>
   );
 }

@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import RoomTable from "../../../src/components/RoomTable";
 import { GET_ROOM_URL } from "../../../src/constants/url";
-import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
 import { useRoomInformation } from "../../../src/hooks/roomHooks";

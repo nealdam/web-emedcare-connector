@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import NurseTable from "../../../src/components/NurseTable";
 import { GET_NURSE_URL } from "../../../src/constants/url";
-import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
+import { useNurse } from "../../../src/hooks/nurseHooks";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
 function HumanResourcesNursePage() {
   const classes = useStyles();
   const route = useRouter();
-  const { data, error } = useSWR(GET_NURSE_URL, fetcher);
+
+  const { data, isLoading, isError, setPageIndex, setPageLimit } = useNurse();
 
   const handleClickNurseProfile = (nurseId) => {
     route.push(route.asPath + "/" + nurseId + "/profile");
@@ -29,14 +30,15 @@ function HumanResourcesNursePage() {
     route.push(route.asPath + "/add");
   }
 
-  if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
-
   return (
     <div>
       <NurseTable
         handleClickNurseProfile={handleClickNurseProfile}
-        nurses={data}
+        nurses={data && data.data}
+        isLoading={isLoading}
+        isError={isError}
+        setPageIndex={setPageIndex}
+        setPageLimit={setPageLimit}
       />
       <Fab className={classes.fab} color="primary" aria-label="Add new nurse" onClick={handleClickAddNewNurse}>
         <Add />

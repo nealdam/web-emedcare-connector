@@ -6,7 +6,6 @@ import { useState } from "react";
 import useSWR from "swr";
 import ShiftTable from "../../../src/components/ShiftTable";
 import { GET_ALL_DOCTORS_URL, GET_DOCTOR_URL, GET_SHIFT_INFO_URL } from "../../../src/constants/url";
-import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
 
@@ -23,10 +22,6 @@ function SchedulerShiftPage() {
   const router = useRouter();
 
   const [selectedDate, setSelectedDate] = useState(new Date());
-
-  let doctorUrl = GET_DOCTOR_URL;
-  
-  const { data: doctors, error } = useSWR(doctorUrl, fetcher);
 
   const handleClickAddNewShift = () => {
     router.push(router.pathname + "/add")

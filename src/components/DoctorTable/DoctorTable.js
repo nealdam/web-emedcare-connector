@@ -9,14 +9,12 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
 } from "@material-ui/core";
-import { green, red } from "@material-ui/core/colors";
 import { Search } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import DisabledIcon from "@material-ui/icons/Close";
-import ActiveIcon from "@material-ui/icons/Done";
 import InfoIcon from "@material-ui/icons/Info";
 import { format, parseISO } from "date-fns";
 import PropTypes from "prop-types";
@@ -24,20 +22,45 @@ import FemaleIcon from "../../constants/icons/FemaleIcon";
 import MaleIcon from "../../constants/icons/MaleIcon";
 import { useTranslation } from "../../i18n";
 import Section from "../Section";
+import { NO_DATA } from "../../constants/strings";
+import { DEFAULT_PAGE_SIZE } from "../../constants/pagingConstant";
+import { useState } from "react";
 
 const useStyle = makeStyles((theme) => ({
   searchBox: {
     marginBottom: theme.spacing(2),
-  }
+  },
 }));
 
 export default function DoctorTable(props) {
-  const { handleClickDoctorDetail, handleClickCreateDoctorAccount, doctors, isLoading, isError } = props;
+  const {
+    handleClickDoctorDetail,
+    handleClickCreateDoctorAccount,
+    doctors,
+    paging,
+    isLoading,
+    isError,
+    setOffset,
+    setLimit
+  } = props;
   const { t } = useTranslation();
   const classes = useStyle();
 
-  if (isLoading) return <div>Loading</div>
-  if (isError) return <div>Error</div>
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
+  const [pageOffset, setPageOffset] = useState(0);
+
+  const handleChangePage = (event, offset) => {
+    setPageOffset(offset);
+    setOffset(offset);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value);
+    setLimit(event.target.value);
+  };
+
+  if (isLoading) return <div>Loading</div>;
+  if (isError) return <div>Error</div>;
 
   return (
     <Section title={t("Doctor list")}>
@@ -72,15 +95,17 @@ export default function DoctorTable(props) {
           </TableHead>
           <TableBody>
             {doctors.map((row) => (
-              <TableRow 
-                key={row.id}
-              >
+              <TableRow key={row.id}>
                 <TableCell>{row.hisCode}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell align="center">
                   {row.gender == 0 ? <FemaleIcon /> : <MaleIcon />}
                 </TableCell>
-                <TableCell>{format(parseISO(row.birthDate, ), "dd/MM/yyy")}</TableCell>
+                <TableCell>
+                  {row.birthDate
+                    ? format(parseISO(row.birthDate), "dd/MM/yyy")
+                    : t(NO_DATA)}
+                </TableCell>
                 <TableCell>
                   {row.account ? (
                     row.account.email
@@ -96,7 +121,7 @@ export default function DoctorTable(props) {
                   )}
                 </TableCell>
                 <TableCell>
-                  {row.account.status.displayName}
+                  {row.account && row.account.status.displayName}
                 </TableCell>
                 <TableCell>
                   <Button
@@ -113,6 +138,15 @@ export default function DoctorTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        component="div"
+        count={paging.totalCount}
+        rowsPerPage={rowsPerPage}
+        page={pageOffset}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </Section>
   );
 }

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useSWR from "swr";
 import { GET_SHIFT_URL } from "../constants/url";
-import fetcher from "../fetcher";
 
 export const useSingleShiftDetail = () => {
     const [shiftId, setShiftId] = useState();

@@ -1,6 +1,5 @@
 import useSWR from "swr";
 import { GET_PATIENT_URL } from "../constants/url";
-import fetcher from "../fetcher";
 
 // export const usePatient = () => {
 //   const url = GET_PATIENT_URL + 

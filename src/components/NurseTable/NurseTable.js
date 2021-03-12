@@ -28,8 +28,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NurseTable(props) {
   const { t } = useTranslation();
-  const { handleClickNurseProfile, nurses } = props;
+  const { handleClickNurseProfile, nurses, isLoading, isError, setPageIndex, setPageLimit } = props;
   const classes = useStyles();
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
     <Section title={t("Nurse list")}>

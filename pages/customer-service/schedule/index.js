@@ -4,7 +4,6 @@ import { useState } from "react";
 import useSWR from "swr";
 import Schedule from "../../../src/components/Schedule";
 import { GET_ALL_DOCTORS_APPOINTMENTS } from "../../../src/constants/url";
-import fetcher from "../../../src/fetcher";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
 import { useDoctorAppointment } from "../../../src/hooks/doctorHooks";
@@ -23,8 +22,6 @@ function CustomerServiceSchedulePage() {
   const classes = useStyle();
 
   const { data, isLoading, isError, paging, setPageIndex, setPageSize, setSelectedDate} = useDoctorAppointment();
-
-
 
   const handleClickScrollToTop = () => {
     window.scrollTo(0, 0);

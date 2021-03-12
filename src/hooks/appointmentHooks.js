@@ -1,12 +1,12 @@
 import { useState } from "react";
 import useSWR from "swr";
 import { GET_APPOINTMENT_URL } from "../constants/url"
-import fetcher from "../fetcher";
+import customFetcher from './customFetcher'
 
-export const useGetUnConfirmedAppointment = () => {
+export const useGetUnConfirmedAppointmentCount = () => {
     const url = GET_APPOINTMENT_URL + "/count?is_confirmed=false" ;
 
-    const { data, error } = useSWR(url, fetcher);
+    const { data, error } = useSWR(url, customFetcher);
 
     return {
         data: data,

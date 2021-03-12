@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useSWR from "swr";
 import { GET_ROOM_INFORMATION_URL, GET_ROOM_URL } from "../constants/url";
-import fetcher from "../fetcher";
 
 export const useRoomInformation = () => {
     const url = GET_ROOM_INFORMATION_URL;

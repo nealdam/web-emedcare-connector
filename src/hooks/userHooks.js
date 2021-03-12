@@ -1,7 +1,6 @@
 import { useState } from "react";
 import useSWR from "swr"
 import { GET_USER_RELATED_PATIENT_URL } from "../constants/url"
-import fetcher from "../fetcher";
 
 export const useUserRelatedPatientByUserNamePhoneNumber = () => {
     const [userNamePhoneNumber, setUserNamePhoneNumber] = useState("");
