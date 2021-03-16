@@ -1,4 +1,4 @@
-import { InputAdornment, TextField } from "@material-ui/core";
+import { IconButton, InputAdornment, TextField } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import PropTypes from "prop-types";
 import { useState } from "react";
@@ -22,11 +22,15 @@ export default function SearchBox(props) {
         fullWidth
         label={t("Search")}
         InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Search />
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton
+                onClick={handleClickSearch}
+              >
+                <Search />
+              </IconButton>
             </InputAdornment>
-          ),
+          )
         }}
         helperText={helpText}
         value={searchText}

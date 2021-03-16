@@ -21,6 +21,7 @@ import { Search } from "@material-ui/icons";
 import { format, parseISO } from "date-fns";
 import FemaleIcon from "../../constants/icons/FemaleIcon";
 import MaleIcon from "../../constants/icons/MaleIcon";
+import SexIcon from "../SexIcon/SexIcon";
 
 // const patients = [
 //   {
@@ -158,7 +159,8 @@ export default function PatientTable(props) {
                   {format(parseISO(row.birthDate), "dd/MM/yyy")}
                 </TableCell>
                 <TableCell align="center">
-                  {row.sex ? <FemaleIcon /> : <MaleIcon />}
+                  {/* {row.sex ? <FemaleIcon /> : <MaleIcon />} */}
+                  <SexIcon sex={row.sex} />
                 </TableCell>
                 <TableCell align="center">
                   <IconButton

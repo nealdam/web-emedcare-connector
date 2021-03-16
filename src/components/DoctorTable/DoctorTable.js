@@ -1,6 +1,7 @@
 import {
   Button,
   Chip,
+  IconButton,
   InputAdornment,
   makeStyles,
   Paper,
@@ -25,6 +26,8 @@ import Section from "../Section";
 import { NO_DATA } from "../../constants/strings";
 import { DEFAULT_PAGE_SIZE } from "../../constants/pagingConstant";
 import { useState } from "react";
+import SexIcon from "../SexIcon/SexIcon";
+import SearchBox from "../SearchBox/SearchBox";
 
 const useStyle = makeStyles((theme) => ({
   searchBox: {
@@ -41,7 +44,7 @@ export default function DoctorTable(props) {
     isLoading,
     isError,
     setOffset,
-    setLimit
+    setLimit,
   } = props;
   const { t } = useTranslation();
   const classes = useStyle();
@@ -59,26 +62,18 @@ export default function DoctorTable(props) {
     setLimit(event.target.value);
   };
 
+  const handleClickSearch = (searchText) => {};
+
   if (isLoading) return <div>Loading</div>;
   if (isError) return <div>Error</div>;
 
   return (
     <Section title={t("Doctor list")}>
-      <TextField
-        className={classes.searchBox}
-        variant="outlined"
-        fullWidth
-        label={t("Search")}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Search />
-            </InputAdornment>
-          ),
-        }}
-        helperText={`${t("Search")}: ${t("Doctor name")}, ${t(
+      <SearchBox
+        helpText={`${t("Search")}: ${t("Doctor name")}, ${t(
           "Doctor code"
         )}, ${t("Account")}`}
+        handleSearch={handleClickSearch}
       />
       <TableContainer component={Paper}>
         <Table>
@@ -90,7 +85,7 @@ export default function DoctorTable(props) {
               <TableCell>{t("Birth date")}</TableCell>
               <TableCell>{t("Account")}</TableCell>
               <TableCell>{t("Account status")}</TableCell>
-              <TableCell></TableCell>
+              <TableCell align="center">{t("Info")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -99,7 +94,8 @@ export default function DoctorTable(props) {
                 <TableCell>{row.hisCode}</TableCell>
                 <TableCell>{row.name}</TableCell>
                 <TableCell align="center">
-                  {row.gender == 0 ? <FemaleIcon /> : <MaleIcon />}
+                  {/* {row.gender == 0 ? <FemaleIcon /> : <MaleIcon />} */}
+                  <SexIcon sex={row.gender} />
                 </TableCell>
                 <TableCell>
                   {row.birthDate
@@ -123,15 +119,10 @@ export default function DoctorTable(props) {
                 <TableCell>
                   {row.account && row.account.status.displayName}
                 </TableCell>
-                <TableCell>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<InfoIcon />}
-                    onClick={() => handleClickDoctorDetail(row.id)}
-                  >
-                    {t("Info")}
-                  </Button>
+                <TableCell align="center">
+                  <IconButton color="primary" aria-label={t("Info")}>
+                    <InfoIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}

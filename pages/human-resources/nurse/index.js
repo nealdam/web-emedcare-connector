@@ -20,29 +20,30 @@ function HumanResourcesNursePage() {
   const classes = useStyles();
   const route = useRouter();
 
-  const { data, isLoading, isError, setPageIndex, setPageLimit } = useNurse();
+  const { data, isLoading, isError, setOffset, setLimit } = useNurse();
 
   const handleClickNurseProfile = (nurseId) => {
     route.push(route.asPath + "/" + nurseId + "/profile");
   };
 
-  const handleClickAddNewNurse = () => {
-    route.push(route.asPath + "/add");
-  }
+  // const handleClickAddNewNurse = () => {
+  //   route.push(route.asPath + "/add");
+  // }
 
   return (
     <div>
       <NurseTable
         handleClickNurseProfile={handleClickNurseProfile}
         nurses={data && data.data}
+        paging={data && data.paging}
         isLoading={isLoading}
         isError={isError}
-        setPageIndex={setPageIndex}
-        setPageLimit={setPageLimit}
+        setOffset={setOffset}
+        setLimit={setLimit}
       />
-      <Fab className={classes.fab} color="primary" aria-label="Add new nurse" onClick={handleClickAddNewNurse}>
+      {/* <Fab className={classes.fab} color="primary" aria-label="Add new nurse" onClick={handleClickAddNewNurse}>
         <Add />
-      </Fab>
+      </Fab> */}
     </div>
   );
 }

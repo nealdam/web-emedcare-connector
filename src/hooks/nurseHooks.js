@@ -5,18 +5,18 @@ import customFetcher from './customFetcher'
 import { DEFAULT_PAGE_SIZE } from '../constants/pagingConstant';
 
 export const useNurse = () => {
-    const [pageIndex, setPageIndex] = useState(1);
-    const [pageLimit, setPageLimit] = useState(DEFAULT_PAGE_SIZE);
+    const [offset, setOffset] = useState(0);
+    const [limit, setLimit] = useState(DEFAULT_PAGE_SIZE);
 
     const url = GET_NURSE_URL;
-    const { data, error } = useSWR(url + "?offset=" + (pageIndex - 1) + "&limit=" + pageLimit);
+    const { data, error } = useSWR(url + "?offset=" + offset + "&limit=" + limit);
 
     return {
         data: data,
         isLoading: !error && !data,
         isError: error,
-        setPageIndex: setPageIndex,
-        setPageLimit: setPageLimit
+        setOffset: setOffset,
+        setLimit: setLimit
     }
 
 }

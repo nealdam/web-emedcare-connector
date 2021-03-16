@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 function LoginPage() {
 
   const classes = useStyles();
-  const { loggedInUser, authLoading, googleLogin, emailPasswordLogin } = useAuthContext();
+  const { loggedInUser, authLoading, googleLogin, emailPasswordLogin, serverLogin } = useAuthContext();
 
   return (
     <Container component="main" maxWidth="xs">
@@ -28,7 +28,7 @@ function LoginPage() {
         <Avatar className={classes.avatar}>
           <LockOutlined />
         </Avatar>
-        <LoginForm handleLoginClick={emailPasswordLogin} handleGoogleLoginClick={googleLogin} />
+        <LoginForm handleLoginClick={serverLogin} handleGoogleLoginClick={googleLogin} />
       </div>
     </Container>
   )

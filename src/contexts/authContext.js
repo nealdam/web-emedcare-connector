@@ -9,68 +9,131 @@ import {
   successNotify,
 } from "../constants/notistackVariants";
 import { useSnackbar } from "notistack";
+import { useLoginUsernameEmailPassword } from "../hooks/authHooks";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
+  const [loggedInUser, setLoggedInUser] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState();
+
   const { enqueueSnackbar } = useSnackbar();
 
   const router = useRouter();
 
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [user, authLoading, authError] = useAuthState(firebaseAuth);
+  const [googleUser, authLoading, authError] = useAuthState(firebaseAuth);
+  const {
+    user: serverUser,
+    isLoading: isAuthServerLoading,
+    isError: isAuthServerError,
+    login: serverLogin,
+  } = useLoginUsernameEmailPassword();
 
+  // init get local lastuser
   useEffect(() => {
-    console.debug("authLoading", authLoading);
-  }, [authLoading]);
+    console.debug("Get local jwt");
 
+    let lastUserString = localStorage.getItem("lastUser");
+
+    console.debug("Last user string: " + lastUserString);
+
+    if (lastUserString) {
+      let lastUser = JSON.parse(lastUserString);
+
+      console.debug("set logged in user with last user");
+      console.debug("Last usser: " + lastUser.email);
+      setLoggedInUser(lastUser);
+    }
+  }, []);
+
+  // auth loading watcher
   useEffect(() => {
-    authError && console.error("authError", authError);
-  }, [authError]);
+    console.debug(
+      "AUTH LOADING: " +
+        "\nGoogle Auth: " +
+        authLoading +
+        "\nServer Auth: " +
+        isAuthServerLoading
+    );
 
+    if (authLoading || isAuthServerLoading) setIsLoading(true);
+    else if (!authLoading && !isAuthServerLoading) setIsLoading(false);
+  }, [authLoading, isAuthServerLoading]);
+
+  // auth error watcher
   useEffect(() => {
-    if (user && user.uid) {
-      console.debug("Validated gmail user");
-      console.debug("Accepted login domain: " + process.env.allowedLoginDomain);
-      if (isAllowedLoginDomain(user.email)) {
-        console.debug("login successful");
-        console.debug("set logged in user");
-        enqueueSnackbar("Login successful", successNotify);
-        setLoggedInUser(user);
+    console.error(
+      "AUTH ERROR: " +
+        "\nGoogle Auth Error: " +
+        authError +
+        "\nServer Auth Error: " +
+        isAuthServerError
+    );
 
-        console.debug("query: " + router.query.lastUrl);
+    if (authError || isAuthServerError)
+      setIsError(authError ? authError : isAuthServerError);
+    else if (!authError && !isAuthServerError) setIsError(null);
+  }, [authError, isAuthServerError]);
 
-        //FIXME: reload page
-        if (router.query.lastUrl) {
-          router.push(router.query.lastUrl);
-        } else if (!router.pathname.startsWith("/login")) {
-          // do nothing
-        } else {
-          router.push("/");
-        }
+  // google user watcher
+  useEffect(() => {
+    if (googleUser && googleUser.uid) {
+      console.debug("Google logged in user: " + googleUser.email);
+
+      if (isAllowedLoginDomain(googleUser.email)) {
+        // check allowed domain
+        console.debug("Gmail domain is allowed");
+
+        // TODO serverLogin with jwt
       } else {
-        console.debug("wrong email domain", user.email);
-        setLoggedInUser(null);
+        // wrong email domain
+        console.debug("Gmail domain isn't allowed");
+
         enqueueSnackbar(
           "Must sign in with " + process.env.allowedLoginDomain + " domain",
           errorNotify
         );
         logout(false);
       }
-    } else {
-      setLoggedInUser(null);
     }
-  }, [user]);
+  }, [googleUser]);
 
+  // server user watcher
+  useEffect(() => {
+    console.log("Server user: " + serverUser);
+
+    if (serverUser) {
+      setLoggedInUser(serverUser);
+
+      localStorage.setItem("lastUser", JSON.stringify(serverUser));
+    }
+  }, [serverUser]);
+
+  // logged in user watcher
   useEffect(() => {
     if (loggedInUser) {
       console.debug("currentUser", loggedInUser.email);
+      console.debug("pathname: " + router.pathname);
+      console.debug("push to page");
+
+      if (router.query.lastUrl) {
+        router.push(router.query.lastUrl);
+      } else if (!router.pathname.startsWith("/login")) {
+        // do nothing
+      } else {
+        router.push("/");
+      }
     } else {
       console.debug("currentUser", loggedInUser);
     }
   }, [loggedInUser]);
 
-  const googleLogin = () => {
+  // const handleServerLogin = (usernameOrEmail, password) => {
+  //   serverLogin(usernameOrEmail, password);
+  // };
+
+  const googlePopupLogin = () => {
     firebaseAuth
       .signInWithPopup(googleProvider)
       .then((result) => {
@@ -85,7 +148,7 @@ export const AuthProvider = ({ children }) => {
       });
   };
 
-  const emailPasswordLogin = (email, password) => {
+  const firebaseEmailPasswordLogin = (email, password) => {
     firebaseAuth
       .signInWithEmailAndPassword(email, password)
       .then((result) => {
@@ -115,11 +178,12 @@ export const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated: !!user,
-        loggedInUser: loggedInUser || user,
-        authLoading,
-        googleLogin,
-        emailPasswordLogin,
+        isAuthenticated: !!loggedInUser,
+        loggedInUser: loggedInUser,
+        authLoading: isLoading,
+        serverLogin,
+        googleLogin: googlePopupLogin,
+        emailPasswordLogin: firebaseEmailPasswordLogin,
         logout,
       }}
     >
