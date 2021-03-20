@@ -46,7 +46,7 @@ export const useSingleRoomDetail = () => {
     const { data, error } = useSWR(roomId ? [url, loggedInUser.token] : null, customFetcher);
 
     return {
-        data: data,
+        data: data && data.data,
         isLoading: !error && !data,
         isError: error,
         setRoomId: setRoomId
