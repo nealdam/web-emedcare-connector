@@ -22,6 +22,8 @@ import { format, parseISO } from "date-fns";
 import FemaleIcon from "../../constants/icons/FemaleIcon";
 import MaleIcon from "../../constants/icons/MaleIcon";
 import SexIcon from "../SexIcon/SexIcon";
+import { DEFAULT_PAGE_SIZE } from "../../constants/pagingConstant";
+import { useState } from "react";
 
 // const patients = [
 //   {
@@ -110,7 +112,10 @@ export default function PatientTable(props) {
   const classes = useStyle();
   const router = useRouter();
 
-  const { patients } = props;
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(DEFAULT_PAGE_SIZE);
+
+  const { patients, paging, isLoading, isError, setOffset: setDoctorOffset, setLimit: setDoctorLimit } = props;
 
   const handleClickPatientInfo = (patientId) => {
     router.push(router.asPath + "/" + patientId + "/profile");
@@ -119,6 +124,9 @@ export default function PatientTable(props) {
   const handleClickPatientAppointment = (patientId) => {
     router.push(router.asPath + "/" + patientId + "/appointment");
   };
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
     <Section title={t("Patient list")}>
@@ -193,4 +201,9 @@ export default function PatientTable(props) {
 
 PatientTable.propTypes = {
   patients: PropTypes.array,
+  paging: PropTypes.object,
+  isLoading: PropTypes.bool,
+  isError: PropTypes.object,
+  setOffset: PropTypes.func,
+  setLimit: PropTypes.func,
 };

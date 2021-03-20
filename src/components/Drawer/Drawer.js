@@ -122,7 +122,7 @@ function MyDrawer(props) {
               {data ? (
                 <Badge
                   color="error"
-                  badgeContent={data && data.data}
+                  badgeContent={data && data}
                   max={999}
                 >
                   <EventAvailable />

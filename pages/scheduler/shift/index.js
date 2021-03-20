@@ -5,9 +5,15 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import useSWR from "swr";
 import ShiftTable from "../../../src/components/ShiftTable";
-import { GET_ALL_DOCTORS_URL, GET_DOCTOR_URL, GET_SHIFT_INFO_URL } from "../../../src/constants/url";
+import {
+  GET_ALL_DOCTORS_URL,
+  GET_DOCTOR_URL,
+  GET_SHIFT_INFO_URL,
+} from "../../../src/constants/url";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
+import { useDoctor } from "../../../src/hooks/doctorHooks";
+import { useShiftByDoctorId } from "../../../src/hooks/shiftHooks";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -21,32 +27,50 @@ function SchedulerShiftPage() {
   const classes = useStyles();
   const router = useRouter();
 
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
   const handleClickAddNewShift = () => {
-    router.push(router.pathname + "/add")
+    router.push(router.pathname + "/add");
+  };
+
+  const {
+    data: doctors,
+    paging: doctorsPaging,
+    isLoading: isDoctorLoading,
+    isError: isDoctorError,
+    setOffset: setDoctorsOffset,
+    setLimit: setDoctorLimit,
+  } = useDoctor();
+
+  const {
+    setStartedAtMin, setStartedAtMax
+  } = useShiftByDoctorId();
+
+  const handleChangeDoctorPageIndex = (offset) => {
+    setDoctorsOffset(offset); 
+  }
+
+  const handleChangeDoctorPageSize = (size) => {
+    setDoctorLimit(size);
+  }
+
+  const handleChangeWeek = (date) => {
+    setStartedAtMin(startOfWeek(date, {weekStartsOn: 2}));
+    setStartedAtMax(endOfWeek(date, {weekStartsOn: 2}));
   }
 
   const getDoctorShift = (doctorId) => {
-    let shiftUrl = GET_SHIFT_INFO_URL 
-      + "?doctor_id=" + doctorId
-      + "&start_at_min=" + startOfWeek(selectedDate).toISOString()
-      + "&start_at_max=" + endOfWeek(selectedDate).toISOString();
-    const { data, error } = useSWR(shiftUrl, fetcher);
-
-    return {
-      shifts: data,
-      isLoading: !error && !data,
-      isError: error
-    }
+    return useShiftByDoctorId(doctorId);
   }
-
-  if (error) return <div>failed to load</div>;
-  if (!doctors) return <div>loading...</div>;
 
   return (
     <div>
-      <ShiftTable doctors={doctors} getDoctorShift={getDoctorShift} selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+      <ShiftTable
+        doctors={doctors}
+        paging={doctorsPaging}
+        isLoading={isDoctorLoading}
+        isError={isDoctorError}
+        getDoctorShift={getDoctorShift}
+        handleChangeWeek={handleChangeWeek}
+      />
       <Fab
         className={classes.fab}
         color="primary"

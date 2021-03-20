@@ -1,13 +1,8 @@
-const fetcher = (...args) => fetch(...args).then((res) => new Promise((resolve, reject) => {
-  res.json()
-    .then(responseData => {
-      if (responseData.code != 200) reject(responseData.message);
+import axios from "axios";
 
-      resolve(responseData);
-    })
-    .catch(error => {
-      reject(error);
-    })
-}));
+const fetcher = (url, token) => 
+  axios
+    .get(url, { headers: { Authorization: "Bearer " + token }})
+    .then((res) => res.data);
 
 export default fetcher;

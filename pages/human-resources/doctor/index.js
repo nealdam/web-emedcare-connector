@@ -27,7 +27,7 @@ function HumanResourcesDoctorPage() {
   const { enqueueSnackbar } = useSnackbar();
   const { t } = useTranslation();
   
-  const { data, isLoading, isError, setOffset, setLimit } = useDoctorInformation();
+  const { data, paging, isLoading, isError, setOffset, setLimit } = useDoctorInformation();
 
   // const [isCreateDoctorDialogOpen, setIsCreateDoctorDialogOpen] = useState(
   //   false
@@ -55,8 +55,8 @@ function HumanResourcesDoctorPage() {
       <DoctorTable
         handleClickDoctorDetail={handleClickDoctorDetail}
         handleClickCreateDoctorAccount={handleClickCreateDoctorAccount}
-        doctors={data && data.data}
-        paging={data && data.paging}
+        doctors={data}
+        paging={paging}
         isLoading={isLoading}
         isError={isError}
         setOffset={setOffset}

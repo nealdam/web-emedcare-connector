@@ -14,6 +14,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
 } from "@material-ui/core";
@@ -23,6 +24,7 @@ import PropTypes from "prop-types";
 import RoomStatus from "./RoomStatus";
 import { Info, Search } from "@material-ui/icons";
 import { useState } from "react";
+import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS } from "../../constants/pagingConstant";
 
 const useStyles = makeStyles((theme) => ({
   chip: {
@@ -36,9 +38,22 @@ const useStyles = makeStyles((theme) => ({
 export default function RoomTable(props) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { handleClickRoomInfo, rooms, isLoading, isError } = props;
+  const { handleClickRoomInfo, rooms, paging, isLoading, isError, setOffset, setLimit } = props;
 
   const [selectedRoomStatus, setSelectedRoomStatus] = useState(0);
+
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
+  const [pageOffset, setPageOffset] = useState(0);
+
+  const handleChangePage = (event, offset) => {
+    setPageOffset(offset);
+    setOffset(offset);
+  }
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value);
+    setLimit(event.target.value);
+  }
 
   if (isLoading) return <div>Loading</div>
   if (isError) return <div>Error</div>
@@ -93,8 +108,8 @@ export default function RoomTable(props) {
               <TableBody>
                 {rooms.map((room) => (
                   <TableRow key={room.id}>
-                    <TableCell>{room.number}</TableCell>
                     <TableCell>{room.hisCode}</TableCell>
+                    <TableCell>{room.name}</TableCell>
                     <TableCell>
                       {room.specialties.map((specialty, index) => (
                         <Chip
@@ -122,6 +137,15 @@ export default function RoomTable(props) {
               </TableBody>
             </Table>
           </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={DEFAULT_PAGE_SIZE_OPTIONS}
+            component="div"
+            count={paging.totalCount}
+            rowsPerPage={rowsPerPage}
+            page={pageOffset}
+            onChangePage={handleChangePage}
+            onChangeRowsPerPage={handleChangeRowsPerPage}
+          />
         </Grid>
       </Grid>
     </Section>
@@ -130,7 +154,10 @@ export default function RoomTable(props) {
 
 RoomTable.propTypes = {
   rooms: PropTypes.array,
+  paging: PropTypes.object,
   isLoading: PropTypes.bool,
   isError: PropTypes.object,
+  setOffset: PropTypes.func,
+  setLimit: PropTypes.func,
   handleClickRoomInfo: PropTypes.func,
 };

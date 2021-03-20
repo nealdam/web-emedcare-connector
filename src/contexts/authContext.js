@@ -32,45 +32,22 @@ export const AuthProvider = ({ children }) => {
 
   // init get local lastuser
   useEffect(() => {
-    console.debug("Get local jwt");
-
     let lastUserString = localStorage.getItem("lastUser");
-
-    console.debug("Last user string: " + lastUserString);
 
     if (lastUserString) {
       let lastUser = JSON.parse(lastUserString);
-
-      console.debug("set logged in user with last user");
-      console.debug("Last usser: " + lastUser.email);
       setLoggedInUser(lastUser);
     }
   }, []);
 
   // auth loading watcher
   useEffect(() => {
-    console.debug(
-      "AUTH LOADING: " +
-        "\nGoogle Auth: " +
-        authLoading +
-        "\nServer Auth: " +
-        isAuthServerLoading
-    );
-
     if (authLoading || isAuthServerLoading) setIsLoading(true);
     else if (!authLoading && !isAuthServerLoading) setIsLoading(false);
   }, [authLoading, isAuthServerLoading]);
 
   // auth error watcher
   useEffect(() => {
-    console.error(
-      "AUTH ERROR: " +
-        "\nGoogle Auth Error: " +
-        authError +
-        "\nServer Auth Error: " +
-        isAuthServerError
-    );
-
     if (authError || isAuthServerError)
       setIsError(authError ? authError : isAuthServerError);
     else if (!authError && !isAuthServerError) setIsError(null);
@@ -79,8 +56,6 @@ export const AuthProvider = ({ children }) => {
   // google user watcher
   useEffect(() => {
     if (googleUser && googleUser.uid) {
-      console.debug("Google logged in user: " + googleUser.email);
-
       if (isAllowedLoginDomain(googleUser.email)) {
         // check allowed domain
         console.debug("Gmail domain is allowed");
@@ -101,8 +76,6 @@ export const AuthProvider = ({ children }) => {
 
   // server user watcher
   useEffect(() => {
-    console.log("Server user: " + serverUser);
-
     if (serverUser) {
       setLoggedInUser(serverUser);
 
@@ -113,9 +86,6 @@ export const AuthProvider = ({ children }) => {
   // logged in user watcher
   useEffect(() => {
     if (loggedInUser) {
-      console.debug("currentUser", loggedInUser.email);
-      console.debug("pathname: " + router.pathname);
-      console.debug("push to page");
 
       if (router.query.lastUrl) {
         router.push(router.query.lastUrl);
@@ -124,8 +94,6 @@ export const AuthProvider = ({ children }) => {
       } else {
         router.push("/");
       }
-    } else {
-      console.debug("currentUser", loggedInUser);
     }
   }, [loggedInUser]);
 

@@ -21,7 +21,7 @@ function CustomerServiceSchedulePage() {
   const { t } = useTranslation();
   const classes = useStyle();
 
-  const { data, isLoading, isError, paging, setPageIndex, setPageSize, setSelectedDate} = useDoctorAppointment();
+  const { data, paging, isLoading, isError, setPageIndex, setPageSize, setSelectedDate} = useDoctorAppointment();
 
   const handleClickScrollToTop = () => {
     window.scrollTo(0, 0);

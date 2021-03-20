@@ -89,11 +89,6 @@ function Schedule(props) {
 
   const { isLoading, isError, doctors, paging, setSelectedDate: setDate, setPageIndex, setPageSize } = props;
 
-  console.log("isLoading: " + isLoading);
-  console.log("isError: " + isError);
-  console.log("doctor: " + doctors);
-  console.log("paging: " + paging);
-
   // const [selectedDate, setSelectedDate] = useState(
   //   new Date("2014-08-18T21:11:54")
   // );
@@ -202,14 +197,6 @@ function Schedule(props) {
                           </TableCell>
                         );
                       })}
-                      {/* {doctors.map((doctor) => (
-                        <TableCell key={doctor.appointmentId}>
-                          <AppointmentCell
-                            patientName={doctor.patientName}
-                            patientCode={doctor.patientCode}
-                          />
-                        </TableCell>
-                      ))} */}
                     </TableRow>
                   ))}
                 </TableBody>

@@ -6,7 +6,7 @@ import RoomTable from "../../../src/components/RoomTable";
 import { GET_ROOM_URL } from "../../../src/constants/url";
 import { defaultPage } from "../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../src/hocs/protectRoute";
-import { useRoomInformation } from "../../../src/hooks/roomHooks";
+import { useRoom, useRoomInformation } from "../../../src/hooks/roomHooks";
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 function RoomManagerRoomPage() {
   const classes = useStyles();
-  const { data, isLoading, isError } = useRoomInformation();
+  const { data, paging, isLoading, isError, setOffset, setLimit } = useRoom();
 
   const router = useRouter();
 
@@ -28,14 +28,27 @@ function RoomManagerRoomPage() {
 
   const handleClickAddNewRoom = () => {
     router.push(router.pathname + "/add");
-  }
+  };
 
   return (
     <div>
-      <RoomTable handleClickRoomInfo={handleClickRoomInfo} rooms={data} isLoading={isLoading} isError={isError} />
-      <Fab className={classes.fab} color="primary" aria-label="Add new nurse" onClick={handleClickAddNewRoom}>
+      <RoomTable
+        handleClickRoomInfo={handleClickRoomInfo}
+        rooms={data}
+        paging={paging}
+        isLoading={isLoading}
+        isError={isError}
+        setOffset={setOffset}
+        setLimit={setLimit}
+      />
+      {/* <Fab
+        className={classes.fab}
+        color="primary"
+        aria-label="Add new nurse"
+        onClick={handleClickAddNewRoom}
+      >
         <Add />
-      </Fab>
+      </Fab> */}
     </div>
   );
 }

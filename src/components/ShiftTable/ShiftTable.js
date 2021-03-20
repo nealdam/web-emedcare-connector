@@ -50,12 +50,17 @@ const ShiftRow = (props) => {
   const classes = useStyles();
   const {
     doctor,
-    doctorShifts: { shifts, isLoading, isError },
+    getDoctorShift,
     firstDateOfWeek,
     handleClickShiftDetail
   } = props;
 
+  const { data: shifts, isLoading, isError} = getDoctorShift(doctor.id);
+
   const weekDayIndex = [0, 1, 2, 3, 4, 5, 6];
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
     <TableRow>
@@ -96,24 +101,34 @@ const ShiftRow = (props) => {
 
 export default function ShiftTable(props) {
   const classes = useStyles();
-  const { doctors, getDoctorShift, selectedDate, setSelectedDate } = props;
+  const { doctors, paging, isLoading, isError, getDoctorShift, handleChangeWeek } = props;
   const { t } = useTranslation();
   const router = useRouter();
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const weekDayIndex = [0, 1, 2, 3, 4, 5, 6];
 
   const weekStartDay = startOfWeek(selectedDate, { weekStartsOn: 1 });
 
+  const handleChangeSelectedDate = (date) => {
+    setSelectedDate(date);
+    handleChangeWeek(date);
+  }
+
   const handleClickShiftDetail = (shiftId) => {
     router.push(router.asPath + "/" + shiftId + "/detail");
   };
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
     <Section title={t("Shift table")}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2}>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <WeekPicker date={selectedDate} setDate={setSelectedDate} />
+            <WeekPicker date={selectedDate} setDate={handleChangeSelectedDate} />
           </MuiPickersUtilsProvider>
         </Grid>
         <Grid item xs={12} md={10}>
@@ -159,7 +174,8 @@ export default function ShiftTable(props) {
             {doctors.map((doctor) => (
               <ShiftRow
                 doctor={doctor}
-                doctorShifts={getDoctorShift(doctor.id)}
+                // doctorShifts={getDoctorShift(doctor.id)}
+                getDoctorShift={getDoctorShift}
                 firstDateOfWeek={startOfWeek(selectedDate)}
                 handleClickShiftDetail={handleClickShiftDetail}
                 key={doctor.id}
@@ -174,7 +190,9 @@ export default function ShiftTable(props) {
 
 ShiftTable.propTypes = {
   doctors: PropTypes.arrayOf(PropTypes.object),
+  paging: PropTypes.object,
+  isLoading: PropTypes.bool,
+  isError: PropTypes.object,
   getDoctorShift: PropTypes.func,
-  selectedDate: PropTypes.object,
-  setSelectedDate: PropTypes.func,
+  handleChangeWeek: PropTypes.func,
 };
