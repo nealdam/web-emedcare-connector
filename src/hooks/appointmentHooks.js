@@ -47,7 +47,7 @@ export const useSingleAppointmentDetail = () => {
     const {loggedInUser} = useAuthContext();
 
     const url = GET_APPOINTMENT_URL + "/" + appointmentId + "/detail"
-    const { data, error } = useSWR(appointmentId ? [url, loggedInUser.token] : null, fetcher);
+    const { data, error } = useSWR(appointmentId ? [url, loggedInUser.token] : null, customFetcher);
 
     return {
         data: data && data.data,

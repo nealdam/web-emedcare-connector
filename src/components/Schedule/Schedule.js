@@ -11,13 +11,11 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
 } from "@material-ui/core";
-import {
-  DatePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { useState } from "react";
 import { useTranslation } from "../../i18n";
 import DoctorCell from "./DoctorCell/DoctorCell";
@@ -31,6 +29,7 @@ import PropTypes from "prop-types";
 import Section from "../Section";
 import { Search } from "@material-ui/icons";
 import { parse, parseJSON } from "date-fns";
+import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS } from "../../constants/pagingConstant";
 
 // FIXME: time number
 const time = [
@@ -85,9 +84,29 @@ function Schedule(props) {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  const [selectedDate, setSelectedDate] = useState(Date.now);
+  const {
+    isLoading,
+    isError,
+    doctors,
+    paging,
+    setSelectedDate: setDate,
+    setOffset,
+    setLimit,
+  } = props;
 
-  const { isLoading, isError, doctors, paging, setSelectedDate: setDate, setPageIndex, setPageSize } = props;
+  const [selectedDate, setSelectedDate] = useState(Date.now);
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
+  const [pageOffset, setPageOffset] = useState(0);
+
+  const handleChangePage = (event, offset) => {
+    setPageOffset(offset);
+    setOffset(offset);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value);
+    setLimit(event.target.value);
+  };
 
   // const [selectedDate, setSelectedDate] = useState(
   //   new Date("2014-08-18T21:11:54")
@@ -98,8 +117,8 @@ function Schedule(props) {
     setDate(date);
   };
 
-  if (isLoading) return <div>Loading</div>
-  if (isError) return <div>Error</div>
+  if (isLoading) return <div>Loading</div>;
+  if (isError) return <div>Error</div>;
 
   return (
     <Section title={t("Appointment list")}>
@@ -164,7 +183,7 @@ function Schedule(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {time.map((rowTime, index) => (
+                  {/* {time.map((rowTime, index) => (
                     <TableRow key={rowTime.time}>
                       <TableCell>{rowTime.time}</TableCell>
                       {doctors.map((doctor) => {
@@ -198,10 +217,19 @@ function Schedule(props) {
                         );
                       })}
                     </TableRow>
-                  ))}
+                  ))} */}
                 </TableBody>
               </Table>
             </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={DEFAULT_PAGE_SIZE_OPTIONS}
+              component="div"
+              count={paging.totalCount}
+              rowsPerPage={rowsPerPage}
+              page={pageOffset}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
           </Paper>
         </Grid>
       </Grid>
@@ -214,8 +242,8 @@ Schedule.propTypes = {
   isError: PropTypes.object,
   doctors: PropTypes.array,
   setSelectedDate: PropTypes.func,
-  setPageIndex: PropTypes.func,
-  setPageSize: PropTypes.func,
+  setOffset: PropTypes.func,
+  setLimit: PropTypes.func,
 };
 
 export default Schedule;

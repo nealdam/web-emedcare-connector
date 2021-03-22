@@ -13,9 +13,25 @@ function CustomerServicePatientPage() {
   const classes = useStyle();
   const { t } = useTranslation();
 
-  const { data, paging, isLoading, isError, setOffset, setLimit } = usePatient();
+  const {
+    data,
+    paging,
+    isLoading,
+    isError,
+    setOffset,
+    setLimit,
+  } = usePatient();
 
-  return <PatientTable patients={data} paging={paging} isLoading={isLoading} isError={isError} setOffset={setOffset} setLimit={setLimit} />;
+  return (
+    <PatientTable
+      patients={data}
+      paging={paging}
+      isLoading={isLoading}
+      isError={isError}
+      setOffset={setOffset}
+      setLimit={setLimit}
+    />
+  );
 }
 
 export default protectRoute(defaultPage(CustomerServicePatientPage));

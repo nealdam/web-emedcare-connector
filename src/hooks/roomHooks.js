@@ -52,3 +52,19 @@ export const useSingleRoomDetail = () => {
         setRoomId: setRoomId
     }
 }
+
+export const useSingleRoomWaitingQueue = () => {
+    const [roomId, setRoomId] = useState();
+
+    const {loggedInUser} = useAuthContext();
+
+    const url = GET_ROOM_URL + "/" + roomId + "/queue";
+    const { data, error } = useSWR(roomId ? [url, loggedInUser.token] : null, customFetcher);
+
+    return {
+        data: data && data.data,
+        isLoading: !error && !data,
+        isError: error,
+        setRoomId: setRoomId
+    }
+}

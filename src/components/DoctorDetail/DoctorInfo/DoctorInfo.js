@@ -69,7 +69,7 @@ export default function DoctorInfo(props) {
             variant="outlined"
             fullWidth
             label={t("Birth date")}
-            value={toDate(doctor.birthDate)}
+            value={doctor.birthDate && toDate(doctor.birthDate)}
             InputProps={{
               readOnly: true,
             }}

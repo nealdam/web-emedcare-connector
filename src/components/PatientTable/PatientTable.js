@@ -8,6 +8,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
 } from "@material-ui/core";
@@ -22,81 +23,11 @@ import { format, parseISO } from "date-fns";
 import FemaleIcon from "../../constants/icons/FemaleIcon";
 import MaleIcon from "../../constants/icons/MaleIcon";
 import SexIcon from "../SexIcon/SexIcon";
-import { DEFAULT_PAGE_SIZE } from "../../constants/pagingConstant";
+import {
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_PAGE_SIZE_OPTIONS,
+} from "../../constants/pagingConstant";
 import { useState } from "react";
-
-// const patients = [
-//   {
-//     id: 1,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-//   {
-//     id: 2,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-//   {
-//     id: 3,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-//   {
-//     id: 4,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-//   {
-//     id: 5,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-//   {
-//     id: 6,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-//   {
-//     id: 7,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-//   {
-//     id: 8,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-//   {
-//     id: 9,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-//   {
-//     id: 10,
-//     hiscode: "001",
-//     birthDate: "26/12/2997",
-//     name: "Trần Văn A",
-//     phoneNumber: "0906587525",
-//   },
-// ];
 
 const useStyle = makeStyles((theme) => ({
   actionCell: {
@@ -112,10 +43,27 @@ export default function PatientTable(props) {
   const classes = useStyle();
   const router = useRouter();
 
-  const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(DEFAULT_PAGE_SIZE);
+  const {
+    patients,
+    paging,
+    isLoading,
+    isError,
+    setOffset,
+    setLimit,
+  } = props;
 
-  const { patients, paging, isLoading, isError, setOffset: setDoctorOffset, setLimit: setDoctorLimit } = props;
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
+  const [pageOffset, setPageOffset] = useState(0);
+
+  const handleChangePage = (event, offset) => {
+    setPageOffset(offset);
+    setOffset(offset);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value);
+    setLimit(event.target.value);
+  };
 
   const handleClickPatientInfo = (patientId) => {
     router.push(router.asPath + "/" + patientId + "/profile");
@@ -125,8 +73,8 @@ export default function PatientTable(props) {
     router.push(router.asPath + "/" + patientId + "/appointment");
   };
 
-  if (isLoading) return <div>Loading</div>
-  if (isError) return <div>Error</div>
+  if (isLoading) return <div>Loading</div>;
+  if (isError) return <div>Error</div>;
 
   return (
     <Section title={t("Patient list")}>
@@ -154,8 +102,12 @@ export default function PatientTable(props) {
               <TableCell>{t("Name")}</TableCell>
               <TableCell align="center">{t("Birth date")}</TableCell>
               <TableCell align="center">{t("Sex")}</TableCell>
-              <TableCell size="small" align="center">{t("Info")}</TableCell>
-              <TableCell size="small" align="center">{t("Appointment")}</TableCell>
+              <TableCell size="small" align="center">
+                {t("Info")}
+              </TableCell>
+              <TableCell size="small" align="center">
+                {t("Appointment")}
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -195,6 +147,15 @@ export default function PatientTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={DEFAULT_PAGE_SIZE_OPTIONS}
+        component="div"
+        count={paging.totalCount}
+        rowsPerPage={rowsPerPage}
+        page={pageOffset}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </Section>
   );
 }

@@ -3,39 +3,6 @@ import PropTypes from 'prop-types'
 import { useTranslation } from '../../i18n';
 import Section from '../Section';
 
-const roomQueue = {
-  id: 1,
-  number: "001",
-  name: "Nhi 1",
-  patients: [
-    {
-      id: 1,
-      number: "12A1",
-      name: "Nguyễn Văn A"
-    },
-    {
-      id: 2,
-      number: "8",
-      name: "Nguyễn Văn A"
-    },
-    {
-      id: 3,
-      number: "9",
-      name: "Nguyễn Văn A"
-    },
-    {
-      id: 4,
-      number: "10",
-      name: "Nguyễn Văn A"
-    },
-    {
-      id: 5,
-      number: "11",
-      name: "Nguyễn Văn A"
-    },
-  ]
-}
-
 const useStyles = makeStyles((theme) => ({
   statusCell: {
     maxWidth: 300
@@ -45,9 +12,13 @@ const useStyles = makeStyles((theme) => ({
 export default function RoomQueueDetailTable(props) {
   const classes = useStyles();
   const { t } = useTranslation();
+  const { patients, room, isLoading, isError } =  props;
+
+  if (isLoading) return <div>Loading</div>
+  if (isError) return <div>Error</div>
 
   return (
-    <Section title={`${t("Queue list")} - ${t("Room name")}: ${roomQueue.name} - ${t("Room number")}: ${roomQueue.number}`}>
+    <Section title={`${t("Queue list")} - ${t("Room name")}: ${room.name} - ${t("Room number")}: ${room.number}`}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
@@ -60,10 +31,10 @@ export default function RoomQueueDetailTable(props) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {roomQueue.patients.map((patient) => (
+                {patients.map((patient) => (
                   <TableRow key={patient.id}>
-                    <TableCell>{patient.number}</TableCell>
-                    <TableCell>{patient.name}</TableCell>
+                    <TableCell>{patient.sokham}</TableCell>
+                    <TableCell>{patient.hoten}</TableCell>
                     <TableCell><Chip label={t("Waiting")} /></TableCell>
                   </TableRow>
                 ))}
