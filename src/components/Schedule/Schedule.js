@@ -3,7 +3,6 @@ import DateFnsUtils from "@date-io/date-fns";
 import {
   Grid,
   InputAdornment,
-  LinearProgress,
   makeStyles,
   Paper,
   Table,
@@ -16,7 +15,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "../../i18n";
 import DoctorCell from "./DoctorCell/DoctorCell";
 import AppointmentCell from "./AppointmentCell/AppointmentCell";
@@ -28,8 +27,12 @@ import {
 import PropTypes from "prop-types";
 import Section from "../Section";
 import { Search } from "@material-ui/icons";
-import { parse, parseJSON } from "date-fns";
-import { DEFAULT_PAGE_SIZE, DEFAULT_PAGE_SIZE_OPTIONS } from "../../constants/pagingConstant";
+import { addHours, getDate, parse, parseJSON, startOfDay } from "date-fns";
+import {
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_PAGE_SIZE_OPTIONS,
+} from "../../constants/pagingConstant";
+import ScheduleRow from "./ScheduleRow";
 
 // FIXME: time number
 const time = [
@@ -94,9 +97,13 @@ function Schedule(props) {
     setLimit,
   } = props;
 
-  const [selectedDate, setSelectedDate] = useState(Date.now);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
   const [pageOffset, setPageOffset] = useState(0);
+
+  useEffect(() => {
+    console.debug("selected date: " + selectedDate.toLocaleString());
+  }, [selectedDate])
 
   const handleChangePage = (event, offset) => {
     setPageOffset(offset);
@@ -108,13 +115,8 @@ function Schedule(props) {
     setLimit(event.target.value);
   };
 
-  // const [selectedDate, setSelectedDate] = useState(
-  //   new Date("2014-08-18T21:11:54")
-  // );
-
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    setDate(date);
   };
 
   if (isLoading) return <div>Loading</div>;
@@ -183,41 +185,15 @@ function Schedule(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {/* {time.map((rowTime, index) => (
-                    <TableRow key={rowTime.time}>
-                      <TableCell>{rowTime.time}</TableCell>
-                      {doctors.map((doctor) => {
-                        var cell;
-
-                        if (doctor.shifts.length > 0) {
-                          cell = doctor.shifts.map((shift) => {
-                              return shift.blocks.map((block) => {
-
-                              if (parseJSON(block.startedAt).getHours() - 7 == index) {
-                                return block.appointments.map((appointment) => {
-                                  return (
-                                    // <TableCell key={appointment.id}>
-                                    <AppointmentCell
-                                      patientName={appointment.patient.name}
-                                      patientCode={appointment.patient.hisCode}
-                                    />
-                                    // </TableCell>
-                                  );
-                                });
-                              }
-                              });
-                            
-                          });
-                        }
-
-                        return (
-                          <TableCell style={{ verticalAlign: "top" }}>
-                            {cell}
-                          </TableCell>
-                        );
-                      })}
+                  {time.map((value, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{value.time}</TableCell>
+                      <ScheduleRow
+                        doctors={doctors}
+                        currentDateTime={addHours(startOfDay(selectedDate), index)}
+                      />
                     </TableRow>
-                  ))} */}
+                  ))}
                 </TableBody>
               </Table>
             </TableContainer>

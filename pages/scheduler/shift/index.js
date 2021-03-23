@@ -18,7 +18,7 @@ import { useShiftByDoctorId } from "../../../src/hooks/shiftHooks";
 const useStyles = makeStyles((theme) => ({
   fab: {
     position: "fixed",
-    bottom: theme.spacing(2),
+    bottom: theme.spacing(8),
     right: theme.spacing(2),
   },
 }));
@@ -44,14 +44,6 @@ function SchedulerShiftPage() {
     setStartedAtMin, setStartedAtMax
   } = useShiftByDoctorId();
 
-  const handleChangeDoctorPageIndex = (offset) => {
-    setDoctorsOffset(offset); 
-  }
-
-  const handleChangeDoctorPageSize = (size) => {
-    setDoctorLimit(size);
-  }
-
   const handleChangeWeek = (date) => {
     setStartedAtMin(startOfWeek(date, {weekStartsOn: 2}));
     setStartedAtMax(endOfWeek(date, {weekStartsOn: 2}));
@@ -70,6 +62,8 @@ function SchedulerShiftPage() {
         isError={isDoctorError}
         getDoctorShift={getDoctorShift}
         handleChangeWeek={handleChangeWeek}
+        setOffset={setDoctorsOffset}
+        setLimit={setDoctorLimit}
       />
       <Fab
         className={classes.fab}

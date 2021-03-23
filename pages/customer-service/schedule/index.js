@@ -37,7 +37,6 @@ function CustomerServiceSchedulePage() {
         isError={isError}
         doctors={data}
         paging={paging}
-        // setSelectedDate={setSelectedDate}
         setOffset={setOffset}
         setLimit={setLimit}
       />

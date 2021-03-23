@@ -26,16 +26,16 @@ export const useSingleShiftDetail = () => {
 
 export const useShiftByDoctorId = (doctorId) => {
   const [startedAtMin, setStartedAtMin] = useState(
-    startOfWeek(new Date(), { weekStartsOn: 2 })
+    startOfWeek(new Date(), { weekStartsOn: 1 })
   );
   const [startedAtMax, setStartedAtMax] = useState(
-    endOfWeek(new Date(), { weekStartsOn: 2 })
+    endOfWeek(new Date(), { weekStartsOn: 1 })
   );
 
   const { loggedInUser } = useAuthContext();
 
   const url =
-    GET_SHIFT_INFO_URL + "?offset=0" + "&limit=100" + "&doctor_id=" + doctorId + "&start_at_min=" + startedAtMin.toISOString() + "&start_at_max=" + startedAtMax.toISOString();
+    GET_SHIFT_INFO_URL + "?offset=0" + "&limit=100" + "&doctor_id=" + doctorId + "&start_at_min=" + startedAtMin.toLocaleString() + "&start_at_max=" + startedAtMax.toLocaleString();
   const { data, error } = useSWR(
     doctorId ? [url, loggedInUser.token] : null,
     customFetcher
