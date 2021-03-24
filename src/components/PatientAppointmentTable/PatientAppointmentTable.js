@@ -17,7 +17,7 @@ import { addMinutes, parse, parseISO } from "date-fns";
 
 export default function PatientAppointmentTable(props) {
   const { t } = useTranslation();
-  const { patient, isLoading, isError } = props;
+  const { appointments, isLoading, isError } = props;
 
   if (isLoading) return <div>Loading</div>
   if (isError) return <div>Error</div>
@@ -38,7 +38,7 @@ export default function PatientAppointmentTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {patient.appointments.map((appointment) => (
+            {appointments.map((appointment) => (
               <TableRow key={appointment.id}>
                 <TableCell>{appointment.room.number}</TableCell>
                 <TableCell>{appointment.doctor.name}</TableCell>
@@ -72,5 +72,7 @@ export default function PatientAppointmentTable(props) {
 }
 
 PatientAppointmentTable.propTypes = {
-  patient: PropTypes.object,
+  appointments: PropTypes.array,
+  isLoading: PropTypes.bool,
+  isError: PropTypes.object,
 }

@@ -17,7 +17,7 @@ export const useSingleShiftDetail = () => {
   );
 
   return {
-    data: data,
+    data: data && data.data,
     isLoading: !error && !data,
     isError: error,
     setShiftId: setShiftId,

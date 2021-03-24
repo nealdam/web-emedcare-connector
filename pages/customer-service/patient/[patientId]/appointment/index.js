@@ -1,9 +1,12 @@
 import { makeStyles } from "@material-ui/core";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import PatientAppointmentTable from "../../../../../src/components/PatientAppointmentTable";
 import Section from "../../../../../src/components/Section/Section";
+import { DEFAULT_PAGE_SIZE } from "../../../../../src/constants/pagingConstant";
 import { defaultPage } from "../../../../../src/hocs/defaultPage";
 import { protectRoute } from "../../../../../src/hocs/protectRoute";
+import { useAppointmentInfoByPatient } from "../../../../../src/hooks/appointmentHooks";
 import { usePatientAppointment } from "../../../../../src/hooks/patientHooks";
 import { useTranslation } from "../../../../../src/i18n";
 
@@ -19,11 +22,14 @@ function CustomerServicePatientAppointmentPage() {
   const classes = useStyle();
   const {t} = useTranslation();
 
-  const { data: patient, isLoading, isError } = usePatientAppointment(patientId);
+  const [appointmentOffset, setAppointmentOffset] = useState(0);
+  const [appointmentLimit, setAppointmentLimit] = useState(DEFAULT_PAGE_SIZE);
+
+  const { data, isLoading, isError } = useAppointmentInfoByPatient(patientId, appointmentOffset, appointmentLimit);
 
   return (
     <Section title={t("Appointment")}>
-      <PatientAppointmentTable patient={patient} isLoading={isLoading} isError={isError} />
+      <PatientAppointmentTable appointments={data} isLoading={isLoading} isError={isError} />
     </Section>
   )
 }

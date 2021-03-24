@@ -6,6 +6,25 @@ import { GET_APPOINTMENT_URL } from "../constants/url";
 import useAuthContext from "../contexts/authContext";
 import customFetcher from "./customFetcher";
 
+export const useAppointmentInfoByPatient = (patientId, offset, limit) => {
+  const { loggedInUser } = useAuthContext();
+
+  const url =
+    GET_APPOINTMENT_URL + "/information"
+    "?offset=" + offset +
+    "&limit=" + limit +
+    "&patientId=" + patientId;
+
+    const { data, error } = useSWR(patientId ? [url, loggedInUser.token] : null, customFetcher);
+
+    return {
+      data: data && data.data,
+      paging: data && data.paging,
+      isLoading: !error && !data,
+      isError: error
+    }
+}
+
 export const useAppointmentByDoctorOnDate = (doctorId, selectedDate) => {
   const { loggedInUser } = useAuthContext();
 
