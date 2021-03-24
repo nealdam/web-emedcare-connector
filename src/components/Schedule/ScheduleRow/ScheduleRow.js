@@ -7,8 +7,6 @@ import ScheduleCell from "../ScheduleCell";
 export default function ScheduleRow(props) {
   const { doctors, currentDateTime } = props;
 
-  console.log("current date time: " + currentDateTime.toISOString());
-
   return (
     <Fragment>
       {doctors.map((doctor) => (

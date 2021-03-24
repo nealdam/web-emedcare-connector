@@ -101,10 +101,6 @@ function Schedule(props) {
   const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
   const [pageOffset, setPageOffset] = useState(0);
 
-  useEffect(() => {
-    console.debug("selected date: " + selectedDate.toLocaleString());
-  }, [selectedDate])
-
   const handleChangePage = (event, offset) => {
     setPageOffset(offset);
     setOffset(offset);

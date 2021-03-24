@@ -15,8 +15,8 @@ export const useAppointmentByDoctorOnDate = (doctorId, selectedDate) => {
     "&limit=100" +
     "&doctorId=" + doctorId +
     "&is_confirmed=true" + 
-    "&start_at_min=" + selectedDate.toLocaleString() +
-    "&start_at_max=" + addHours(selectedDate, 1).toLocaleString();
+    "&start_at_min=" + selectedDate.toISOString() +
+    "&start_at_max=" + addHours(selectedDate, 1).toISOString();
 
   const { data, error } = useSWR(doctorId ? [url, loggedInUser.token] : null, customFetcher);
 
