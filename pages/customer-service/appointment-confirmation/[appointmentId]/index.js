@@ -11,7 +11,7 @@ import AppointmentAction from "../../../../src/components/AppointmentAction/Appo
 import { GET_APPOINTMENT_URL } from "../../../../src/constants/url";
 import useAuthContext from "../../../../src/contexts/authContext";
 import { useSnackbar } from "notistack";
-import { successNotify } from "../../../../src/constants/notistackVariants";
+import { errorNotify, successNotify } from "../../../../src/constants/notistackVariants";
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -63,7 +63,7 @@ function ConfirmAppointmentDetailPage() {
         }
       })
       .catch((error) => {
-        enqueueSnackbar(t("Error during confirm appointment: " + error));
+        enqueueSnackbar(t("Error during confirm appointment: ") + error, errorNotify);
         console.error(error);
       });
   };

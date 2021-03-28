@@ -77,7 +77,7 @@ export default function AccountLinkingRequestDetailDialog(props) {
 
       <Grid container spacing={2} className={classes.container}>
         <Grid item xs={12}>
-          <Button fullWidth variant="contained" color="primary">
+          <Button fullWidth variant="contained" color="primary" onClick={handleLink}>
             {t("Link")}
           </Button>
         </Grid>

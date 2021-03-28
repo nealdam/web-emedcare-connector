@@ -62,7 +62,7 @@ export default function PatientAccountRelatedPatientTableRow(props) {
                       <TableCell>
                         {/* {toDate(parseISO(patient.birthDate))} */}
                       </TableCell>
-                      <TableCell>{patient.calledBy}</TableCell>
+                      <TableCell>{patient.calledBy == "Owner" ? t("Owner") : patient.calledBy}</TableCell>
                       <TableCell>
                         {patient.isConnected ? (
                           <ColorChip label={t("Linked")} />
@@ -71,7 +71,7 @@ export default function PatientAccountRelatedPatientTableRow(props) {
                         )}
                       </TableCell>
                       <TableCell>
-                        <Button variant="outlined" color="primary" onClick={() => handleClickDetail(profile.id, patient.id)} >
+                        <Button variant="outlined" color="primary" onClick={() => handleClickDetail(profile.id, patient.id, patient.calledBy == "Owner")} >
                           {t("Info")}
                         </Button>
                       </TableCell>
