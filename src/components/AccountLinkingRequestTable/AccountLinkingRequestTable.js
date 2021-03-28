@@ -19,64 +19,10 @@ import AccountLinkingRequestDetailDialog from "./AccountLinkingRequestDetailDial
 import { useState } from "react";
 import PatientAccountRelatedPatientTableRow from "./PatientAccountRelatedPatientTableRow/PatientAccountRelatedPatientTableRow";
 
-const linkingRequests = [
-  {
-    id: 1,
-    name: "Nguyen Van A",
-    birthDate: "08/10/1997",
-    phoneNumber: "0906469459",
-    profileRelationship: "Chính chủ",
-    status: true,
-  },
-  {
-    id: 1,
-    name: "Nguyen Van A",
-    birthDate: "08/10/1997",
-    phoneNumber: "0906469459",
-    profileRelationship: "Cha",
-    status: false,
-  },
-  {
-    id: 1,
-    name: "Nguyen Van A",
-    birthDate: "08/10/1997",
-    phoneNumber: "0906469459",
-    profileRelationship: "Mẹ",
-    status: false,
-  },
-  {
-    id: 1,
-    name: "Nguyen Van A",
-    birthDate: "08/10/1997",
-    phoneNumber: "0906469459",
-    profileRelationship: "Bác",
-    status: false,
-  },
-  {
-    id: 1,
-    name: "Nguyen Van A",
-    birthDate: "08/10/1997",
-    phoneNumber: "0906469459",
-    profileRelationship: "Thím",
-    status: false,
-  },
-];
-
 export default function AccountLinkingRequestTable(props) {
   const { t } = useTranslation();
-  const { profiles, isLoading, isError, handleSearch } = props;
-
-  const [isRequestDetailOpen, setIsRequestDetailOpen] = useState(false);
+  const { profiles, isLoading, isError, handleSearch, handleClickDetail } = props;
   const [selectedRequest, setSelectedRequest] = useState();
-
-  const handleLinking = () => {
-    return;
-  }
-
-  const handleClickDetail = () => {
-    setSelectedRequest();
-    setIsRequestDetailOpen(true);
-  }
 
   if (isLoading) return <div>Loading</div>
   if (isError) return <div>Error</div>
@@ -106,7 +52,7 @@ export default function AccountLinkingRequestTable(props) {
                 </TableHead>
                 <TableBody>
                   {profiles.map((profile) => (
-                    <PatientAccountRelatedPatientTableRow profile={profile} colSpan={4} key={profile.id} />
+                    <PatientAccountRelatedPatientTableRow profile={profile} colSpan={4} key={profile.id} handleClickDetail={handleClickDetail} />
                   ))}
                 </TableBody>
               </Table>
@@ -114,7 +60,6 @@ export default function AccountLinkingRequestTable(props) {
           </Grid>
         </Grid>
       </Section>
-      <AccountLinkingRequestDetailDialog isOpen={isRequestDetailOpen} handleClose={() => {setIsRequestDetailOpen(false)}} handleLink={handleLinking} />
     </div>
   );
 }

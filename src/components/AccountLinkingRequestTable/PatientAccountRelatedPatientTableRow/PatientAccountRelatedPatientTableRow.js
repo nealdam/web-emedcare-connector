@@ -20,7 +20,7 @@ import { useState } from "react";
 import ColorChip from "../../ColorChip/ColorChip";
 
 export default function PatientAccountRelatedPatientTableRow(props) {
-  const { profile, colSpan } = props;
+  const { profile, colSpan, handleClickDetail } = props;
   const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
@@ -71,7 +71,7 @@ export default function PatientAccountRelatedPatientTableRow(props) {
                         )}
                       </TableCell>
                       <TableCell>
-                        <Button variant="outlined" color="primary" >
+                        <Button variant="outlined" color="primary" onClick={() => handleClickDetail(profile.id, patient.id)} >
                           {t("Info")}
                         </Button>
                       </TableCell>

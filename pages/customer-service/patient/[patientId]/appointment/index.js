@@ -12,26 +12,39 @@ import { useTranslation } from "../../../../../src/i18n";
 
 const useStyle = makeStyles((theme) => ({
   paper: {
-    padding: theme.spacing(2)
-  }
-}))
+    padding: theme.spacing(2),
+  },
+}));
 
 function CustomerServicePatientAppointmentPage() {
   const router = useRouter();
   const { patientId } = router.query;
   const classes = useStyle();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const [appointmentOffset, setAppointmentOffset] = useState(0);
   const [appointmentLimit, setAppointmentLimit] = useState(DEFAULT_PAGE_SIZE);
 
-  const { data, isLoading, isError } = useAppointmentInfoByPatient(patientId, appointmentOffset, appointmentLimit);
+  const { data, isLoading, isError } = useAppointmentInfoByPatient(
+    patientId,
+    appointmentOffset,
+    appointmentLimit
+  );
+
+  const handleClickAppointmentDetail = (appointmentId) => {
+    router.push("/customer-service/appointment/" + appointmentId);
+  };
 
   return (
     <Section title={t("Appointment")}>
-      <PatientAppointmentTable appointments={data} isLoading={isLoading} isError={isError} />
+      <PatientAppointmentTable
+        appointments={data}
+        isLoading={isLoading}
+        isError={isError}
+        handleClickAppointmentDetail={handleClickAppointmentDetail}
+      />
     </Section>
-  )
+  );
 }
 
 export default protectRoute(defaultPage(CustomerServicePatientAppointmentPage));

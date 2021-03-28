@@ -17,21 +17,6 @@ import PropTypes from "prop-types";
 import { forwardRef } from "react";
 import Section from "../../Section/Section";
 
-const request = {
-  account: {
-    id: 1,
-    name: "Nguyen Van A",
-    birthDate: "08/10/1997",
-    phoneNumber: "0906469459",
-  },
-  patient: {
-    id: 1,
-    name: "Nguyen Van A",
-    birthDate: "08/10/1997",
-    hisCode: "PA001",
-  },
-};
-
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
@@ -57,7 +42,15 @@ export default function AccountLinkingRequestDetailDialog(props) {
   const classes = useStyles();
   const { t } = useTranslation();
 
-  const { isOpen, handleClose, handleLink } = props;
+  const {
+    isLoading,
+    isError,
+    account,
+    patient,
+    isOpen,
+    handleClose,
+    handleLink,
+  } = props;
 
   return (
     <Dialog
@@ -95,17 +88,17 @@ export default function AccountLinkingRequestDetailDialog(props) {
               variant="outlined"
               fullWidth
               label={t("Name")}
-              value={request.account.name}
               InputProps={{
                 readOnly: true,
               }}
+              value={account && account.name}
             />
             <TextField
               className={classes.textField}
               variant="outlined"
               fullWidth
               label={t("Birth date")}
-              value={request.account.birthDate}
+              value={account && account.birthDate}
               InputProps={{
                 readOnly: true,
               }}
@@ -115,7 +108,7 @@ export default function AccountLinkingRequestDetailDialog(props) {
               variant="outlined"
               fullWidth
               label={t("Phone number")}
-              value={request.account.phoneNumber}
+              value={account && account.phoneNumber}
               InputProps={{
                 readOnly: true,
               }}
@@ -129,7 +122,7 @@ export default function AccountLinkingRequestDetailDialog(props) {
               variant="outlined"
               fullWidth
               label={t("Name")}
-              value={request.patient.name}
+              value={patient && patient.name}
               InputProps={{
                 readOnly: true,
               }}
@@ -139,7 +132,7 @@ export default function AccountLinkingRequestDetailDialog(props) {
               variant="outlined"
               fullWidth
               label={t("Birth date")}
-              value={request.patient.birthDate}
+              value={patient && patient.birthDate}
               InputProps={{
                 readOnly: true,
               }}
@@ -149,7 +142,7 @@ export default function AccountLinkingRequestDetailDialog(props) {
               variant="outlined"
               fullWidth
               label={t("Patient code")}
-              value={request.patient.hisCode}
+              value={patient && patient.hisCode}
               InputProps={{
                 readOnly: true,
               }}
@@ -168,6 +161,10 @@ export default function AccountLinkingRequestDetailDialog(props) {
 }
 
 AccountLinkingRequestDetailDialog.propTypes = {
+  isLoading: PropTypes.bool,
+  isError: PropTypes.object,
+  account: PropTypes.object,
+  patient: PropTypes.object,
   isOpen: PropTypes.bool,
   handleClose: PropTypes.func,
   handleLink: PropTypes.func,

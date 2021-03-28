@@ -107,3 +107,19 @@ export const useSingleAppointmentDetail = () => {
     setAppointmentId: setAppointmentId,
   };
 };
+
+export const useSingleAppointmentDetailById = (appointmentId) => {
+  const { loggedInUser } = useAuthContext();
+
+  const url = GET_APPOINTMENT_URL + "/" + appointmentId + "/detail";
+  const { data, error } = useSWR(
+    appointmentId ? [url, loggedInUser.token] : null,
+    customFetcher
+  );
+
+  return {
+    data: data && data.data,
+    isLoading: !error && !data,
+    isError: error
+  };
+};

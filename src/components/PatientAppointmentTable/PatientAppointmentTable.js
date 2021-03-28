@@ -8,16 +8,18 @@ import {
   TableBody,
   Chip,
   colors,
+  IconButton,
 } from "@material-ui/core";
 import { red } from "@material-ui/core/colors";
 import { useTranslation } from "../../i18n";
 import PropTypes from 'prop-types';
 import { toDate, toTime } from "../../utils/datetimeUtil";
 import { addMinutes, parse, parseISO } from "date-fns";
+import InfoIcon from '@material-ui/icons/Info';
 
 export default function PatientAppointmentTable(props) {
   const { t } = useTranslation();
-  const { appointments, isLoading, isError } = props;
+  const { appointments, isLoading, isError, handleClickAppointmentDetail } = props;
 
   if (isLoading) return <div>Loading</div>
   if (isError) return <div>Error</div>
@@ -35,6 +37,7 @@ export default function PatientAppointmentTable(props) {
               <TableCell>{t("Block")}</TableCell>
               {/* <TableCell>{t("Specialist")}</TableCell> */}
               <TableCell>{t("Status")}</TableCell>
+              <TableCell>{t("Info")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -62,6 +65,11 @@ export default function PatientAppointmentTable(props) {
                             : <Chip label={appointment.status.displayName} color="primary" style={{backgroundColor: colors.red[500]}} />
                   }
                 </TableCell>
+                <TableCell>
+                  <IconButton color="primary" onClick={() => handleClickAppointmentDetail(appointment.id)}>
+                    <InfoIcon />
+                  </IconButton>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -75,4 +83,5 @@ PatientAppointmentTable.propTypes = {
   appointments: PropTypes.array,
   isLoading: PropTypes.bool,
   isError: PropTypes.object,
+  handleClickAppointmentDetail: PropTypes.func,
 }
