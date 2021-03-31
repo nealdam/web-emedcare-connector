@@ -28,7 +28,7 @@ function LoginPage() {
         <Avatar className={classes.avatar}>
           <LockOutlined />
         </Avatar>
-        <LoginForm handleLoginClick={serverLogin} handleGoogleLoginClick={googleLogin} />
+        <LoginForm handleLoginClick={emailPasswordLogin} handleGoogleLoginClick={googleLogin} />
       </div>
     </Container>
   )

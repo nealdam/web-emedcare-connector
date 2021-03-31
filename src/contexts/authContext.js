@@ -9,7 +9,7 @@ import {
   successNotify,
 } from "../constants/notistackVariants";
 import { useSnackbar } from "notistack";
-import { useLoginUsernameEmailPassword } from "../hooks/authHooks";
+import { useLoginUsernameEmailPassword, useServerGoogleTokenLogin } from "../hooks/authHooks";
 
 const AuthContext = createContext({});
 
@@ -17,37 +17,30 @@ export const AuthProvider = ({ children }) => {
   const [loggedInUser, setLoggedInUser] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState();
-
   const { enqueueSnackbar } = useSnackbar();
-
   const router = useRouter();
-
   const [googleUser, authLoading, authError] = useAuthState(firebaseAuth);
   const {
     user: serverUser,
     isLoading: isAuthServerLoading,
     isError: isAuthServerError,
     login: serverLogin,
-  } = useLoginUsernameEmailPassword();
-
-  // init get local lastuser
-  useEffect(() => {
-    let lastUserString = localStorage.getItem("lastUser");
-
-    if (lastUserString) {
-      let lastUser = JSON.parse(lastUserString);
-      setLoggedInUser(lastUser);
-    }
-  }, []);
+  } = useServerGoogleTokenLogin();
 
   // auth loading watcher
   useEffect(() => {
+    console.debug("Google Auth loading: " + authLoading + "\nServer Auth loading: " + isAuthServerLoading);
+
     if (authLoading || isAuthServerLoading) setIsLoading(true);
-    else if (!authLoading && !isAuthServerLoading) setIsLoading(false);
+    // else if (!authLoading && !isAuthServerLoading) setIsLoading(false);
+
+    console.debug("Is auth loading: " + isLoading);
   }, [authLoading, isAuthServerLoading]);
 
   // auth error watcher
   useEffect(() => {
+    console.debug("Google Auth error: " + authError + "\nServer Auth error: " + isAuthServerError);
+    
     if (authError || isAuthServerError)
       setIsError(authError ? authError : isAuthServerError);
     else if (!authError && !isAuthServerError) setIsError(null);
@@ -57,14 +50,8 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (googleUser && googleUser.uid) {
       if (isAllowedLoginDomain(googleUser.email)) {
-        // check allowed domain
-        console.debug("Gmail domain is allowed");
-
-        // TODO serverLogin with jwt
+        serverLogin(googleUser.ya);
       } else {
-        // wrong email domain
-        console.debug("Gmail domain isn't allowed");
-
         enqueueSnackbar(
           "Must sign in with " + process.env.allowedLoginDomain + " domain",
           errorNotify
@@ -81,6 +68,8 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.setItem("lastUser", JSON.stringify(serverUser));
     }
+
+    if (!authLoading && !isAuthServerLoading) setIsLoading(false);
   }, [serverUser]);
 
   // logged in user watcher
@@ -132,6 +121,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = (pushMess) => {
+
+    setLoggedInUser(undefined);
+
     firebaseAuth
       .signOut()
       .then(() => {
@@ -149,7 +141,6 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated: !!loggedInUser,
         loggedInUser: loggedInUser,
         authLoading: isLoading,
-        serverLogin,
         googleLogin: googlePopupLogin,
         emailPasswordLogin: firebaseEmailPasswordLogin,
         logout,

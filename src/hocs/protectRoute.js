@@ -9,13 +9,7 @@ export function protectRoute(Component) {
     const router = useRouter();
 
     useEffect(() => {
-      console.log(
-        "Auth loading: " +
-          authLoading +
-          "\nIs Authenticated: " +
-          isAuthenticated
-      );
-
+      console.log("Is done loading: " + (!authLoading && !isAuthenticated))
       if (!authLoading && !isAuthenticated) {
         console.log("Pushed back to login page");
         router.push({
