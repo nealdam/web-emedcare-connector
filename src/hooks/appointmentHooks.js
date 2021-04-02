@@ -10,7 +10,7 @@ export const useAppointmentInfoByPatient = (patientId, offset, limit) => {
   const { loggedInUser } = useAuthContext();
 
   const url =
-    GET_APPOINTMENT_URL + "/information"
+    GET_APPOINTMENT_URL + "/information" +
     "?offset=" + offset +
     "&limit=" + limit +
     "&patientId=" + patientId;
