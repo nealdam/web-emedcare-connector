@@ -9,7 +9,10 @@ import {
   successNotify,
 } from "../constants/notistackVariants";
 import { useSnackbar } from "notistack";
-import { useLoginUsernameEmailPassword, useServerGoogleTokenLogin } from "../hooks/authHooks";
+import {
+  useLoginUsernameEmailPassword,
+  useServerGoogleTokenLogin,
+} from "../hooks/authHooks";
 
 const AuthContext = createContext({});
 
@@ -29,18 +32,29 @@ export const AuthProvider = ({ children }) => {
 
   // auth loading watcher
   useEffect(() => {
-    console.debug("Google Auth loading: " + authLoading + "\nServer Auth loading: " + isAuthServerLoading);
+    console.debug(
+      "Google Auth loading: " +
+        authLoading +
+        "\nServer Auth loading: " +
+        isAuthServerLoading
+    );
 
     if (authLoading || isAuthServerLoading) setIsLoading(true);
     // else if (!authLoading && !isAuthServerLoading) setIsLoading(false);
+    else if (!googleUser && !authLoading) setIsLoading(false);
 
     console.debug("Is auth loading: " + isLoading);
   }, [authLoading, isAuthServerLoading]);
 
   // auth error watcher
   useEffect(() => {
-    console.debug("Google Auth error: " + authError + "\nServer Auth error: " + isAuthServerError);
-    
+    console.debug(
+      "Google Auth error: " +
+        authError +
+        "\nServer Auth error: " +
+        isAuthServerError
+    );
+
     if (authError || isAuthServerError)
       setIsError(authError ? authError : isAuthServerError);
     else if (!authError && !isAuthServerError) setIsError(null);
@@ -58,11 +72,12 @@ export const AuthProvider = ({ children }) => {
         );
         logout(false);
       }
-    }
+    } 
   }, [googleUser]);
 
   // server user watcher
   useEffect(() => {
+    console.log("server user change");
     if (serverUser) {
       setLoggedInUser(serverUser);
 
@@ -75,7 +90,6 @@ export const AuthProvider = ({ children }) => {
   // logged in user watcher
   useEffect(() => {
     if (loggedInUser) {
-
       if (router.query.lastUrl) {
         router.push(router.query.lastUrl);
       } else if (!router.pathname.startsWith("/login")) {
@@ -121,8 +135,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = (pushMess) => {
-
     setLoggedInUser(undefined);
+    console.log("log out");
 
     firebaseAuth
       .signOut()

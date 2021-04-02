@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export const useServerGoogleTokenLogin = () => {
   const [data, setData] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState();
 
   const url = SERVER_AUTH_URL + "/login/agent/google";
