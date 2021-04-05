@@ -1,4 +1,4 @@
-import { addDays, addHours } from "date-fns";
+import { addDays, addHours, subMilliseconds } from "date-fns";
 import { useState } from "react";
 import useSWR from "swr";
 import { DEFAULT_PAGE_SIZE } from "../constants/pagingConstant";
@@ -35,7 +35,7 @@ export const useAppointmentByDoctorOnDate = (doctorId, selectedDate) => {
     "&doctorId=" + doctorId +
     "&is_confirmed=true" + 
     "&start_at_min=" + selectedDate.toISOString() +
-    "&start_at_max=" + addHours(selectedDate, 1).toISOString();
+    "&start_at_max=" +  subMilliseconds(addHours(selectedDate, 1), 1).toISOString();
 
   const { data, error } = useSWR(doctorId ? [url, loggedInUser.token] : null, customFetcher);
 

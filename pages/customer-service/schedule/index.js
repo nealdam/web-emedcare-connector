@@ -15,7 +15,7 @@ import { useTranslation } from "../../../src/i18n";
 const useStyle = makeStyles((theme) => ({
   fab: {
     position: "fixed",
-    bottom: theme.spacing(5),
+    bottom: theme.spacing(6),
     right: theme.spacing(2),
   },
 }));

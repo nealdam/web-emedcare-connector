@@ -17,8 +17,10 @@ function CustomerServiceAppointmentDetailPage() {
     appointmentId
   );
 
-  const handleConfirm = () => {};
-  const handleFinish = () => {};
+  // const handleConfirm = () => {};
+  const handleFinish = () => {
+    
+  };
   const handleCancel = () => {};
 
   return (
