@@ -61,7 +61,7 @@ export const useUnconfirmedAppointment = () => {
     offset +
     "&limit=" +
     limit +
-    "&is_confirmed=false";
+    "&status_id=1";
   const { data, error } = useSWR([url, loggedInUser.token], customFetcher);
 
   return {
@@ -76,7 +76,7 @@ export const useUnconfirmedAppointment = () => {
 
 export const useGetUnConfirmedAppointmentCount = () => {
   console.debug("--- Get UnConfirmed Appointment Count ---");
-  const url = GET_APPOINTMENT_URL + "/count?is_confirmed=false";
+  const url = GET_APPOINTMENT_URL + "/count?status_id=1";
 
   const { loggedInUser } = useAuthContext();
 
