@@ -1,6 +1,6 @@
 const host = process.env.serverUrl;
 
-export const SERVER_AUTH_URL = host + "/Auth";
+export const SERVER_AUTH_URL = host + "/auth";
 
 export const GET_NURSE_URL = host + "/nurses"
 export const CREATE_NEW_NURSE_URL = host + "/nurses"
