@@ -1,9 +1,12 @@
 import PropTypes from 'prop-types'
 import { Fragment } from "react";
 import { useAppointmentByDoctorOnDate } from "../../../hooks/appointmentHooks";
+import { useTranslation } from '../../../i18n';
 import AppointmentCell from "../AppointmentCell/AppointmentCell";
 
 export default function ScheduleCell(props) {
+  const { t } = useTranslation();
+
   const { doctorId, selectedTime } = props;
 
   // console.debug("selected time: " + selectedTime.toISOString());
@@ -14,8 +17,8 @@ export default function ScheduleCell(props) {
     isError,
   } = useAppointmentByDoctorOnDate(doctorId, selectedTime);
 
-  if (isLoading) return <div>Loading</div>;
-  if (isError) return <div>Error</div>;
+  if (isLoading) return <div>{t("Loading")}</div>;
+  if (isError) return <div>{t("Error")}</div>;
 
   return (
     <Fragment>

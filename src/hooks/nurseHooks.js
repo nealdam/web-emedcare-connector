@@ -33,7 +33,7 @@ export const useSingleNurseDetail = () => {
     const { data, error } = useSWR(nurseId ? [url, loggedInUser.token] : null, customFetcher);
 
     return {
-        data: data,
+        data: data && data.data,
         isLoading: !error && !data,
         isError: error,
         setNurseId: setNurseId

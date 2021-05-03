@@ -19,6 +19,7 @@ import useGlobalContext from "../../contexts/globalContext";
 import { useTranslation } from "../../i18n";
 import PatientIcon from "../../constants/icons/PatientIcon";
 import DoctorIcon from "../../constants/icons/DoctorIcon";
+import HealthDeclarationIcon from '@material-ui/icons/Assignment';
 import {
   EventAvailable,
   EventNote,
@@ -228,6 +229,17 @@ function MyDrawer(props) {
               <People />
             </ListItemIcon>
             <ListItemText primary={t("Room queue")} />
+          </ListItem>
+        </Link>
+        <Link href="/helper/health-declaration">
+          <ListItem
+            button
+            selected={drawerSelectedItem.startsWith("/helper/health-declaration")}
+          >
+            <ListItemIcon>
+              <HealthDeclarationIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("Health declaration")} />
           </ListItem>
         </Link>
       </List>

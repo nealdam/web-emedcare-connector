@@ -8,8 +8,8 @@ export default function NurseDetail(props) {
   const { t } = useTranslation();
   const { nurse, isLoading, isError } = props;
 
-  if (isLoading) return <div>Loading</div>
-  if (isError) return <div>Error</div>
+  if (isLoading) return <div>{t("Loading")}</div>
+  if (isError) return <div>{t("Error")}</div>
 
   return (
       <NurseInfo nurse={nurse} />

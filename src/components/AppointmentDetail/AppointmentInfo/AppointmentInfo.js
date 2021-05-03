@@ -18,7 +18,7 @@ export default function AppointmentInfo(props) {
   return (
     <Section title={t("Appointment info")}>
       {isLoading && <LinearProgress />}
-      {isError && <div>Error</div>}
+      {isError && <div>{t("Error")}</div>}
       {appointment && (
         <>
           <TextField

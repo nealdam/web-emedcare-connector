@@ -1,5 +1,6 @@
 import { Grid } from "@material-ui/core";
 import PropTypes from "prop-types";
+import { useTranslation } from "../../i18n";
 import BlockTable from "../BlockTable";
 import DoctorInfo from "../DoctorDetail/DoctorInfo";
 import NurseInfo from "../NurseDetail/NurseInfo";
@@ -15,11 +16,12 @@ const blocks = [
 ]
 
 export default function ShiftDetail(props) {
- 
+  const { t } = useTranslation();
+
   const { shift, isLoading, isError } = props;
 
-  if (isLoading) return <div>Loading</div>
-  if (isError) return <div>Error</div>
+  if (isLoading) return <div>{t("Loading")}</div>
+  if (isError) return <div>{t("Error")}</div>
 
   return (
     <Grid container spacing={2}>

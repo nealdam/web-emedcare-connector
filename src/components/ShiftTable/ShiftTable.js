@@ -60,6 +60,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ShiftRow = (props) => {
   const classes = useStyles();
+  const { t } = useTranslation();
+
   const {
     doctor,
     getDoctorShift,
@@ -71,8 +73,8 @@ const ShiftRow = (props) => {
 
   const weekDayIndex = [0, 1, 2, 3, 4, 5, 6];
 
-  if (isLoading) return <div>Loading</div>;
-  if (isError) return <div>Error</div>;
+  if (isLoading) return <div>{t("Loading")}</div>;
+  if (isError) return <div>{t("Error")}</div>;
 
   return (
     <TableRow>
@@ -153,8 +155,8 @@ export default function ShiftTable(props) {
     router.push(router.asPath + "/" + shiftId + "/detail");
   };
 
-  if (isLoading) return <div>Loading</div>;
-  if (isError) return <div>Error</div>;
+  if (isLoading) return <div>{t("Loading")}</div>;
+  if (isError) return <div>{t("Error")}</div>;
 
   return (
     <Section title={t("Shift table")}>

@@ -119,5 +119,8 @@
   "Appointment info": "Thông tin lịch hẹn",
   "Confirm": "Xác nhận",
   "Finish": "Hoàn tất", 
-  "Owner": "Chủ tài khoản"
+  "Owner": "Chủ tài khoản",
+  "Waiting": "Chờ khám",
+  "Loading": "Đang tải",
+  "Error": "Xảy ra lỗi"
 }

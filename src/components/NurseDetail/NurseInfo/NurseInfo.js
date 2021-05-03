@@ -64,7 +64,7 @@ export default function NurseInfo(props) {
             variant="outlined"
             fullWidth
             label={t("Birth date")}
-            value={toDate(nurse.birthDate)}
+            value={nurse.birthDate && toDate(nurse.birthDate)}
             InputProps={{
               readOnly: true,
             }}

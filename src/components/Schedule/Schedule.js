@@ -115,8 +115,8 @@ function Schedule(props) {
     setSelectedDate(date);
   };
 
-  if (isLoading) return <div>Loading</div>;
-  if (isError) return <div>Error</div>;
+  if (isLoading) return <div>{t("Loading")}</div>;
+  if (isError) return <div>{t("Error")}</div>;
 
   return (
     <Section title={t("Appointment list")}>

@@ -14,8 +14,8 @@ export default function RoomQueueDetailTable(props) {
   const { t } = useTranslation();
   const { patients, room, isLoading, isError } =  props;
 
-  if (isLoading) return <div>Loading</div>
-  if (isError) return <div>Error</div>
+  if (isLoading) return <div>{t("Loading")}</div>
+  if (isError) return <div>{t("Error")}</div>
 
   return (
     <Section title={`${t("Queue list")} - ${t("Room name")}: ${room.name} - ${t("Room number")}: ${room.number}`}>
