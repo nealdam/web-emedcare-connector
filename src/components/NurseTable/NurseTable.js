@@ -89,7 +89,8 @@ export default function NurseTable(props) {
                 <TableCell>{nurse.name}</TableCell>
                 <TableCell>
                   {/* {nurse.gender == 0 ? <MaleIcon /> : <FemaleIcon />} */}
-                  <SexIcon sex={nurse.gender} />
+                  {/* <SexIcon sex={nurse.gender} /> */}
+                  {nurse.sex ? t("Female") : t("Male")}
                 </TableCell>
                 <TableCell>
                   {format(parseISO(nurse.birthDate), "dd/MM/yyy")}

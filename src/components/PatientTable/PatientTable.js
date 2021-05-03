@@ -120,7 +120,8 @@ export default function PatientTable(props) {
                 </TableCell>
                 <TableCell align="center">
                   {/* {row.sex ? <FemaleIcon /> : <MaleIcon />} */}
-                  <SexIcon sex={row.sex} />
+                  {/* <SexIcon sex={row.sex} /> */}
+                  {row.sex ? t("Female") : t("Male")}
                 </TableCell>
                 <TableCell align="center">
                   <IconButton

@@ -95,7 +95,8 @@ export default function DoctorTable(props) {
                 <TableCell>{row.name}</TableCell>
                 <TableCell align="center">
                   {/* {row.gender == 0 ? <FemaleIcon /> : <MaleIcon />} */}
-                  <SexIcon sex={row.gender} />
+                  {/* <SexIcon sex={row.gender} /> */}
+                  {row.sex ? t("Female") : t("Male")}
                 </TableCell>
                 <TableCell>
                   {row.birthDate
