@@ -28,14 +28,14 @@ export default function PatientInfo(props) {
   return (
     <Section title={t("Patient info")}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={3} md={2}>
+        {/* <Grid item xs={12} sm={3} md={2}>
           <img
             src="https://via.placeholder.com/150x200"
             alt="profile picture"
             className={classes.img}
           />
-        </Grid>
-        <Grid item xs={12} sm={9} md={10}>
+        </Grid> */}
+        <Grid item xs={12}>
           <TextField
             className={classes.textField}
             variant="outlined"
