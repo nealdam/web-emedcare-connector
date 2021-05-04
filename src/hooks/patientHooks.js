@@ -8,8 +8,8 @@ import customFetcher from "./customFetcher";
 export const useSinglePatient = (patientId) => {
   const { loggedInUser } = useAuthContext();
 
-  const url = GET_PATIENT_URL + "/" + patientId + "/profile";
-  const { data, error } = useSWR(patientId ? [url, loggedInUser] : null, customFetcher);
+  const url = GET_PATIENT_URL + "/" + patientId + "/detail";
+  const { data, error } = useSWR(patientId ? [url, loggedInUser.token] : null, customFetcher);
 
   return {
     data: data,

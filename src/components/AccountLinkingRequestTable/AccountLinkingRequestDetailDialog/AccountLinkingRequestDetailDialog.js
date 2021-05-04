@@ -16,6 +16,7 @@ import { useTranslation } from "../../../i18n";
 import PropTypes from "prop-types";
 import { forwardRef } from "react";
 import Section from "../../Section/Section";
+import { toDate } from "../../../utils/datetimeUtil";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -132,7 +133,7 @@ export default function AccountLinkingRequestDetailDialog(props) {
               variant="outlined"
               fullWidth
               label={t("Birth date")}
-              value={patient && patient.birthDate}
+              value={patient && toDate(patient.birthDate)}
               InputProps={{
                 readOnly: true,
               }}

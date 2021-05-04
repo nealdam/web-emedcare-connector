@@ -95,7 +95,7 @@ function AccountLinkingPage() {
         isError={isAccountError || isPatientError}
         handleClose={() => setIsDetailDialogOpen(false)}
         account={account}
-        patient={patient}
+        patient={patient && patient.data}
         handleLink={handleLink}
       />
     </Fragment>

@@ -104,7 +104,7 @@ export default function DoctorTable(props) {
                     : t(NO_DATA)}
                 </TableCell>
                 <TableCell>
-                  {row.account ? (
+                  {/* {row.account ? (
                     row.account.email
                   ) : (
                     <Button
@@ -115,7 +115,7 @@ export default function DoctorTable(props) {
                     >
                       {t("Create account")}
                     </Button>
-                  )}
+                  )} */}
                 </TableCell>
                 <TableCell>
                   {row.account && row.account.status.displayName}

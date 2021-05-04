@@ -51,11 +51,11 @@ function CustomerServiceAppointmentDetailPage() {
 
   return (
     <Fragment>
-      <AppointmentAction 
+      {/* <AppointmentAction 
         // handleConfirm={handleConfirm}
         handleFinish={handleFinish}
         // handleCancel={handleCancel}
-      />
+      /> */}
       <AppointmentDetail
         appointment={data}
         isLoading={isLoading}
