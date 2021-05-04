@@ -38,7 +38,7 @@ export default function AppointmentDetail(props) {
         <DoctorInfo doctor={appointment.doctor} />
       </Grid>
       <Grid item xs={12}>
-        <AppointmentResult result={appointment.result} />
+        <AppointmentResult result={appointment.examination} />
       </Grid>
     </Grid>
   );

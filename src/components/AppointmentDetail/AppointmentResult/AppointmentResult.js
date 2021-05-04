@@ -30,13 +30,13 @@ export default function AppointmentResult(props) {
               readOnly: true,
             }}
           />
-          <PrescriptionTable prescription={result.prescription} />
+          {/* <PrescriptionTable prescription={result.prescription} /> */}
           <TextField
             className={classes.textField}
             variant="outlined"
             fullWidth
             label={t("Advice")}
-            value={result.advice}
+            value={result.reminder}
             InputProps={{
               readOnly: true,
             }}

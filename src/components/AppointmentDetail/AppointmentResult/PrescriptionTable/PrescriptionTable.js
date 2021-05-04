@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
-import { Table, TableBody, TableCell, TableRow } from "@material-ui/core";
+import { Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core";
+import { useTranslation } from "../../../../i18n";
 
 export default function PrescriptionTable(props) {
   const { t } = useTranslation();
