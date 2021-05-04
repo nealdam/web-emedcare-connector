@@ -38,7 +38,7 @@ function HumanResourcesDoctorPage() {
   };
 
   const handleClickCreateDoctorAccount = (doctorId) => {
-    setIsCreateDoctorDialogOpen(true);
+    // setIsCreateDoctorDialogOpen(true);
   };
 
   // const handleClickAddNewDoctor = () => {

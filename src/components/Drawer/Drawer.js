@@ -231,7 +231,7 @@ function MyDrawer(props) {
             <ListItemText primary={t("Room queue")} />
           </ListItem>
         </Link>
-        <Link href="/helper/health-declaration">
+        {/* <Link href="/helper/health-declaration">
           <ListItem
             button
             selected={drawerSelectedItem.startsWith("/helper/health-declaration")}
@@ -241,7 +241,7 @@ function MyDrawer(props) {
             </ListItemIcon>
             <ListItemText primary={t("Health declaration")} />
           </ListItem>
-        </Link>
+        </Link> */}
       </List>
     </div>
   );

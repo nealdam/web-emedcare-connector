@@ -18,7 +18,7 @@ function HumanResourcesDoctorProfile() {
 
 
   return (
-      <DoctorDetail doctor={data} isLoading={isLoading} isError={isError} />
+      <DoctorDetail doctor={data && data.data} isLoading={isLoading} isError={isError} />
   )
 }
 

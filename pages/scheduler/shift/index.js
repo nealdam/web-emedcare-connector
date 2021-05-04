@@ -65,14 +65,14 @@ function SchedulerShiftPage() {
         setOffset={setDoctorsOffset}
         setLimit={setDoctorLimit}
       />
-      <Fab
+      {/* <Fab
         className={classes.fab}
         color="primary"
         aria-label="Add new shift"
         onClick={handleClickAddNewShift}
       >
         <Add />
-      </Fab>
+      </Fab> */}
     </div>
   );
 }

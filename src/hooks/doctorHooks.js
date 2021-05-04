@@ -74,7 +74,7 @@ export const useSingleDoctorDetail = () => {
     const {loggedInUser} = useAuthContext();
 
     const url = GET_DOCTOR_URL + "/" + doctorId + "/detail";
-    const { data, error } = useSWR(doctorId ? url : [null, loggedInUser.token], customFetcher);
+    const { data, error } = useSWR(doctorId ? [url, loggedInUser.token] : null, customFetcher);
 
     return {
         data: data,

@@ -3,8 +3,10 @@ import { Grid } from "@material-ui/core";
 import AccountDetail from "../AccountDetail";
 import DoctorInfo from "./DoctorInfo";
 import DoctorSpecialist from "./DoctorSpecialist";
+import { useTranslation } from '../../i18n';
 
 export default function DoctorDetail(props) {
+  const { t } = useTranslation();
 
   const { doctor, isLoading, isError } = props;
 

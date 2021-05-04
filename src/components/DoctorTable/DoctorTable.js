@@ -121,7 +121,7 @@ export default function DoctorTable(props) {
                   {row.account && row.account.status.displayName}
                 </TableCell>
                 <TableCell align="center">
-                  <IconButton color="primary" aria-label={t("Info")}>
+                  <IconButton color="primary" aria-label={t("Info")} onClick={() => handleClickDoctorDetail(row.id)}>
                     <InfoIcon />
                   </IconButton>
                 </TableCell>

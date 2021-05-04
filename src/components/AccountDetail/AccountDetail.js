@@ -19,6 +19,12 @@ export default function AccountDetail(props) {
 
   const { account } = props;
 
+  if (account == null) return(
+    <Section title={t("Account info")}>
+      {t("Account not created")}
+    </Section>
+  )
+
   return (
     <Section title={t("Account info")}>
 
