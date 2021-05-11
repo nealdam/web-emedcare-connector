@@ -1,6 +1,7 @@
 import {
   Button,
   Chip,
+  Grid,
   IconButton,
   InputAdornment,
   makeStyles,
@@ -14,7 +15,7 @@ import {
   TableRow,
   TextField,
 } from "@material-ui/core";
-import { Search } from "@material-ui/icons";
+import { Search, Sync } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
 import InfoIcon from "@material-ui/icons/Info";
 import { format, parseISO } from "date-fns";
@@ -69,42 +70,56 @@ export default function DoctorTable(props) {
 
   return (
     <Section title={t("Doctor list")}>
-      <SearchBox
-        helpText={`${t("Search")}: ${t("Doctor name")}, ${t(
-          "Doctor code"
-        )}, ${t("Account")}`}
-        handleSearch={handleClickSearch}
-      />
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t("Dr.No")}</TableCell>
-              <TableCell>{t("Name")}</TableCell>
-              <TableCell align="center">{t("Sex")}</TableCell>
-              <TableCell>{t("Birth date")}</TableCell>
-              <TableCell>{t("Account")}</TableCell>
-              <TableCell>{t("Account status")}</TableCell>
-              <TableCell align="center">{t("Info")}</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {doctors.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.hisCode}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell align="center">
-                  {/* {row.gender == 0 ? <FemaleIcon /> : <MaleIcon />} */}
-                  {/* <SexIcon sex={row.gender} /> */}
-                  {row.sex ? t("Female") : t("Male")}
-                </TableCell>
-                <TableCell>
-                  {row.birthDate
-                    ? format(parseISO(row.birthDate), "dd/MM/yyy")
-                    : t(NO_DATA)}
-                </TableCell>
-                <TableCell>
-                  {/* {row.account ? (
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={10}>
+          <SearchBox
+            helpText={`${t("Search")}: ${t("Doctor name")}, ${t(
+              "Doctor code"
+            )}, ${t("Account")}`}
+            handleSearch={handleClickSearch}
+          />
+        </Grid>
+        <Grid item xs={12} md={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Sync/>}
+            fullWidth
+          >
+            {t("Sync")}
+          </Button>
+        </Grid>
+
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>{t("Dr.No")}</TableCell>
+                <TableCell>{t("Name")}</TableCell>
+                <TableCell align="center">{t("Sex")}</TableCell>
+                <TableCell>{t("Birth date")}</TableCell>
+                <TableCell>{t("Account")}</TableCell>
+                <TableCell>{t("Account status")}</TableCell>
+                <TableCell align="center">{t("Info")}</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {doctors.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.hisCode}</TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell align="center">
+                    {/* {row.gender == 0 ? <FemaleIcon /> : <MaleIcon />} */}
+                    {/* <SexIcon sex={row.gender} /> */}
+                    {row.sex ? t("Female") : t("Male")}
+                  </TableCell>
+                  <TableCell>
+                    {row.birthDate
+                      ? format(parseISO(row.birthDate), "dd/MM/yyy")
+                      : t(NO_DATA)}
+                  </TableCell>
+                  <TableCell>
+                    {/* {row.account ? (
                     row.account.email
                   ) : (
                     <Button
@@ -116,29 +131,34 @@ export default function DoctorTable(props) {
                       {t("Create account")}
                     </Button>
                   )} */}
-                </TableCell>
-                <TableCell>
-                  {row.account && row.account.status.displayName}
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton color="primary" aria-label={t("Info")} onClick={() => handleClickDoctorDetail(row.id)}>
-                    <InfoIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[5, 10, 25, 50]}
-        component="div"
-        count={paging.totalCount}
-        rowsPerPage={rowsPerPage}
-        page={pageOffset}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
+                  </TableCell>
+                  <TableCell>
+                    {row.account && row.account.status.displayName}
+                  </TableCell>
+                  <TableCell align="center">
+                    <IconButton
+                      color="primary"
+                      aria-label={t("Info")}
+                      onClick={() => handleClickDoctorDetail(row.id)}
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50]}
+          component="div"
+          count={paging.totalCount}
+          rowsPerPage={rowsPerPage}
+          page={pageOffset}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+        />
+      </Grid>
     </Section>
   );
 }
