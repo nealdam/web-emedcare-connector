@@ -103,6 +103,7 @@ export default function ConfirmAppointmentTable(props) {
             page={pageOffset}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
+            labelRowsPerPage={t("Appointments per page")}
           />
         </Grid>
       </Grid>

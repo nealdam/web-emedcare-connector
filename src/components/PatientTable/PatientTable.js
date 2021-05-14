@@ -156,6 +156,7 @@ export default function PatientTable(props) {
         page={pageOffset}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
+        labelRowsPerPage={t("Patients per page")}
       />
     </Section>
   );

@@ -118,6 +118,7 @@ export default function NurseTable(props) {
         page={pageOffset}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
+        labelRowsPerPage={t("Nurses per page")}
       />
     </Section>
   );

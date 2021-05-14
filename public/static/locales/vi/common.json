@@ -130,5 +130,10 @@
   "Diagnosis": "Chuẩn đoán",
   "Advice": "Nhắc nhở",
   "Temperature": "Nhiệt độ",
-  "Yes answer": "Trả lời có"
+  "Yes answer": "Trả lời có",
+  "Appointments per page": "Lịch hẹn mỗi trang",
+  "Doctors per page": "Bác sĩ mỗi trang",
+  "Nurses per page": "Điều dưỡng mỗi trang",
+  "Patients per page": "Bệnh nhân mỗi trang",
+  "Rooms per page": "Phòng mỗi trang"
 }

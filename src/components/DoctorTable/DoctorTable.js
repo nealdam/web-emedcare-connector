@@ -157,6 +157,7 @@ export default function DoctorTable(props) {
           page={pageOffset}
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
+          labelRowsPerPage={t("Doctors per page")}
         />
       </Grid>
     </Section>

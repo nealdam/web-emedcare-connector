@@ -63,6 +63,9 @@ const time = [
 ];
 
 const useStyles = makeStyles((theme) => ({
+  tableContainer: {
+    maxHeight: 700,
+  },
   table: {
     minWidth: TABLE_MIN_WIDTH,
   },
@@ -71,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
   },
   timeCell: {
     minWidth: TIME_CELL_MIN_WiDTH,
+    position: "sticky",
+    left: 0,
+    background: "#F5F5F5",
   },
   paper: {
     //TODO: Table horizontal scroll
@@ -162,8 +168,9 @@ function Schedule(props) {
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper} variant="outlined">
-            <TableContainer>
+            <TableContainer className={classes.tableContainer}>
               <Table
+                stickyHeader
                 aria-label="customer service schedule"
                 className={classes.table}
               >
@@ -183,10 +190,13 @@ function Schedule(props) {
                 <TableBody>
                   {time.map((value, index) => (
                     <TableRow key={index}>
-                      <TableCell>{value.time}</TableCell>
+                      <TableCell className={classes.timeCell}>{value.time}</TableCell>
                       <ScheduleRow
                         doctors={doctors}
-                        currentDateTime={addHours(startOfDay(selectedDate), index)}
+                        currentDateTime={addHours(
+                          startOfDay(selectedDate),
+                          index
+                        )}
                       />
                     </TableRow>
                   ))}
@@ -201,6 +211,7 @@ function Schedule(props) {
               page={pageOffset}
               onChangePage={handleChangePage}
               onChangeRowsPerPage={handleChangeRowsPerPage}
+              labelRowsPerPage={t("Doctors per page")}
             />
           </Paper>
         </Grid>

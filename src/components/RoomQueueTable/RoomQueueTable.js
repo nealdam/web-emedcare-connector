@@ -106,6 +106,7 @@ export default function RoomQueueTable(props) {
             page={pageOffset}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
+            labelRowsPerPage={t("Rooms per page")}
           />
         </Grid>
       </Grid>

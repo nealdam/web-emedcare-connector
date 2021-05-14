@@ -40,9 +40,13 @@ import {
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
     marginTop: theme.spacing(2),
+    maxHeight: 700
   },
   doctorCell: {
     minWidth: 200,
+    position: "sticky",
+    left: 0,
+    background: "#F5F5F5",
   },
   dayCell: {
     minWidth: 250,
@@ -78,7 +82,7 @@ const ShiftRow = (props) => {
 
   return (
     <TableRow>
-      <TableCell>
+      <TableCell className={classes.doctorCell}>
         <DoctorCell name={doctor.name} code={doctor.hisCode} />
       </TableCell>
       {isLoading ? (
@@ -234,6 +238,7 @@ export default function ShiftTable(props) {
         page={pageOffset}
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
+        labelRowsPerPage={t("Doctors per page")}
       />
     </Section>
   );

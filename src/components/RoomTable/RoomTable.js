@@ -145,6 +145,7 @@ export default function RoomTable(props) {
             page={pageOffset}
             onChangePage={handleChangePage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
+            labelRowsPerPage={t("Rooms per page")}
           />
         </Grid>
       </Grid>
