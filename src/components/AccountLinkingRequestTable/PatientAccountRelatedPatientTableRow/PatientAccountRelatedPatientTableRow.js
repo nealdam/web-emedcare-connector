@@ -56,7 +56,7 @@ export default function PatientAccountRelatedPatientTableRow(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {profile.patients.map((patient) => (
+                  {profile.patients.map((patient) => patient && (
                     <TableRow key={patient.id}>
                       <TableCell>{patient.name}</TableCell>
                       <TableCell>
