@@ -33,6 +33,12 @@ An Van An's clinic Web UI for Van An's clinic agents.
 
 ### Usage
 
+  For linux
   ```sh
-  npm run build && npm run start
+  ./start.sh
+  ```
+  
+  For windows
+  ```sh
+  ./start.bat
   ```
