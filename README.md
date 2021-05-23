@@ -1,30 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# eMedCare Web
+
+## Overview
+
+An Van An's clinic Web UI for Van An's clinic agents.
+
+### Built With
+
+- [React](https://reactjs.org/)
+- [NextJS](https://nextjs.org/)
+- [MaterialUI](https://material-ui.com/)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+- NodeJS >= v10.13
+- NPM >= 6.4.1
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+1. Clone the repo
 
-## Learn More
+    ```sh
+    git clone https://github.com/nealdam/web-emedcare-connector.git
+    ```
 
-To learn more about Next.js, take a look at the following resources:
+2. Install NPM packages
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+    ```sh
+    npm install
+    ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Usage
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/import?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+  For linux
+  ```sh
+  ./start.sh
+  ```
+  
+  For windows
+  ```sh
+  ./start.bat
+  ```

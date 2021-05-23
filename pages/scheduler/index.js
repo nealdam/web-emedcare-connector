@@ -1,4 +1,5 @@
 import { defaultPage } from "../../src/hocs/defaultPage"
+import { protectRoute } from "../../src/hocs/protectRoute"
 
 function SchedulerPage() {
 
@@ -7,4 +8,4 @@ function SchedulerPage() {
   )
 }
 
-export default defaultPage(SchedulerPage)
+export default protectRoute(defaultPage(SchedulerPage))

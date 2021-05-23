@@ -1,6 +1,8 @@
 import {
   Button,
+  IconButton,
   InputAdornment,
+  LinearProgress,
   makeStyles,
   Paper,
   Table,
@@ -8,6 +10,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
 } from "@material-ui/core";
@@ -18,109 +21,56 @@ import { useTranslation } from "../../i18n";
 import Section from "../Section";
 import InfoIcon from "@material-ui/icons/Info";
 import { Search } from "@material-ui/icons";
-
-const nurses = [
-  {
-    id: 1,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 1,
-    birthDate: "13/02/1888",
-  },
-  {
-    id: 2,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 1,
-    birthDate: "13/02/1888",
-  },
-  {
-    id: 3,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 1,
-    birthDate: "13/02/1888",
-  },
-  {
-    id: 4,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 0,
-    birthDate: "13/02/1888",
-  },
-  {
-    id: 5,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 1,
-    birthDate: "13/02/1888",
-  },
-  {
-    id: 6,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 1,
-    birthDate: "13/02/1888",
-  },
-  {
-    id: 7,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 0,
-    birthDate: "13/02/1888",
-  },
-  {
-    id: 8,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 1,
-    birthDate: "13/02/1888",
-  },
-  {
-    id: 9,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 1,
-    birthDate: "13/02/1888",
-  },
-  {
-    id: 10,
-    hisCode: "001",
-    name: "Nguyễn Thị B",
-    sex: 1,
-    birthDate: "13/02/1888",
-  },
-];
+import { format, parseISO } from "date-fns";
+import { DEFAULT_PAGE_SIZE } from "../../constants/pagingConstant";
+import { useState } from "react";
+import SearchBox from "../SearchBox/SearchBox";
+import SexIcon from "../SexIcon/SexIcon";
 
 const useStyles = makeStyles((theme) => ({
   searchBox: {
     marginBottom: theme.spacing(2),
+  },
+  progressDiv: {
+    width: "100%",
+    display: "table"
   }
-}))
+}));
 
 export default function NurseTable(props) {
   const { t } = useTranslation();
-  const { handleClickNurseProfile } = props;
+  const {
+    handleClickNurseProfile,
+    nurses,
+    paging,
+    isLoading,
+    isError,
+    setOffset,
+    setLimit,
+  } = props;
   const classes = useStyles();
+
+  const [pageOffset, setPageOffset] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
+
+  const handleChangePage = (event, offset) => {
+    setPageOffset(offset);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value);
+  };
+
+  const handleClickSearch = (event) => {
+
+  }
+
+  if (isLoading) return <div>{t("Loading")}</div>;
+  if (isError) return <div>{t("Error")}</div>;
 
   return (
     <Section title={t("Nurse list")}>
-      <TextField
-        className={classes.searchBox}
-        variant="outlined"
-        fullWidth
-        label={t("Search")}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Search />
-            </InputAdornment>
-          ),
-        }}
-        helperText={`${t("Search")}: ${t("Nurse name")}, ${t(
-          "Nurse code"
-        )}`}
-      />
+      <SearchBox helpText={`${t("Search")}: ${t("Nurse name")}, ${t("Nurse code")}`} handleSearch={handleClickSearch} />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -138,9 +88,13 @@ export default function NurseTable(props) {
                 <TableCell>{nurse.hisCode}</TableCell>
                 <TableCell>{nurse.name}</TableCell>
                 <TableCell>
-                  {nurse.sex == 0 ? <MaleIcon /> : <FemaleIcon />}
+                  {/* {nurse.gender == 0 ? <MaleIcon /> : <FemaleIcon />} */}
+                  {/* <SexIcon sex={nurse.gender} /> */}
+                  {nurse.sex ? t("Female") : t("Male")}
                 </TableCell>
-                <TableCell>{nurse.birthDate}</TableCell>
+                <TableCell>
+                  {format(parseISO(nurse.birthDate), "dd/MM/yyy")}
+                </TableCell>
                 <TableCell>
                   <Button
                     variant="outlined"
@@ -156,6 +110,16 @@ export default function NurseTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25, 50]}
+        component="div"
+        count={paging && paging.totalCount}
+        rowsPerPage={rowsPerPage}
+        page={pageOffset}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+        labelRowsPerPage={t("Nurses per page")}
+      />
     </Section>
   );
 }
