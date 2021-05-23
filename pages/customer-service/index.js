@@ -1,4 +1,5 @@
 import { defaultPage } from "../../src/hocs/defaultPage"
+import { protectRoute } from "../../src/hocs/protectRoute"
 
 function CustomerServicePage() {
 
@@ -8,4 +9,4 @@ function CustomerServicePage() {
   )
 }
 
-export default defaultPage(CustomerServicePage)
+export default protectRoute(defaultPage(CustomerServicePage))

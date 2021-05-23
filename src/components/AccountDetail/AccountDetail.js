@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 import { useTranslation } from "../../i18n";
 import Section from "../Section";
 
-const accountDetail = { id: 1, username: "bs.nva", password: "*********", email: "bs.nva@gmail.com", phoneNumber: "0907485623"}
-
 const useStyle = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
@@ -15,9 +13,17 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 
-export default function AccountDetail() {
+export default function AccountDetail(props) {
   const classes = useStyle();
   const { t } = useTranslation();
+
+  const { account } = props;
+
+  if (account == null) return(
+    <Section title={t("Account info")}>
+      {t("Account not created")}
+    </Section>
+  )
 
   return (
     <Section title={t("Account info")}>
@@ -27,17 +33,7 @@ export default function AccountDetail() {
         variant="outlined"
         fullWidth
         label={t("Username")}
-        value={accountDetail.username}
-        InputProps={{
-          readOnly: true,
-        }}
-      />
-      <TextField
-        className={classes.textField}
-        variant="outlined"
-        fullWidth
-        label={t("Password")}
-        value={accountDetail.password}
+        value={account.username}
         InputProps={{
           readOnly: true,
         }}
@@ -47,7 +43,7 @@ export default function AccountDetail() {
         variant="outlined"
         fullWidth
         label={t("Email")}
-        value={accountDetail.email}
+        value={account.email}
         InputProps={{
           readOnly: true,
         }}
@@ -57,7 +53,7 @@ export default function AccountDetail() {
         variant="outlined"
         fullWidth
         label={t("Phone number")}
-        value={accountDetail.phoneNumber}
+        value={account.phoneNumber}
         InputProps={{
           readOnly: true,
         }}
@@ -67,5 +63,5 @@ export default function AccountDetail() {
 }
 
 AccountDetail.propTypes = {
-  accountDetail: PropTypes.object,
+  account: PropTypes.object,
 };

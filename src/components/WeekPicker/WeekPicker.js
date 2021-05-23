@@ -14,20 +14,20 @@ import { useTranslation } from "../../i18n";
 
 class WeekPicker extends PureComponent {
   state = {
-    selectedDate: startOfWeek(this.props.date),
+    selectedDate: startOfWeek(this.props.date, { weekStartsOn: 1}),
   };
 
   handleWeekChange = (date) => {
     this.props.setDate(date);
-    this.setState({ selectedDate: startOfWeek(date) });
+    this.setState({ selectedDate: startOfWeek(date, { weekStartsOn: 1}) });
   };
 
   formatWeekSelectLabel = (date, invalidLabel) => {
     let dateClone = date;
 
     return dateClone && isValid(dateClone)
-      ? `${format(startOfWeek(dateClone), "dd/MM")} - ${format(
-          endOfWeek(dateClone),
+      ? `${format(startOfWeek(dateClone, { weekStartsOn: 1}), "dd/MM")} - ${format(
+          endOfWeek(dateClone, { weekStartsOn: 1}),
           "dd/MM"
         )}`
       : invalidLabel;
@@ -38,8 +38,8 @@ class WeekPicker extends PureComponent {
     let dateClone = date;
     let selectedDateClone = selectedDate;
 
-    const start = startOfWeek(selectedDateClone);
-    const end = endOfWeek(selectedDateClone);
+    const start = startOfWeek(selectedDateClone, { weekStartsOn: 1});
+    const end = endOfWeek(selectedDateClone, { weekStartsOn: 1});
 
     const dayIsBetween = isWithinInterval(dateClone, { start, end });
     const isFirstDay = isSameDay(dateClone, start);

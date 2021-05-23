@@ -1,30 +1,58 @@
-import { Card, CardContent, Grid, makeStyles, Typography } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  Grid,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
 import PropTypes from "prop-types";
+import HisCodeIcon from "../../../constants/icons/HisCodeIcon";
+import PatientIcon from "../../../constants/icons/PatientIcon";
+import RoomIcon from "../../../constants/icons/RoomIcon";
 import { useTranslation } from "../../../i18n";
 
 const useStyle = makeStyles((theme) => ({
   card: {
-    cursor: "pointer",
-    "&:hover": {
-      background: theme.palette.action.hover
-    }
-  }
-}))
+    // cursor: "pointer",
+    // "&:hover": {
+    //   background: theme.palette.action.hover,
+    // },
+    marginBottom: theme.spacing(1)
+  },
+}));
 
 export default function AppointmentCell(props) {
   const { t } = useTranslation();
-  const { patientName = "Patient Name", patientCode = "Patient Code" } = props;
+  const {
+    patientName = "Patient Name",
+    patientCode = "Patient Code",
+    roomNumber = "P001",
+  } = props;
   const classes = useStyle();
 
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Typography variant="body1" component="p">
-          {t("Pt.")} {patientName}
-        </Typography>
-        <Typography variant="body2" component="p" color="textSecondary">
-          {t("Pt.No")} {patientCode}
-        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={2}>
+            <PatientIcon />
+          </Grid>
+          <Grid item xs={10}>
+            {patientName}
+          </Grid>
+          <Grid item xs={2}>
+            <HisCodeIcon />
+          </Grid>
+          <Grid item xs={10}>
+            {patientCode}
+          </Grid>
+          <Grid item xs={2}>
+            <RoomIcon />
+          </Grid>
+          <Grid item xs={10}>
+            {roomNumber}
+          </Grid>
+        </Grid>
       </CardContent>
     </Card>
   );
@@ -33,4 +61,5 @@ export default function AppointmentCell(props) {
 AppointmentCell.propTypes = {
   patientName: PropTypes.string,
   patientCode: PropTypes.string,
+  roomNumber: PropTypes.string,
 };

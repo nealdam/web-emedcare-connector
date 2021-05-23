@@ -3,73 +3,145 @@ import { firebaseAuth, googleProvider } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { isAllowedLoginDomain } from "../utils/emailUtil";
 import { useRouter } from "next/router";
-import { errorNotify, infoNotify, successNotify } from "../constants/notistackVariants";
+import {
+  errorNotify,
+  infoNotify,
+  successNotify,
+} from "../constants/notistackVariants";
 import { useSnackbar } from "notistack";
+import {
+  useLoginUsernameEmailPassword,
+  useServerGoogleTokenLogin,
+} from "../hooks/authHooks";
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
-
+  const [loggedInUser, setLoggedInUser] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState();
   const { enqueueSnackbar } = useSnackbar();
-
   const router = useRouter();
+  const [googleUser, authLoading, authError] = useAuthState(firebaseAuth);
+  const {
+    user: serverUser,
+    isLoading: isAuthServerLoading,
+    isError: isAuthServerError,
+    login: serverLogin,
+  } = useServerGoogleTokenLogin();
 
-  const [loggedInUser, setLoggedInUser] = useState(null);
-  const [user, authLoading, authError] = useAuthState(firebaseAuth);
-
+  // auth loading watcher
   useEffect(() => {
-    console.debug("authLoading", authLoading);
-  }, [authLoading]);
+    console.debug(
+      "Google Auth loading: " +
+        authLoading +
+        "\nServer Auth loading: " +
+        isAuthServerLoading
+    );
 
-  useEffect(() => {
-    authError && console.error("authError", authError);
-  }, [authError]);
+    if (authLoading || isAuthServerLoading) setIsLoading(true);
+    // else if (!authLoading && !isAuthServerLoading) setIsLoading(false);
+    else if (!googleUser && !authLoading) setIsLoading(false);
 
+    console.debug("Is auth loading: " + isLoading);
+  }, [authLoading, isAuthServerLoading]);
+
+  // auth error watcher
   useEffect(() => {
-    if (user && user.uid) {
-      console.debug("Validated gmail user")
-      console.debug("Accepted login domain: " + process.env.allowedLoginDomain);
-      if (isAllowedLoginDomain(user.email)) {
-      console.debug("login successful")
-        console.debug("set logged in user");
-        enqueueSnackbar("Login successful", successNotify)
-        setLoggedInUser(user);
+    console.debug(
+      "Google Auth error: " +
+        authError +
+        "\nServer Auth error: " +
+        isAuthServerError
+    );
+
+    if (authError || isAuthServerError)
+      setIsError(authError ? authError : isAuthServerError);
+    else if (!authError && !isAuthServerError) setIsError(null);
+  }, [authError, isAuthServerError]);
+
+  // google user watcher
+  useEffect(() => {
+    if (googleUser && googleUser.uid) {
+      if (isAllowedLoginDomain(googleUser.email)) {
+        serverLogin(googleUser.ya);
       } else {
-        console.debug("wrong email domain", user.email)
-        setLoggedInUser(null);
-        enqueueSnackbar("Must sign in with " + process.env.allowedLoginDomain + " domain", errorNotify)
+        enqueueSnackbar(
+          "Must sign in with " + process.env.allowedLoginDomain + " domain",
+          errorNotify
+        );
         logout(false);
       }
-    } else {
-      setLoggedInUser(null);
-    }
-  }, [user]);
+    } 
+  }, [googleUser]);
 
+  // server user watcher
+  useEffect(() => {
+    console.log("server user change");
+    if (serverUser) {
+      setLoggedInUser(serverUser);
+
+      localStorage.setItem("lastUser", JSON.stringify(serverUser));
+    }
+
+    if (!authLoading && !isAuthServerLoading) setIsLoading(false);
+  }, [serverUser]);
+
+  // logged in user watcher
   useEffect(() => {
     if (loggedInUser) {
-      console.debug("currentUser", loggedInUser.email);
-    } else {
-      console.debug("currentUser", loggedInUser);
+      if (router.query.lastUrl) {
+        router.push(router.query.lastUrl);
+      } else if (!router.pathname.startsWith("/login")) {
+        // do nothing
+      } else {
+        router.push("/");
+      }
     }
   }, [loggedInUser]);
 
-  const login = () => {
+  // const handleServerLogin = (usernameOrEmail, password) => {
+  //   serverLogin(usernameOrEmail, password);
+  // };
+
+  const googlePopupLogin = () => {
     firebaseAuth
       .signInWithPopup(googleProvider)
       .then((result) => {
         // router.push("/")
       })
       .catch((error) => {
-        enqueueSnackbar("Login failed contact Administrator for more information", errorNotify)
+        enqueueSnackbar(
+          "Login failed contact Administrator for more information",
+          errorNotify
+        );
+        console.error("bruno says", error);
+      });
+  };
+
+  const firebaseEmailPasswordLogin = (email, password) => {
+    firebaseAuth
+      .signInWithEmailAndPassword(email, password)
+      .then((result) => {
+        // router.push("/")
+      })
+      .catch((error) => {
+        enqueueSnackbar(
+          "Login failed contact Administrator for more information",
+          errorNotify
+        );
         console.error("bruno says", error);
       });
   };
 
   const logout = (pushMess) => {
+    setLoggedInUser(undefined);
+    console.log("log out");
+
     firebaseAuth
       .signOut()
       .then(() => {
-        if (!!pushMess) enqueueSnackbar("Logout successful", infoNotify)
+        if (!!pushMess) enqueueSnackbar("Logout successful", infoNotify);
         console.log("sign out successful");
       })
       .catch((error) => {
@@ -79,7 +151,14 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated: !!user, loggedInUser: loggedInUser || user, authLoading, login, logout }}
+      value={{
+        isAuthenticated: !!loggedInUser,
+        loggedInUser: loggedInUser,
+        authLoading: isLoading,
+        googleLogin: googlePopupLogin,
+        emailPasswordLogin: firebaseEmailPasswordLogin,
+        logout,
+      }}
     >
       {children}
     </AuthContext.Provider>
