@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useTranslation } from "../../i18n";
 import Section from "../Section/Section";
 import WeekPicker from "../WeekPicker";
@@ -14,205 +15,38 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
 } from "@material-ui/core";
 import ShiftCell from "./ShiftCell/ShiftCell";
-import { format } from "date-fns";
+import {
+  addDays,
+  format,
+  isSameDay,
+  parse,
+  parseISO,
+  startOfWeek,
+} from "date-fns";
 import DayCell from "./DayCell";
 import DoctorCell from "./DoctorCell";
 import { useRouter } from "next/router";
 import { Search } from "@material-ui/icons";
-
-const doctorShifts = [
-  {
-    id: 1,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 2,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 3,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 4,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 5,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 6,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 7,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 8,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 9,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-  {
-    id: 10,
-    doctorName: "Nguyễn Văn A",
-    shiftDay: [
-      {
-        shifts: [
-          { id: 1, time: "08:00 AM - 11:00 AM" },
-          { id: 2, time: "01:00 PM - 06:00 PM" },
-        ],
-      },
-      { shifts: [{ id: 2, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 3, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 4, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 5, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 6, time: "08:00 AM - 11:00 AM" }] },
-      { shifts: [{ id: 7, time: "08:00 AM - 11:00 AM" }] },
-    ],
-  },
-];
+import {
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_PAGE_SIZE_OPTIONS,
+} from "../../constants/pagingConstant";
 
 const useStyles = makeStyles((theme) => ({
   tableContainer: {
     marginTop: theme.spacing(2),
+    maxHeight: 700
   },
   doctorCell: {
     minWidth: 200,
+    position: "sticky",
+    left: 0,
+    background: "#F5F5F5",
   },
   dayCell: {
     minWidth: 250,
@@ -228,23 +62,115 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ShiftTable(props) {
-  const { t } = useTranslation();
+const ShiftRow = (props) => {
   const classes = useStyles();
+  const { t } = useTranslation();
+
+  const {
+    doctor,
+    getDoctorShift,
+    firstDateOfWeek,
+    handleClickShiftDetail,
+  } = props;
+
+  const { data: shifts, isLoading, isError } = getDoctorShift(doctor.id);
+
+  const weekDayIndex = [0, 1, 2, 3, 4, 5, 6];
+
+  if (isLoading) return <div>{t("Loading")}</div>;
+  if (isError) return <div>{t("Error")}</div>;
+
+  return (
+    <TableRow>
+      <TableCell className={classes.doctorCell}>
+        <DoctorCell name={doctor.name} code={doctor.hisCode} />
+      </TableCell>
+      {isLoading ? (
+        <TableCell colSpan={7}>loading</TableCell>
+      ) : isError ? (
+        <TableCell colSpan={7}>error</TableCell>
+      ) : (
+        weekDayIndex.map((dayIndex, index) => {
+          const currentCellDate = addDays(firstDateOfWeek, dayIndex);
+          return (
+            <TableCell key={index} style={{ verticalAlign: "top" }}>
+              <Grid container spacing={2}>
+                {shifts.map((shift) => {
+                  if (isSameDay(currentCellDate, parseISO(shift.startedAt))) {
+                    return (
+                      <Grid item xs={12} key={shift.id}>
+                        <ShiftCell
+                          className={classes.shiftCell}
+                          shift={shift}
+                          onClick={() => handleClickShiftDetail(shift.id)}
+                        />
+                      </Grid>
+                    );
+                  }
+                })}
+              </Grid>
+            </TableCell>
+          );
+        })
+      )}
+    </TableRow>
+  );
+};
+
+export default function ShiftTable(props) {
+  const classes = useStyles();
+  const {
+    doctors,
+    paging,
+    isLoading,
+    isError,
+    getDoctorShift,
+    handleChangeWeek,
+    setOffset,
+    setLimit
+  } = props;
+  const { t } = useTranslation();
   const router = useRouter();
 
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
+  const [pageOffset, setPageOffset] = useState(0);
+
   const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const weekDayIndex = [0, 1, 2, 3, 4, 5, 6];
+  const weekStartDay = startOfWeek(selectedDate, { weekStartsOn: 1 });
+
+  const handleChangePage = (event, offset) => {
+    setPageOffset(offset);
+    setOffset(offset);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value);
+    setLimit(event.target.value);
+  };
+
+  const handleChangeSelectedDate = (date) => {
+    setSelectedDate(date);
+    handleChangeWeek(date);
+  };
 
   const handleClickShiftDetail = (shiftId) => {
     router.push(router.asPath + "/" + shiftId + "/detail");
   };
 
+  if (isLoading) return <div>{t("Loading")}</div>;
+  if (isError) return <div>{t("Error")}</div>;
+
   return (
     <Section title={t("Shift table")}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils} >
-            <WeekPicker date={selectedDate} setDate={setSelectedDate} />
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <WeekPicker
+              date={selectedDate}
+              setDate={handleChangeSelectedDate}
+            />
           </MuiPickersUtilsProvider>
         </Grid>
         <Grid item xs={12} md={10}>
@@ -272,59 +198,59 @@ export default function ShiftTable(props) {
         elevation={0}
         variant="outlined"
       >
-        <Table>
+        <Table stickyHeader>
           <TableHead>
             <TableRow>
               <TableCell className={classes.doctorCell}></TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Monday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Tuesday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Wednesday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Thursday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Friday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Saturday")} date={format(new Date(), "dd")} />
-              </TableCell>
-              <TableCell className={classes.dayCell} align="center">
-                <DayCell day={t("Sunday")} date={format(new Date(), "dd")} />
-              </TableCell>
+              {weekDayIndex.map((number) => (
+                <TableCell
+                  className={classes.dayCell}
+                  align="center"
+                  key={number}
+                >
+                  <DayCell
+                    day={t(format(addDays(weekStartDay, number), "EEEE"))}
+                    date={format(addDays(weekStartDay, number), "dd")}
+                  />
+                </TableCell>
+              ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {doctorShifts.map((doctorShift) => (
-              <TableRow key={doctorShift.id}>
-                <TableCell>
-                  <DoctorCell name={doctorShift.doctorName} code="001" />
-                </TableCell>
-                {doctorShift.shiftDay.map((day, index) => (
-                  <TableCell key={index} style={{ verticalAlign: "top" }}>
-                    <Grid container spacing={2}>
-                      {day.shifts.map((shift) => (
-                        <Grid item xs={12} key={shift.id}>
-                          <ShiftCell
-                            className={classes.shiftCell}
-                            shift={shift}
-                            onClick={() => handleClickShiftDetail(shift.id)}
-                          />
-                        </Grid>
-                      ))}
-                    </Grid>
-                  </TableCell>
-                ))}
-              </TableRow>
+            {doctors.map((doctor) => (
+              <ShiftRow
+                doctor={doctor}
+                // doctorShifts={getDoctorShift(doctor.id)}
+                getDoctorShift={getDoctorShift}
+                firstDateOfWeek={startOfWeek(selectedDate, {weekStartsOn: 1})}
+                handleClickShiftDetail={handleClickShiftDetail}
+                key={doctor.id}
+              />
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={DEFAULT_PAGE_SIZE_OPTIONS}
+        component="div"
+        count={paging.totalCount}
+        rowsPerPage={rowsPerPage}
+        page={pageOffset}
+        onChangePage={handleChangePage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+        labelRowsPerPage={t("Doctors per page")}
+      />
     </Section>
   );
 }
+
+ShiftTable.propTypes = {
+  doctors: PropTypes.arrayOf(PropTypes.object),
+  paging: PropTypes.object,
+  isLoading: PropTypes.bool,
+  isError: PropTypes.object,
+  setOffset: PropTypes.func,
+  setLimit: PropTypes.func,
+  getDoctorShift: PropTypes.func,
+  handleChangeWeek: PropTypes.func,
+};

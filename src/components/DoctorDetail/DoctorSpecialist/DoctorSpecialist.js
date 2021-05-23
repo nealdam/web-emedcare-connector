@@ -3,28 +3,28 @@ import PropTypes from 'prop-types';
 import { useTranslation } from '../../../i18n';
 import Section from '../../Section';
 
-const doctorSpecialists = ["Tai, mũi, họng", "Chấn thương chỉnh hình"]
-
 const useStyle = makeStyles((theme) => ({
   chip: {
     marginRight: theme.spacing(1)
   }
 }))
 
-export default function DoctorSpecialist() {
+export default function DoctorSpecialist(props) {
 
   const classes = useStyle();
   const {t} = useTranslation();
 
+  const { specialties } = props;
+
   return (
     <Section title={t("Specialist")}>
-      {doctorSpecialists.map((specialist, index) => (
-        <Chip className={classes.chip} key={index} label={specialist} />
+      {specialties.map((specialist, index) => (
+        <Chip className={classes.chip} key={index} label={specialist.name} />
       ))}
     </Section>
   )
 }
 
 DoctorSpecialist.propTypes = {
-  doctorSpecialists: PropTypes.arrayOf(PropTypes.string),
+  specialties: PropTypes.arrayOf(PropTypes.string),
 }

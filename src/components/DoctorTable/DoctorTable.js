@@ -1,6 +1,8 @@
 import {
   Button,
   Chip,
+  Grid,
+  IconButton,
   InputAdornment,
   makeStyles,
   Paper,
@@ -9,168 +11,116 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
 } from "@material-ui/core";
-import { green, red } from "@material-ui/core/colors";
-import { Search } from "@material-ui/icons";
+import { Search, Sync } from "@material-ui/icons";
 import AddIcon from "@material-ui/icons/Add";
-import DisabledIcon from "@material-ui/icons/Close";
-import ActiveIcon from "@material-ui/icons/Done";
 import InfoIcon from "@material-ui/icons/Info";
+import { format, parseISO } from "date-fns";
 import PropTypes from "prop-types";
 import FemaleIcon from "../../constants/icons/FemaleIcon";
 import MaleIcon from "../../constants/icons/MaleIcon";
 import { useTranslation } from "../../i18n";
 import Section from "../Section";
-
-const doctors = [
-  {
-    id: 1,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 2,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "",
-    accountStatus: "none",
-  },
-  {
-    id: 3,
-    hisCode: "001",
-    name: "Nguyễn Thị A",
-    sex: 0,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 4,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "",
-    accountStatus: "none",
-  },
-  {
-    id: 5,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "disabled",
-  },
-  {
-    id: 6,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 7,
-    hisCode: "001",
-    name: "Nguyễn Thị A",
-    sex: 0,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 8,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 9,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-  {
-    id: 10,
-    hisCode: "001",
-    name: "Nguyễn Văn A",
-    sex: 1,
-    birthDate: "24/12/1887",
-    account: "bs.nva",
-    accountStatus: "active",
-  },
-];
+import { NO_DATA } from "../../constants/strings";
+import { DEFAULT_PAGE_SIZE } from "../../constants/pagingConstant";
+import { useState } from "react";
+import SexIcon from "../SexIcon/SexIcon";
+import SearchBox from "../SearchBox/SearchBox";
 
 const useStyle = makeStyles((theme) => ({
   searchBox: {
     marginBottom: theme.spacing(2),
-  }
+  },
 }));
 
 export default function DoctorTable(props) {
-  const { handleClickDoctorDetail, handleClickCreateDoctorAccount } = props;
+  const {
+    handleClickDoctorDetail,
+    handleClickCreateDoctorAccount,
+    doctors,
+    paging,
+    isLoading,
+    isError,
+    setOffset,
+    setLimit,
+  } = props;
   const { t } = useTranslation();
   const classes = useStyle();
 
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
+  const [pageOffset, setPageOffset] = useState(0);
+
+  const handleChangePage = (event, offset) => {
+    setPageOffset(offset);
+    setOffset(offset);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value);
+    setLimit(event.target.value);
+  };
+
+  const handleClickSearch = (searchText) => {};
+
+  if (isLoading) return <div>{t("Loading")}</div>;
+  if (isError) return <div>{t("Error")}</div>;
+
   return (
     <Section title={t("Doctor list")}>
-      <TextField
-        className={classes.searchBox}
-        variant="outlined"
-        fullWidth
-        label={t("Search")}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Search />
-            </InputAdornment>
-          ),
-        }}
-        helperText={`${t("Search")}: ${t("Doctor name")}, ${t(
-          "Doctor code"
-        )}, ${t("Account")}`}
-      />
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>{t("Dr.No")}</TableCell>
-              <TableCell>{t("Name")}</TableCell>
-              <TableCell align="center">{t("Sex")}</TableCell>
-              <TableCell>{t("Birth date")}</TableCell>
-              <TableCell>{t("Account")}</TableCell>
-              <TableCell>{t("Account status")}</TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {doctors.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.hisCode}</TableCell>
-                <TableCell>{row.name}</TableCell>
-                <TableCell align="center">
-                  {row.sex == 0 ? <FemaleIcon /> : <MaleIcon />}
-                </TableCell>
-                <TableCell>{row.birthDate}</TableCell>
-                <TableCell>
-                  {row.account ? (
-                    row.account
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={10}>
+          <SearchBox
+            helpText={`${t("Search")}: ${t("Doctor name")}, ${t(
+              "Doctor code"
+            )}, ${t("Account")}`}
+            handleSearch={handleClickSearch}
+          />
+        </Grid>
+        <Grid item xs={12} md={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Sync/>}
+            fullWidth
+          >
+            {t("Sync")}
+          </Button>
+        </Grid>
+
+        <TableContainer component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>{t("Dr.No")}</TableCell>
+                <TableCell>{t("Name")}</TableCell>
+                <TableCell align="center">{t("Sex")}</TableCell>
+                <TableCell>{t("Birth date")}</TableCell>
+                <TableCell>{t("Account")}</TableCell>
+                <TableCell>{t("Account status")}</TableCell>
+                <TableCell align="center">{t("Info")}</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {doctors.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>{row.hisCode}</TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell align="center">
+                    {/* {row.gender == 0 ? <FemaleIcon /> : <MaleIcon />} */}
+                    {/* <SexIcon sex={row.gender} /> */}
+                    {row.sex ? t("Female") : t("Male")}
+                  </TableCell>
+                  <TableCell>
+                    {row.birthDate
+                      ? format(parseISO(row.birthDate), "dd/MM/yyy")
+                      : t(NO_DATA)}
+                  </TableCell>
+                  <TableCell>
+                    {/* {row.account ? (
+                    row.account.email
                   ) : (
                     <Button
                       variant="outlined"
@@ -180,42 +130,36 @@ export default function DoctorTable(props) {
                     >
                       {t("Create account")}
                     </Button>
-                  )}
-                </TableCell>
-                <TableCell>
-                  {row.accountStatus == "none" ? (
-                    ""
-                  ) : row.accountStatus == "active" ? (
-                    <Chip
-                      icon={<ActiveIcon />}
-                      label={t("Active")}
+                  )} */}
+                  </TableCell>
+                  <TableCell>
+                    {row.account && row.account.status.displayName}
+                  </TableCell>
+                  <TableCell align="center">
+                    <IconButton
                       color="primary"
-                      style={{ backgroundColor: green[500] }}
-                    />
-                  ) : (
-                    <Chip
-                      icon={<DisabledIcon />}
-                      label={t("Disabled")}
-                      color="primary"
-                      style={{ backgroundColor: red[500] }}
-                    />
-                  )}
-                </TableCell>
-                <TableCell>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<InfoIcon />}
-                    onClick={() => handleClickDoctorDetail(row.id)}
-                  >
-                    {t("Info")}
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                      aria-label={t("Info")}
+                      onClick={() => handleClickDoctorDetail(row.id)}
+                    >
+                      <InfoIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50]}
+          component="div"
+          count={paging.totalCount}
+          rowsPerPage={rowsPerPage}
+          page={pageOffset}
+          onChangePage={handleChangePage}
+          onChangeRowsPerPage={handleChangeRowsPerPage}
+          labelRowsPerPage={t("Doctors per page")}
+        />
+      </Grid>
     </Section>
   );
 }

@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 export default function RoomInfo(props) {
   const { t } = useTranslation();
   const classes = useStyles();
-  const { roomInfo } = props;
+  const { room } = props;
 
   return (
     <Section title={t("Room info")}>
@@ -22,7 +22,7 @@ export default function RoomInfo(props) {
         variant="outlined"
         fullWidth
         label={t("Room code")}
-        value={roomInfo.hisCode}
+        value={room.hisCode}
         InputProps={{
           readOnly: true,
         }}
@@ -32,7 +32,7 @@ export default function RoomInfo(props) {
         variant="outlined"
         fullWidth
         label={t("Room number")}
-        value={roomInfo.number}
+        value={room.number}
         InputProps={{
           readOnly: true,
         }}
@@ -42,25 +42,25 @@ export default function RoomInfo(props) {
         variant="outlined"
         fullWidth
         label={t("Name")}
-        value={roomInfo.name}
+        value={room.name}
         InputProps={{
           readOnly: true,
         }}
       />
-      <TextField
+      {/* <TextField
         className={classes.textField}
         variant="outlined"
         fullWidth
         label={t("Facility")}
-        value={roomInfo.facility}
+        value={room.facility}
         InputProps={{
           readOnly: true,
         }}
-      />
+      /> */}
     </Section>
   );
 }
 
 RoomInfo.propTypes = {
-  roomInfo: PropTypes.object,
+  room: PropTypes.object,
 }

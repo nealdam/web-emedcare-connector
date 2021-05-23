@@ -12,18 +12,18 @@ const useStyles = makeStyles((theme) => ({
 export default function RoomSpecialist(props) {
 
   const { t } = useTranslation();
-  const { roomSpecialists } = props;
+  const { specialties } = props;
   const classes = useStyles();
 
   return (
     <Section title={t("Room specialist")}>
-      {roomSpecialists.map((specialist, index) => (
-        <Chip className={classes.chip} key={index} label={specialist} />
+      {specialties.map((specialty, index) => (
+        <Chip className={classes.chip} key={index} label={specialty.name} />
       ))}
     </Section>
   )
 }
 
 RoomSpecialist.propTypes = {
-  roomSpecialists: PropTypes.arrayOf(PropTypes.string),
+  specialties: PropTypes.arrayOf(PropTypes.object),
 }

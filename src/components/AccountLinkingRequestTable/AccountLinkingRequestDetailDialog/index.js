@@ -1,0 +1,3 @@
+import AccountLinkingRequestDetailDialog from "./AccountLinkingRequestDetailDialog";
+
+export default AccountLinkingRequestDetailDialog;

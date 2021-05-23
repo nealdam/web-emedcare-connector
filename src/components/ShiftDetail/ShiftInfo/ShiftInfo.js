@@ -2,6 +2,7 @@ import { useTranslation } from "../../../i18n";
 import Section from "../../Section/Section";
 import PropTypes from "prop-types";
 import { makeStyles, TextField } from "@material-ui/core";
+import { toDateTime } from "../../../utils/datetimeUtil";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function ShiftInfo(props) {
-  const { shiftInfo } = props;
+  const { shift } = props;
   const classes = useStyles();
 
   const { t } = useTranslation();
@@ -23,7 +24,7 @@ export default function ShiftInfo(props) {
         variant="outlined"
         fullWidth
         label={t("Start time")}
-        value={shiftInfo.startedAt}
+        value={toDateTime(shift.startedAt)}
         InputProps={{
           readOnly: true,
         }}
@@ -33,7 +34,7 @@ export default function ShiftInfo(props) {
         variant="outlined"
         fullWidth
         label={t("End time")}
-        value={shiftInfo.endedAt}
+        value={toDateTime(shift.endedAt)}
         InputProps={{
           readOnly: true,
         }}
@@ -43,5 +44,5 @@ export default function ShiftInfo(props) {
 }
 
 ShiftInfo.propTypes = {
-  shiftInfo: PropTypes.object,
+  shift: PropTypes.object,
 };
