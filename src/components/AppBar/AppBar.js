@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -12,7 +12,16 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import MenuIcon from "@material-ui/icons/Menu";
 import useAuthContext from "../../contexts/authContext";
 import Link from "next/link";
-import { Badge, Menu, MenuItem } from "@material-ui/core";
+import {
+  Badge,
+  ClickAwayListener,
+  Grow,
+  Menu,
+  MenuItem,
+  MenuList,
+  Paper,
+  Popper,
+} from "@material-ui/core";
 import useGlobalContext from "../../contexts/globalContext";
 import { Router, useRouter } from "next/router";
 import Clock from "react-digital-clock";
@@ -34,14 +43,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   clock: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
   },
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
       display: "flex",
       flexDirection: "row",
-      alignItems: "center"
+      alignItems: "center",
     },
   },
   sectionMobile: {
@@ -61,93 +70,126 @@ function MyAppBar() {
 
   const { handleToggleMobileDrawer } = useGlobalContext();
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  // const [anchorEl, setAnchorEl] = useState(null);
+  // const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  const anchorRef = useRef(null);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+  // const isMenuOpen = Boolean(anchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const [open, setOpen] = useState(false);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+
+      setOpen(false);
+    }
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-    handleMobileMenuClose();
-  };
+  // const handleProfileMenuOpen = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
+  // const handleMobileMenuClose = () => {
+  //   setMobileMoreAnchorEl(null);
+  // };
 
-  const handleProfileButton = () => {
-    handleMenuClose();
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null);
+  //   handleMobileMenuClose();
+  // };
+
+  // const handleMobileMenuOpen = (event) => {
+  //   setMobileMoreAnchorEl(event.currentTarget);
+  // };
+
+  const handleProfileButton = (event) => {
+    handleClose(event);
     router.push("/profile");
   };
 
-  const menuId = "account-menu";
-  const renderAccountMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleProfileButton}>Profile</MenuItem>
-      <MenuItem onClick={logout}>Logout</MenuItem>
-    </Menu>
-  );
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
 
-  const mobileMenuId = "account-menu-mobile";
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      id={mobileMenuId}
-      keepMounted
-      transformOrigin={{ vertical: "top", horizontal: "right" }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileButton}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircleIcon />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-      <MenuItem onClick={logout}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <ExitToAppIcon />
-        </IconButton>
-        <p>Logout</p>
-      </MenuItem>
-    </Menu>
-  );
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
+
+  // const menuId = "account-menu";
+  // const renderAccountMenu = (
+  //   <Menu
+  //     anchorEl={anchorEl}
+  //     anchorOrigin={{ vertical: "top", horizontal: "right" }}
+  //     id={menuId}
+  //     keepMounted
+  //     transformOrigin={{ vertical: "top", horizontal: "right" }}
+  //     open={isMenuOpen}
+  //     onClose={handleMenuClose}
+  //   >
+  //     <MenuItem onClick={handleProfileButton}>Profile</MenuItem>
+  //     <MenuItem onClick={logout}>Logout</MenuItem>
+  //   </Menu>
+  // );
+
+  // const mobileMenuId = "account-menu-mobile";
+  // const renderMobileMenu = (
+  //   <Menu
+  //     anchorEl={mobileMoreAnchorEl}
+  //     anchorOrigin={{ vertical: "top", horizontal: "right" }}
+  //     id={mobileMenuId}
+  //     keepMounted
+  //     transformOrigin={{ vertical: "top", horizontal: "right" }}
+  //     open={isMobileMenuOpen}
+  //     onClose={handleMobileMenuClose}
+  //   >
+  //     <MenuItem>
+  //       <IconButton aria-label="show 11 new notifications" color="inherit">
+  //         <Badge badgeContent={11} color="secondary">
+  //           <NotificationsIcon />
+  //         </Badge>
+  //       </IconButton>
+  //       <p>Notifications</p>
+  //     </MenuItem>
+  //     <MenuItem onClick={handleProfileButton}>
+  //       <IconButton
+  //         aria-label="account of current user"
+  //         aria-controls="account-menu"
+  //         aria-haspopup="true"
+  //         color="inherit"
+  //       >
+  //         <AccountCircleIcon />
+  //       </IconButton>
+  //       <p>Profile</p>
+  //     </MenuItem>
+  //     <MenuItem onClick={logout}>
+  //       <IconButton
+  //         aria-label="account of current user"
+  //         aria-controls="account-menu"
+  //         aria-haspopup="true"
+  //         color="inherit"
+  //       >
+  //         <ExitToAppIcon />
+  //       </IconButton>
+  //       <p>Logout</p>
+  //     </MenuItem>
+  //   </Menu>
+  // );
 
   return (
     <div>
@@ -176,17 +218,51 @@ function MyAppBar() {
               <NotificationsIcon />
             </IconButton>
             <IconButton
+              ref={anchorRef}
               edge="end"
               aria-label="account of current user"
-              aria-controls={menuId}
+              aria-controls={open ? "menu-list-grow" : undefined}
               aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              onClick={handleToggle}
               color="inherit"
             >
               <AccountCircleIcon />
             </IconButton>
           </div>
-          <div className={classes.sectionMobile}>
+          <Popper
+            open={open}
+            anchorEl={anchorRef.current}
+            role={undefined}
+            transition
+            disablePortal
+          >
+            {({ TransitionProps, placement }) => (
+              <Grow
+                {...TransitionProps}
+                style={{
+                  transformOrigin:
+                    placement === "bottom" ? "center top" : "center bottom",
+                }}
+              >
+                <Paper>
+                  <ClickAwayListener onClickAway={handleClose}>
+                    <MenuList
+                      autoFocusItem={open}
+                      id="menu-list-grow"
+                      onKeyDown={handleListKeyDown}
+                    >
+                      {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      <MenuItem onClick={handleClose}>My account</MenuItem>
+                      <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+                      <MenuItem onClick={handleProfileButton}>Profile</MenuItem>
+                      <MenuItem onClick={logout}>Logout</MenuItem>
+                    </MenuList>
+                  </ClickAwayListener>
+                </Paper>
+              </Grow>
+            )}
+          </Popper>
+          {/* <div className={classes.sectionMobile}>
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -196,11 +272,11 @@ function MyAppBar() {
             >
               <MoreVertIcon />
             </IconButton>
-          </div>
+          </div> */}
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
-      {renderAccountMenu}
+      {/* {renderMobileMenu}
+      {renderAccountMenu} */}
     </div>
   );
 }

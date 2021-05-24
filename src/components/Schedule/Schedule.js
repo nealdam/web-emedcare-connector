@@ -10,16 +10,12 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
   TextField,
 } from "@material-ui/core";
-import {
-  DatePicker,
-  KeyboardDatePicker,
-  KeyboardTimePicker,
-  MuiPickersUtilsProvider,
-} from "@material-ui/pickers";
-import { useState } from "react";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import { useEffect, useState } from "react";
 import { useTranslation } from "../../i18n";
 import DoctorCell from "./DoctorCell/DoctorCell";
 import AppointmentCell from "./AppointmentCell/AppointmentCell";
@@ -31,7 +27,14 @@ import {
 import PropTypes from "prop-types";
 import Section from "../Section";
 import { Search } from "@material-ui/icons";
+import { addHours, getDate, parse, parseJSON, startOfDay } from "date-fns";
+import {
+  DEFAULT_PAGE_SIZE,
+  DEFAULT_PAGE_SIZE_OPTIONS,
+} from "../../constants/pagingConstant";
+import ScheduleRow from "./ScheduleRow";
 
+// FIXME: time number
 const time = [
   { time: "0 AM" },
   { time: "1 AM" },
@@ -59,27 +62,10 @@ const time = [
   { time: "11 PM" },
 ];
 
-const doctorRow = [
-  { doctorCode: 1, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 2, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 3, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 4, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 5, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 6, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-  { doctorCode: 7, doctorName: "Nguyen Van A", roomNumber: "P.001" },
-];
-
-const appointmentRow = [
-  { appointmentId: 1, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 2, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 3, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 4, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 5, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 6, patientName: "Tran Thi A", patientCode: "BN001" },
-  { appointmentId: 7, patientName: "Tran Thi A", patientCode: "BN001" },
-];
-
 const useStyles = makeStyles((theme) => ({
+  tableContainer: {
+    maxHeight: 700,
+  },
   table: {
     minWidth: TABLE_MIN_WIDTH,
   },
@@ -88,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
   },
   timeCell: {
     minWidth: TIME_CELL_MIN_WiDTH,
+    position: "sticky",
+    left: 0,
+    background: "#F5F5F5",
   },
   paper: {
     //TODO: Table horizontal scroll
@@ -100,25 +89,46 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Schedule() {
+function Schedule(props) {
   const { t } = useTranslation();
   const classes = useStyles();
 
-  const [selectedDate, setSelectedDate] = useState(
-    new Date("2014-08-18T21:11:54")
-  );
+  const {
+    isLoading,
+    isError,
+    doctors,
+    paging,
+    setSelectedDate: setDate,
+    setOffset,
+    setLimit,
+  } = props;
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
+  const [pageOffset, setPageOffset] = useState(0);
+
+  const handleChangePage = (event, offset) => {
+    setPageOffset(offset);
+    setOffset(offset);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value);
+    setLimit(event.target.value);
+  };
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
 
+  if (isLoading) return <div>{t("Loading")}</div>;
+  if (isError) return <div>{t("Error")}</div>;
+
   return (
     <Section title={t("Appointment list")}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={2}>
-          <MuiPickersUtilsProvider
-            utils={DateFnsUtils}
-          >
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <DatePicker
               fullWidth
               disableToolbar
@@ -158,42 +168,51 @@ function Schedule() {
         </Grid>
         <Grid item xs={12}>
           <Paper className={classes.paper} variant="outlined">
-            <TableContainer>
+            <TableContainer className={classes.tableContainer}>
               <Table
+                stickyHeader
                 aria-label="customer service schedule"
                 className={classes.table}
               >
                 <TableHead>
-                  <TableCell className={classes.timeCell}></TableCell>
-                  {doctorRow.map((row) => (
-                    <TableCell
-                      key={row.doctorCode}
-                      className={classes.doctorCell}
-                    >
-                      <DoctorCell
-                        doctorName={row.doctorName}
-                        roomNumber={row.roomNumber}
-                      />
-                    </TableCell>
-                  ))}
+                  <TableRow>
+                    <TableCell className={classes.timeCell}></TableCell>
+                    {doctors.map((doctor) => (
+                      <TableCell key={doctor.id} className={classes.doctorCell}>
+                        <DoctorCell
+                          doctorName={doctor.name}
+                          roomNumber={doctor.hisCode}
+                        />
+                      </TableCell>
+                    ))}
+                  </TableRow>
                 </TableHead>
                 <TableBody>
-                  {time.map((rowTime) => (
-                    <TableRow key={rowTime.time}>
-                      <TableCell>{rowTime.time}</TableCell>
-                      {appointmentRow.map((row) => (
-                        <TableCell key={row.appointmentId}>
-                          <AppointmentCell
-                            patientName={row.patientName}
-                            patientCode={row.patientCode}
-                          />
-                        </TableCell>
-                      ))}
+                  {time.map((value, index) => (
+                    <TableRow key={index}>
+                      <TableCell className={classes.timeCell}>{value.time}</TableCell>
+                      <ScheduleRow
+                        doctors={doctors}
+                        currentDateTime={addHours(
+                          startOfDay(selectedDate),
+                          index
+                        )}
+                      />
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
+            <TablePagination
+              rowsPerPageOptions={DEFAULT_PAGE_SIZE_OPTIONS}
+              component="div"
+              count={paging.totalCount}
+              rowsPerPage={rowsPerPage}
+              page={pageOffset}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+              labelRowsPerPage={t("Doctors per page")}
+            />
           </Paper>
         </Grid>
       </Grid>
@@ -202,7 +221,12 @@ function Schedule() {
 }
 
 Schedule.propTypes = {
-  appointments: PropTypes.array,
+  isLoading: PropTypes.bool,
+  isError: PropTypes.object,
+  doctors: PropTypes.array,
+  setSelectedDate: PropTypes.func,
+  setOffset: PropTypes.func,
+  setLimit: PropTypes.func,
 };
 
 export default Schedule;

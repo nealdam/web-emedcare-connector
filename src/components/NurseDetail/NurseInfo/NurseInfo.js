@@ -2,15 +2,7 @@ import { useTranslation } from "../../../i18n";
 import Section from "../../Section";
 import PropTypes from "prop-types";
 import { Grid, makeStyles, TextField } from "@material-ui/core";
-
-const nurseInfo = {
-  hisCode: "001",
-  name: "Nguyễn Thị B",
-  sex: "Nam",
-  birthDate: "13/12/1994",
-  phoneNumber: "0908475623",
-  address: "184 Độc Lập, P.Tân Thành, Q.Tân Phú, Tp.HCM"
-};
+import { toDate } from "../../../utils/datetimeUtil";
 
 const useStyles = makeStyles((theme) => ({
   textField: {
@@ -22,25 +14,27 @@ const useStyles = makeStyles((theme) => ({
 export default function NurseInfo(props) {
   const { t } = useTranslation();
 
+  const { nurse } = props;
+
   const classes = useStyles();
 
   return (
     <Section title={t("Nurse info")}>
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={3} md={2}>
+        {/* <Grid item xs={12} sm={3} md={2}>
           <img
             src="https://via.placeholder.com/150x200"
             alt="profile picture"
             width="100%"
           />
-        </Grid>
-        <Grid item xs={12} sm={9} md={10}>
+        </Grid> */}
+        <Grid item xs={12}>
           <TextField
             className={classes.textField}
             variant="outlined"
             fullWidth
             label={t("Nurse code")}
-            value={nurseInfo.hisCode}
+            value={nurse.hisCode}
             InputProps={{
               readOnly: true,
             }}
@@ -50,7 +44,7 @@ export default function NurseInfo(props) {
             variant="outlined"
             fullWidth
             label={t("Name")}
-            value={nurseInfo.name}
+            value={nurse.name}
             InputProps={{
               readOnly: true,
             }}
@@ -60,7 +54,7 @@ export default function NurseInfo(props) {
             variant="outlined"
             fullWidth
             label={t("Sex")}
-            value={nurseInfo.sex}
+            value={nurse.sex ? t("Female") : t("Male")}
             InputProps={{
               readOnly: true,
             }}
@@ -70,17 +64,17 @@ export default function NurseInfo(props) {
             variant="outlined"
             fullWidth
             label={t("Birth date")}
-            value={nurseInfo.birthDate}
+            value={nurse.birthDate && toDate(nurse.birthDate)}
             InputProps={{
               readOnly: true,
             }}
           />
-          <TextField
+          {/* <TextField
             className={classes.textField}
             variant="outlined"
             fullWidth
             label={t("Phone number")}
-            value={nurseInfo.phoneNumber}
+            value={nurse.phoneNumber}
             InputProps={{
               readOnly: true,
             }}
@@ -90,11 +84,11 @@ export default function NurseInfo(props) {
             variant="outlined"
             fullWidth
             label={t("Address")}
-            value={nurseInfo.address}
+            value={nurse.address}
             InputProps={{
               readOnly: true,
             }}
-          />
+          /> */}
         </Grid>
       </Grid>
     </Section>
@@ -102,5 +96,5 @@ export default function NurseInfo(props) {
 }
 
 NurseInfo.propTypes = {
-  nurseInfo: PropTypes.object,
+  nurse: PropTypes.object,
 };

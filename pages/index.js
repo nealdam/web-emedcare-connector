@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { defaultPage } from '../src/hocs/defaultPage'
+import { protectRoute } from '../src/hocs/protectRoute'
 
 function HomePage() {
   return (
@@ -7,4 +8,4 @@ function HomePage() {
   )
 }
 
-export default defaultPage(HomePage)
+export default protectRoute(defaultPage(HomePage))
